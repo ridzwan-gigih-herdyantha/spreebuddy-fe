@@ -288,20 +288,63 @@
 }
 
 /* ---------- Footer ---------- */
-.sb-footer a {
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
-  font-size: 0.875rem;
-  transition: color 0.15s ease;
+/* ---------- Footer ---------- */
+.sb-footer {
+  background: #0f1222;
+  color: #fff;
+  padding-block: 50px 32px;
 }
-.sb-footer a:hover {
+@media (max-width: 991.98px) {
+  .sb-footer {
+    padding-block: 48px 24px;
+  }
+}
+
+.sb-footer .sb-brand-text {
   color: #fff;
 }
+
+.sb-footer-tagline {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.55);
+}
+
 .sb-footer-heading {
   font-size: 0.875rem;
   font-weight: 600;
   color: #fff;
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sb-footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.sb-footer-list a {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.55);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.sb-footer-list a:hover {
+  color: #fff;
+}
+
+.sb-footer-rule {
+  border-color: rgba(255, 255, 255, 0.1);
+  opacity: 1;
+  margin-block: 3rem 1.25rem;
+}
+
+.sb-footer-legal {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.4);
 }
 
 /* ---------- Buttons ---------- */
