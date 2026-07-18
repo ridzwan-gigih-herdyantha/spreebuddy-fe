@@ -119,7 +119,7 @@
   aspect-ratio: 4 / 3;
 }
 .sb-section {
-  padding-block: 88px;
+  padding-block: 72px;
   padding-inline: 80px;
 }
 @media (max-width: 991.98px) {
