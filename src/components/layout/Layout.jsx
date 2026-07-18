@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { Container } from "react-bootstrap";
 import AppNavbar from "./Navbar";
 import Footer from "./Footer";
 
@@ -15,11 +14,9 @@ export default function Layout() {
         onStartChat={() => navigate("/chat")}
         onSearch={(q) => setQuery(q)}
       />
-      <div className="d-flex flex-grow-1">
-        <Container fluid className="p-4 flex-grow-1">
-          <Outlet context={{ query }} />
-        </Container>
-      </div>
+      <main className="flex-grow-1">
+        <Outlet context={{ query }} />
+      </main>
       <Footer />
     </div>
   );

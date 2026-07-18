@@ -120,10 +120,12 @@
 }
 .sb-section {
   padding-block: 88px;
+  padding-inline: 80px;
 }
 @media (max-width: 991.98px) {
   .sb-section {
     padding-block: 56px;
+    padding-inline: 24px;
   }
 }
 
@@ -233,6 +235,16 @@
   color: #0f1222;
 }
 
+.sb-logo-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #4f6bff 0%, #8b5cf6 100%);
+}
+.sb-logo-badge svg {
+  color: transparent;
+}
+
 .sb-search {
   max-width: 200px;
 }
@@ -277,14 +289,22 @@
 .sb-bubble-user {
   background: #4f6bff;
   color: #fff;
-  border-radius: 14px 14px 4px 14px;
+  border-radius: 14px;
   margin-left: auto;
 }
 .sb-bubble-ai {
   background: #fff;
   color: #0f1222;
   border: 1px solid #e7e9f2;
-  border-radius: 14px 14px 14px 4px;
+  border-radius: 14px;
+}
+
+.sb-chat-preview {
+  max-width: 500px;
+  border-radius: 18px;
+}
+.sb-chat-preview .sb-card {
+  border-radius: 12px;
 }
 
 /* ---------- Footer ---------- */
@@ -350,10 +370,19 @@
 /* ---------- Buttons ---------- */
 .btn-primary {
   --bs-btn-bg: #4f6bff;
-  --bs-btn-border-color: #4f6bff;
-  --bs-btn-hover-bg: #4259e6;
-  --bs-btn-hover-border-color: #4259e6;
-  --bs-btn-active-bg: #3a4fcc;
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-border-color: transparent;
+  --bs-btn-disabled-border-color: transparent;
+  border: 0;
+  background-image: linear-gradient(180deg, #4f6bff 0%, #8b5cf6 100%);
+}
+.btn-primary:hover,
+.btn-primary:focus-visible,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary:first-child:active {
+  background-image: linear-gradient(180deg, #4259e6 0%, #7c47f0 100%);
 }
 .btn-icon {
   display: inline-flex;
