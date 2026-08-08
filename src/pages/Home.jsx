@@ -6,7 +6,7 @@ import {
   chatPreview,
   featuredProducts,
   howItWorks,
-  footerBannerCTA
+  footerBannerCTA,
 } from "@/data/home";
 import CtaFooter from "@/components/sections/CtaFooter";
 

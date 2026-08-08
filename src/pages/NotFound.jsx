@@ -1,3 +1,7 @@
+import StatusPage from "@/components/ui/StatusPage";
+import NotFoundArt from "@/assets/ui/NotFoundLottie.svg?react";
+import { notFoundStatus } from "@/data/status";
+
 export default function NotFound() {
-  return <h1>Not Found</h1>;
+  return <StatusPage status={notFoundStatus} art={<NotFoundArt />} />;
 }

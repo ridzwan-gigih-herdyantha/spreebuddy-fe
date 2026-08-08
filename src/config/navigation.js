@@ -40,3 +40,13 @@ export const footerNav = [
     ],
   },
 ];
+
+const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];
+
+export const navLabels = Object.fromEntries(
+  allLinks.map(({ to, label }) => [to, label]),
+);
+
+export const placeholderRoutes = [
+  ...new Set([...allLinks.map(({ to }) => to), "/chat"]),
+].filter((to) => to !== "/" && to !== previewRoutes.styleGuide);
