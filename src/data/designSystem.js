@@ -177,4 +177,9 @@ export const componentSpecs = [
     title: "Conversation",
     hint: "User bubbles are accent-filled; AI bubbles are surface with a border.",
   },
+  {
+    id: "cta",
+    title: "Call to action",
+    hint: "Gradient banner at radius xl, with an inverted pill button. Also ships in a dark tone.",
+  },
 ];

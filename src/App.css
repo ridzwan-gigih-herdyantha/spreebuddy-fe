@@ -91,6 +91,9 @@ body {
 .sb-gradient {
   background: var(--sb-gradient-ai);
 }
+.sb-gradient-vertical {
+  background: var(--sb-gradient-ai-vertical);
+}
 .sb-gradient-hero {
   background: linear-gradient(180deg, #eef0ff 0%, var(--sb-bg-base) 100%);
 }
@@ -304,6 +307,38 @@ body {
 
 .sb-measure {
   max-width: 620px;
+}
+
+.sb-cta {
+  padding: clamp(40px, 6vw, 64px) clamp(24px, 5vw, 56px);
+  border-radius: var(--sb-radius-xl);
+  color: var(--sb-text-on-dark);
+  box-shadow: var(--sb-shadow-lg);
+}
+.sb-cta-lead {
+  max-width: 520px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+.sb-btn-invert {
+  --bs-btn-bg: var(--sb-bg-surface);
+  --bs-btn-color: var(--sb-accent-blue);
+  --bs-btn-hover-bg: var(--sb-bg-surface);
+  --bs-btn-hover-color: var(--sb-accent-blue-strong);
+  --bs-btn-active-bg: var(--sb-bg-surface);
+  --bs-btn-active-color: var(--sb-accent-blue-strong);
+  --bs-btn-border-color: transparent;
+  --bs-btn-hover-border-color: transparent;
+  --bs-btn-active-border-color: transparent;
+  box-shadow: var(--sb-shadow-sm);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.sb-btn-invert:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--sb-shadow-lg);
 }
 
 .sb-step {

@@ -115,3 +115,10 @@ export const howItWorks = {
     },
   ],
 };
+
+export const footerBannerCTA = {
+  tone: "gradient",
+  title: "Ready to shop the smart way?",
+  lead: "Start a conversation and let SpreeBuddy find your perfect match.",
+  button: { label: "Start chatting now", to: "/chat" },
+};

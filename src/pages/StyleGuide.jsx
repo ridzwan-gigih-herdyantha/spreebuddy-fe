@@ -13,6 +13,7 @@ import SearchField from "@/components/ui/SearchField";
 import PromptInput from "@/components/ui/PromptInput";
 import ProductCard from "@/components/ui/ProductCard";
 import ChatPreview from "@/components/ui/ChatPreview";
+import CtaBanner from "@/components/ui/CtaBanner";
 import {
   foundationsMeta,
   sections,
@@ -23,7 +24,7 @@ import {
   elevationScale,
   componentSpecs,
 } from "@/data/designSystem";
-import { featuredProducts } from "@/data/home";
+import { featuredProducts, footerBannerCTA } from "@/data/home";
 
 const spec = (id) => componentSpecs.find((item) => item.id === id) ?? {};
 
@@ -295,6 +296,13 @@ export default function StyleGuide() {
                   <ChatPreview />
                 </Col>
               </Row>
+            </SpecSection>
+
+            <SpecSection title={spec("cta").title} hint={spec("cta").hint}>
+              <div className="d-flex flex-column gap-4">
+                <CtaBanner />
+                <CtaBanner data={{ ...footerBannerCTA, tone: "dark" }} />
+              </div>
             </SpecSection>
           </Col>
         </Row>

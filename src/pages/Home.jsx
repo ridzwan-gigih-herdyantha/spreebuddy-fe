@@ -6,7 +6,9 @@ import {
   chatPreview,
   featuredProducts,
   howItWorks,
+  footerBannerCTA
 } from "@/data/home";
+import CtaFooter from "@/components/sections/CtaFooter";
 
 export default function Home() {
   return (
@@ -20,6 +22,8 @@ export default function Home() {
       <FeaturedProducts data={featuredProducts} onAdd={(p) => console.log(p)} />
 
       <HowItWorks data={howItWorks} />
+
+      <CtaFooter data={footerBannerCTA} />
     </>
   );
 }
