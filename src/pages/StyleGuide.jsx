@@ -5,6 +5,7 @@ import SpecimenRow from "@/components/styleguide/SpecimenRow";
 import Logo from "@/components/ui/Logo";
 import Avatar from "@/components/ui/Avatar";
 import Badge from "@/components/ui/Badge";
+import GradientBadge from "@/components/ui/GradientBadge";
 import Chip from "@/components/ui/Chip";
 import Card from "@/components/ui/Card";
 import IconButton from "@/components/ui/IconButton";
@@ -211,6 +212,7 @@ export default function StyleGuide() {
                     <Badge>
                       <i className="bi bi-stars" /> AI pick
                     </Badge>
+                    <GradientBadge>Step 1</GradientBadge>
                     <Badge variant="outline">Free shipping</Badge>
                     <Badge variant="success">
                       <i className="bi bi-circle-fill sb-glyph" /> Online

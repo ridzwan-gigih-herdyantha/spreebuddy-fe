@@ -208,7 +208,6 @@ body {
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.14em;
-  text-transform: uppercase;
   color: var(--sb-text-muted);
 }
 .sb-price {
@@ -260,6 +259,18 @@ body {
   background: var(--sb-success-soft);
   color: var(--sb-success);
 }
+.sb-pill-gradient {
+  background: var(--sb-gradient-ai);
+  color: var(--sb-text-on-dark);
+}
+.sb-pill-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-content: center;
+  border-radius: var(--sb-radius-md);
+  font-size: 1rem;
+}
 .sb-pill-warning {
   background: rgba(247, 144, 9, 0.12);
   color: var(--sb-warning);
@@ -289,6 +300,22 @@ body {
 .sb-glyph {
   font-size: 0.5em;
   line-height: 1;
+}
+
+.sb-measure {
+  max-width: 620px;
+}
+
+.sb-step {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+.sb-step:hover {
+  transform: translateY(-3px);
+  border-color: var(--sb-accent-blue);
+  box-shadow: var(--sb-shadow-sm);
 }
 
 .min-w-0 {

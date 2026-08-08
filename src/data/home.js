@@ -85,3 +85,33 @@ export const chatPreview = {
     },
   ],
 };
+
+export const howItWorks = {
+  eyebrow: "How it works",
+  title: "Shopping in 3 conversational steps",
+  subtitle:
+    "No filters, no endless tabs. Just tell SpreeBuddy what you need and let it do the digging.",
+  steps: [
+    {
+      id: "describe",
+      icon: "bi-chat-left-text",
+      title: "Describe what you need",
+      description:
+        "Tell the assistant in plain language — budget, use-case, style. No filters to fiddle with.",
+    },
+    {
+      id: "compare",
+      icon: "bi-lightning-charge",
+      title: "AI finds & compares",
+      description:
+        "SpreeBuddy searches, ranks, and lays out the best matches with pros, cons, and prices.",
+    },
+    {
+      id: "decide",
+      icon: "bi-check2-circle",
+      title: "Decide with confidence",
+      description:
+        "Get a clear recommendation, compare side-by-side, then save or buy — all in the chat.",
+    },
+  ],
+};
