@@ -9,7 +9,7 @@ export default function FeaturedProducts({ data = featuredProducts, onAdd }) {
     <section className="sb-section">
       <div className="d-flex align-items-end justify-content-between mb-4">
         <div>
-          <h2 className="sb-h2 mb-1">{title}</h2>
+          <h1 className="sb-h1 mb-1">{title}</h1>
           <p className="sb-lead mb-0">{subtitle}</p>
         </div>
         {viewAll && (

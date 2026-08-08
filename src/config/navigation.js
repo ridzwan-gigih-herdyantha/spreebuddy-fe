@@ -1,3 +1,5 @@
+import { previewPagesEnabled, previewRoutes } from "@/config/features";
+
 export const mainNav = [
   { label: "Home", to: "/", end: true },
   { label: "Shop", to: "/shop" },
@@ -32,6 +34,9 @@ export const footerNav = [
       { label: "Privacy", to: "/privacy" },
       { label: "Terms", to: "/terms" },
       { label: "Status", to: "/status" },
+      ...(previewPagesEnabled
+        ? [{ label: "Design system", to: previewRoutes.styleGuide }]
+        : []),
     ],
   },
 ];
