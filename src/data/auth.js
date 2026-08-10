@@ -26,6 +26,35 @@ export const registerContent = {
   },
 };
 
+export const loginContent = {
+  title: "Welcome!",
+  lead: "Sign in to pick up your conversation where you left off.",
+  submit: "Sign in",
+  remember: "Remember me",
+  forgot: { label: "Forgot password?", to: "/forgot-password" },
+  note: "Chat history and wishlist are tied to your account, so they follow you across devices.",
+  footer: {
+    text: "Don't have an account?",
+    linkLabel: "Create one",
+    to: "/register",
+  },
+  aside: {
+    title: "Shop by conversation, not by browsing.",
+    lead: "Experience the next generation of e-commerce with your personal AI shopping assistant.",
+    chat: {
+      question: "wireless headphones under $150",
+      answer:
+        "I've found a few great options that fit your budget. The Aurora NC 700 are currently on sale.",
+      product: {
+        icon: "bi-headphones",
+        name: "Aurora NC 700",
+        price: "$139",
+        oldPrice: "$199",
+      },
+    },
+  },
+};
+
 export const passwordStrength = {
   labels: ["weak", "fair", "good"],
   prefix: "Strength:",

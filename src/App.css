@@ -453,6 +453,55 @@ body {
   color: rgba(255, 255, 255, 0.72);
 }
 
+.sb-auth-aside-lead {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+.sb-auth-chat {
+  background: var(--sb-bg-surface);
+  border-radius: var(--sb-radius-xl);
+  padding: 20px;
+}
+.sb-auth-chat .sb-bubble-ai {
+  max-width: 100%;
+}
+.sb-auth-chat-product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: var(--sb-radius-md);
+  background: var(--sb-bg-base);
+}
+.sb-auth-chat-thumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--sb-radius-sm);
+  background: var(--sb-bg-subtle);
+}
+
+.sb-auth-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--sb-radius-md);
+  background: var(--sb-accent-blue-soft);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--sb-text-secondary);
+}
+.sb-auth-note i {
+  color: var(--sb-accent-blue);
+  margin-top: 2px;
+}
+
 .sb-field-label {
   display: block;
   font-size: 0.8125rem;
@@ -562,11 +611,17 @@ body {
   font-weight: 600;
 }
 
-.sb-strength span.is-weak   { background-color: #ef4444; }
+.sb-strength span.is-weak {
+  background-color: #ef4444;
+}
 
-.sb-strength span.is-medium { background-color: #f9a916; }
+.sb-strength span.is-medium {
+  background-color: #f9a916;
+}
 
-.sb-strength span.is-strong { background-color: #22c55e; }
+.sb-strength span.is-strong {
+  background-color: #22c55e;
+}
 
 .sb-status {
   display: flex;

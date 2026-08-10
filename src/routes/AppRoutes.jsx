@@ -7,6 +7,7 @@ import Maintenance from "@/pages/Maintenance";
 import ServerError from "@/pages/ServerError";
 import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
+import Login from "@/pages/Login";
 import { placeholderRoutes } from "@/config/navigation";
 import {
   maintenanceMode,
@@ -26,6 +27,7 @@ export default function AppRoutes() {
 
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       <Route element={<Layout />}>
