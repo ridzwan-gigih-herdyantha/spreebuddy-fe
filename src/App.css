@@ -353,6 +353,221 @@ body {
   --bs-btn-active-border-color: var(--sb-accent-blue);
 }
 
+.sb-auth {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  min-height: 100vh;
+  background: var(--sb-bg-surface);
+}
+.sb-auth-form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 48px;
+}
+.sb-auth-inner {
+  width: 100%;
+  max-width: 420px;
+}
+.sb-auth-aside {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 64px 48px;
+  color: var(--sb-text-on-dark);
+}
+.sb-auth-aside-inner {
+  width: 100%;
+  max-width: 380px;
+}
+@media (max-width: 991.98px) {
+  .sb-auth {
+    grid-template-columns: 1fr;
+  }
+  .sb-auth-form {
+    padding: 48px 24px;
+  }
+  .sb-auth-aside {
+    display: none;
+  }
+}
+
+.sb-auth-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sb-auth-benefits {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 0.9375rem;
+}
+.sb-auth-benefits li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sb-auth-benefit-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--sb-radius-md);
+  background: rgba(255, 255, 255, 0.18);
+}
+.sb-auth-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-radius: var(--sb-radius-lg);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+}
+.sb-auth-card-thumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--sb-radius-md);
+  background: rgba(255, 255, 255, 0.24);
+  font-size: 1.25rem;
+}
+.sb-auth-card-eyebrow {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+.sb-auth-card-price {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.sb-field-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--sb-text-primary);
+  margin-bottom: 8px;
+}
+.sb-input-wrap {
+  position: relative;
+}
+.sb-input {
+  width: 100%;
+  height: 48px;
+  padding-inline: 16px;
+  font-size: 1rem;
+  color: var(--sb-text-primary);
+  background: var(--sb-bg-surface);
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-md);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.sb-input::placeholder {
+  color: var(--sb-text-muted);
+}
+.sb-input:focus {
+  outline: 0;
+  border-color: var(--sb-accent-blue);
+  box-shadow: var(--sb-focus-ring);
+}
+.sb-input:disabled {
+  background: var(--sb-bg-base);
+  color: var(--sb-text-muted);
+}
+.sb-input-trailing {
+  padding-right: 44px;
+}
+.sb-input-toggle {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sb-text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+.sb-input-toggle:hover {
+  color: var(--sb-text-primary);
+}
+.sb-field-help,
+.sb-field-error {
+  font-size: 0.6875rem;
+  margin: 6px 0 0;
+}
+.sb-field-help {
+  color: var(--sb-text-muted);
+}
+.sb-field-error {
+  color: var(--sb-warning);
+}
+
+.sb-strength-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+}
+.sb-strength {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+}
+.sb-strength span {
+  flex: 1;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--sb-border-subtle);
+}
+.sb-strength span.is-on {
+  background: var(--sb-accent-blue);
+}
+
+.sb-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--sb-text-secondary);
+}
+.sb-check input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--sb-accent-blue);
+}
+
+.sb-btn-block {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--sb-radius-full);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sb-strength span.is-weak   { background-color: #ef4444; }
+
+.sb-strength span.is-medium { background-color: #f9a916; }
+
+.sb-strength span.is-strong { background-color: #22c55e; }
+
 .sb-status {
   display: flex;
   align-items: center;
