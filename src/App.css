@@ -32,10 +32,15 @@
   --sb-space-6: 32px;
   --sb-space-7: 48px;
 
+  --sb-radius-xs: 4px;
   --sb-radius-sm: 8px;
   --sb-radius-md: 10px;
   --sb-radius-lg: 14px;
   --sb-radius-xl: 18px;
+  --sb-radius-2xl: 24px;
+  --sb-radius-3xl: 32px;
+  --sb-radius-4xl: 40px;
+  --sb-radius-5xl: 48px;
   --sb-radius-full: 999px;
 
   --sb-shadow-sm:
@@ -582,6 +587,7 @@ body {
   color: var(--sb-text-primary);
 }
 .sb-shop-toolbar {
+  border-radius: var(--sb-radius-xl) !important;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -607,7 +613,7 @@ body {
   padding: 0 14px 0 16px;
   background: var(--sb-bg-surface);
   border: 1px solid var(--sb-border-subtle);
-  border-radius: var(--sb-radius-full);
+  border-radius: var(--sb-radius-md);
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--sb-text-primary);
@@ -636,11 +642,11 @@ body {
   z-index: 20;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 220px;
+  min-width: 200px;
   padding: 8px;
   background: var(--sb-bg-surface);
   border: 1px solid var(--sb-border-subtle);
-  border-radius: var(--sb-radius-lg);
+  border-radius: var(--sb-radius-md);
   box-shadow: var(--sb-shadow-lg);
 }
 .sb-select-option {
@@ -650,9 +656,10 @@ body {
   gap: 12px;
   width: 100%;
   height: 40px;
-  padding: 0 12px;
+  padding: 12px;
+  margin-bottom: 4px;
   border: 0;
-  border-radius: var(--sb-radius-md);
+  border-radius: var(--sb-radius-sm);
   background: transparent;
   font-size: 0.875rem;
   color: var(--sb-text-primary);
