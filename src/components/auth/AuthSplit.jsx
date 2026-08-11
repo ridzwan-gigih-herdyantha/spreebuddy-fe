@@ -1,6 +1,10 @@
 import Logo from "@/components/ui/Logo";
 
-export default function AuthSplit({ children, aside }) {
+export default function AuthSplit({
+  children,
+  aside,
+  asideClassName = "sb-gradient",
+}) {
   return (
     <div className="sb-auth">
       <div className="sb-auth-form">
@@ -10,7 +14,7 @@ export default function AuthSplit({ children, aside }) {
         </div>
       </div>
 
-      <aside className="sb-auth-aside sb-gradient">
+      <aside className={`sb-auth-aside ${asideClassName}`}>
         <div className="sb-auth-aside-inner">{aside}</div>
       </aside>
     </div>

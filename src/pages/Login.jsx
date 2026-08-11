@@ -4,37 +4,11 @@ import { useForm } from "react-hook-form";
 import AuthSplit from "@/components/auth/AuthSplit";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
-import Logo from "@/components/ui/Logo";
 import { loginContent } from "@/data/auth";
 
-function Aside({ title, lead, chat }) {
-  const { question, answer, product } = chat;
-
+function Aside({ title, lead }) {
   return (
     <>
-      <div className="sb-auth-chat sb-shadow-lg mb-5">
-        <div className="sb-bubble sb-bubble-user mb-3">{question}</div>
-
-        <div className="d-flex align-items-start gap-2">
-          <Logo withText={false} />
-          <div className="sb-bubble sb-bubble-ai">
-            {answer}
-            <div className="sb-auth-chat-product">
-              <span className="sb-auth-chat-thumb">
-                <i className={`bi ${product.icon}`} />
-              </span>
-              <div className="min-w-0">
-                <div className="sb-small text-truncate">{product.name}</div>
-                <div>
-                  <span className="fw-bold text-primary">{product.price}</span>
-                  <span className="sb-price-old ms-2">{product.oldPrice}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <h2 className="sb-h2 text-white mb-2">{title}</h2>
       <p className="sb-auth-aside-lead mb-0">{lead}</p>
     </>
@@ -53,7 +27,7 @@ export default function Login() {
   } = useForm({ mode: "onTouched" });
 
   return (
-    <AuthSplit aside={<Aside {...aside} />}>
+    <AuthSplit aside={<Aside {...aside} />} asideClassName="sb-auth-photo">
       <h1 className="sb-h1 mt-4 mb-2">{title}</h1>
       <p className="sb-lead mb-4">{lead}</p>
 
