@@ -8,6 +8,7 @@ import ServerError from "@/pages/ServerError";
 import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
 import Login from "@/pages/Login";
+import Shop from "@/pages/Shop";
 import { placeholderRoutes } from "@/config/navigation";
 import {
   maintenanceMode,
@@ -40,9 +41,13 @@ export default function AppRoutes() {
           }
         />
 
-        {placeholderRoutes.map((path) => (
-          <Route key={path} path={path} element={<ComingSoon />} />
-        ))}
+        <Route path="/shop" element={<Shop />} />
+
+        {placeholderRoutes
+          .filter((path) => path !== "/shop")
+          .map((path) => (
+            <Route key={path} path={path} element={<ComingSoon />} />
+          ))}
 
         <Route path={statusRoutes.serverError} element={<ServerError />} />
         <Route path={statusRoutes.maintenance} element={<Maintenance />} />
