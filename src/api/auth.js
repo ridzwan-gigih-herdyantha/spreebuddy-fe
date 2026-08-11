@@ -1,5 +1,8 @@
 import api from "./axios";
 
+export const loginUser = ({ identifier, password }) =>
+  api.post("/api/v1/auth/login", { identifier, password });
+
 export const registerUser = ({
   name,
   username,

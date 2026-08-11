@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import AuthSplit from "@/components/auth/AuthSplit";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
+import { loginUser } from "@/api/auth";
 import { loginContent } from "@/data/auth";
 
 function Aside({ title, lead }) {
@@ -16,15 +18,42 @@ function Aside({ title, lead }) {
 }
 
 export default function Login() {
-  const { title, lead, submit, remember, forgot, note, footer, aside } =
-    loginContent;
+  const {
+    title,
+    lead,
+    submit,
+    identifierLabel,
+    identifierPlaceholder,
+    remember,
+    forgot,
+    note,
+    footer,
+    aside,
+  } = loginContent;
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
 
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({ mode: "onTouched" });
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (res) => {
+      if (res?.data?.token) localStorage.setItem("token", res.data.token);
+      navigate("/", { replace: true });
+    },
+    onError: (err) => {
+      err.fieldErrors?.forEach(({ field, message }) =>
+        setError(field, { message }),
+      );
+    },
+  });
+
+  const formError = error && !error.fieldErrors?.length ? error.message : null;
 
   return (
     <AuthSplit aside={<Aside {...aside} />} asideClassName="sb-auth-photo">
@@ -33,19 +62,23 @@ export default function Login() {
 
       <form
         className="sb-auth-fields"
-        onSubmit={handleSubmit((values) => console.log(values))}
+        onSubmit={handleSubmit((values) => mutate(values))}
         noValidate
       >
+        {formError && (
+          <p className="sb-form-error" role="alert">
+            <i className="bi bi-exclamation-triangle-fill" /> {formError}
+          </p>
+        )}
+
         <TextField
-          id="email"
-          type="email"
-          label="Email address"
-          placeholder="you@example.com"
-          autoComplete="email"
-          error={errors.email?.message}
-          {...register("email", {
-            required: "Enter your email",
-            pattern: { value: /\S+@\S+\.\S+/, message: "Enter a valid email" },
+          id="identifier"
+          label={identifierLabel}
+          placeholder={identifierPlaceholder}
+          autoComplete="username"
+          error={errors.identifier?.message}
+          {...register("identifier", {
+            required: "Enter your email or username",
           })}
         />
 
@@ -75,8 +108,12 @@ export default function Login() {
           </Link>
         </div>
 
-        <button type="submit" className="btn btn-primary sb-btn-block">
-          {submit}
+        <button
+          type="submit"
+          className="btn btn-primary sb-btn-block"
+          disabled={isPending}
+        >
+          {isPending ? "Signing in…" : submit}
         </button>
       </form>
 

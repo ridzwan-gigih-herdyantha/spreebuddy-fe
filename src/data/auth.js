@@ -30,6 +30,8 @@ export const loginContent = {
   title: "Welcome!",
   lead: "Sign in to pick up your conversation where you left off.",
   submit: "Sign in",
+  identifierLabel: "Email or username",
+  identifierPlaceholder: "you@example.com",
   remember: "Remember me",
   forgot: { label: "Forgot password?", to: "/forgot-password" },
   note: "Chat history and wishlist are tied to your account, so they follow you across devices.",
