@@ -1,63 +1,58 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { CART_KEY, CartContext } from "./cartStore";
-
-const read = () => {
-  try {
-    return JSON.parse(localStorage.getItem(CART_KEY)) ?? [];
-  } catch {
-    return [];
-  }
-};
+import { useCallback, useMemo } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  addToCart,
+  clearCart,
+  getCart,
+  removeCartItem,
+  updateCartItem,
+} from "@/api/cart";
+import { useAuth } from "@/hooks/useAuth";
+import { CartContext } from "./cartStore";
 
 export default function CartProvider({ children }) {
-  const [items, setItems] = useState(read);
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    localStorage.setItem(CART_KEY, JSON.stringify(items));
-  }, [items]);
+  const cart = useQuery({
+    queryKey: ["cart"],
+    queryFn: getCart,
+    enabled: Boolean(user),
+    retry: false,
+  });
 
-  const addItem = useCallback((product, quantity = 1) => {
-    setItems((current) => {
-      const existing = current.find((item) => item.productId === product.id);
-      if (existing) {
-        return current.map((item) =>
-          item.productId === product.id
-            ? { ...item, quantity: item.quantity + quantity }
-            : item,
-        );
-      }
-      return [...current, { productId: product.id, quantity, product }];
-    });
-  }, []);
+  const refresh = useCallback(
+    () => queryClient.invalidateQueries({ queryKey: ["cart"] }),
+    [queryClient],
+  );
 
-  const removeItem = useCallback((productId) => {
-    setItems((current) =>
-      current.filter((item) => item.productId !== productId),
-    );
-  }, []);
+  const add = useMutation({ mutationFn: addToCart, onSuccess: refresh });
+  const update = useMutation({
+    mutationFn: updateCartItem,
+    onSuccess: refresh,
+  });
+  const remove = useMutation({
+    mutationFn: removeCartItem,
+    onSuccess: refresh,
+  });
+  const wipe = useMutation({ mutationFn: clearCart, onSuccess: refresh });
 
-  const setQuantity = useCallback((productId, quantity) => {
-    setItems((current) =>
-      current.map((item) =>
-        item.productId === productId
-          ? { ...item, quantity: Math.max(1, quantity) }
-          : item,
-      ),
-    );
-  }, []);
-
-  const clear = useCallback(() => setItems([]), []);
+  const items = useMemo(() => cart.data?.data?.items ?? [], [cart.data]);
 
   const value = useMemo(
     () => ({
       items,
       count: items.reduce((sum, item) => sum + item.quantity, 0),
-      addItem,
-      removeItem,
-      setQuantity,
-      clear,
+      total: cart.data?.data?.total ?? 0,
+      isLoading: cart.isPending && Boolean(user),
+      addItem: (product, quantity = 1) =>
+        add.mutate({ productId: product.id, quantity }),
+      setQuantity: (productId, quantity) =>
+        update.mutate({ productId, quantity }),
+      removeItem: (productId) => remove.mutate(productId),
+      clear: () => wipe.mutate(),
     }),
-    [items, addItem, removeItem, setQuantity, clear],
+    [items, cart.data, cart.isPending, user, add, update, remove, wipe],
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

@@ -142,7 +142,9 @@ export default function Shop() {
                 onToggleWishlist={({ id }) =>
                   toggleWishlist.mutate({ id, saved: savedIds.has(id) })
                 }
-                onAddToCart={addItem}
+                onAddToCart={(item) =>
+                  user ? addItem(item) : navigate("/login")
+                }
               />
             </div>
           ))}
