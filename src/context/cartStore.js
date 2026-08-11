@@ -5,6 +5,8 @@ export const CartContext = createContext({
   count: 0,
   total: 0,
   isLoading: false,
+  isClearing: false,
+  busyOf: () => undefined,
   addItem: () => {},
   removeItem: () => {},
   setQuantity: () => {},
