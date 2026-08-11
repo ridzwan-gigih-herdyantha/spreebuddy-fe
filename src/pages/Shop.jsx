@@ -14,6 +14,8 @@ import { useCart } from "@/hooks/useCart";
 import { currentPrice } from "@/utils/format";
 import { PAGE_SIZE, shopContent } from "@/data/shop";
 
+const WISHLIST_TOGGLE = ["wishlists", "toggle"];
+
 const sorters = {
   "price-asc": (a, b) => currentPrice(a) - currentPrice(b),
   "price-desc": (a, b) => currentPrice(b) - currentPrice(a),
@@ -31,7 +33,6 @@ export default function Shop() {
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [category, setCategory] = useState(allCategories);
   const [sort, setSort] = useState("relevance");
-  const [pending, setPending] = useState({});
 
   const products = useQuery({
     queryKey: ["products", limit],
@@ -59,14 +60,39 @@ export default function Shop() {
   );
 
   const toggleWishlist = useMutation({
+    mutationKey: WISHLIST_TOGGLE,
     mutationFn: ({ id, saved }) =>
       saved ? removeFromWishlist(id) : addToWishlist(id),
-    onMutate: ({ id }) => setPending((state) => ({ ...state, [id]: true })),
-    onSettled: (_data, _err, { id }) =>
-      setPending((state) => ({ ...state, [id]: false })),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wishlists"] }),
-    onError: (err) => {
+
+    onMutate: async ({ id, saved }) => {
+      await queryClient.cancelQueries({ queryKey: ["wishlists"] });
+      const previous = queryClient.getQueryData(["wishlists"]);
+
+      queryClient.setQueryData(["wishlists"], (old) => {
+        const entries = old?.data ?? [];
+        return {
+          ...old,
+          data: saved
+            ? entries.filter((entry) => entry.product?.id !== id)
+            : [...entries, { product: { id } }],
+        };
+      });
+
+      return { previous };
+    },
+
+    onError: (err, _variables, context) => {
+      if (context?.previous)
+        queryClient.setQueryData(["wishlists"], context.previous);
       if (err.status === 401) navigate("/login");
+    },
+
+    // Refetch only once the last toggle has settled, otherwise the response
+    // overwrites optimistic updates of toggles that are still in flight.
+    onSettled: () => {
+      if (queryClient.isMutating({ mutationKey: WISHLIST_TOGGLE }) === 1) {
+        queryClient.invalidateQueries({ queryKey: ["wishlists"] });
+      }
     },
   });
 
@@ -138,7 +164,6 @@ export default function Shop() {
               <ShopCard
                 product={product}
                 wishlisted={savedIds.has(product.id)}
-                busy={Boolean(pending[product.id])}
                 onToggleWishlist={({ id }) =>
                   toggleWishlist.mutate({ id, saved: savedIds.has(id) })
                 }
