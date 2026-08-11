@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
+  withCredentials: true,
 });
 
 api.interceptors.request.use((config) => {
@@ -11,12 +12,15 @@ api.interceptors.request.use((config) => {
 });
 
 api.interceptors.response.use(
-  (res) => res,
+  (res) => res.data,
   (err) => {
-    if (err.response?.status === 401) {
-      // redirect to login
-    }
-    return Promise.reject(err);
+    const body = err.response?.data;
+    return Promise.reject({
+      status: err.response?.status ?? 0,
+      code: body?.error?.code,
+      message: body?.message ?? "Something went wrong. Please try again.",
+      fieldErrors: body?.error?.details ?? [],
+    });
   },
 );
 

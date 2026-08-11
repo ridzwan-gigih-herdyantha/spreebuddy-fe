@@ -1,11 +1,18 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, useWatch } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import AuthSplit from "@/components/auth/AuthSplit";
+import AvatarField from "@/components/auth/AvatarField";
 import PasswordStrength from "@/components/auth/PasswordStrength";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
+import { registerUser } from "@/api/auth";
 import { registerContent } from "@/data/auth";
+
+const PHONE_PATTERN = /^\+?\d{10,15}$/;
+const AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const AVATAR_MAX_BYTES = 2 * 1024 * 1024;
 
 function Aside({ title, benefits, card }) {
   return (
@@ -40,16 +47,33 @@ function Aside({ title, benefits, card }) {
 
 export default function Register() {
   const { title, lead, submit, footer, aside } = registerContent;
+  const navigate = useNavigate();
   const [visible, setVisible] = useState({ password: false, confirm: false });
 
   const {
     register,
     handleSubmit,
     control,
+    setError,
+    resetField,
     formState: { errors },
   } = useForm({ mode: "onTouched" });
 
   const password = useWatch({ control, name: "password", defaultValue: "" });
+  const avatarList = useWatch({ control, name: "avatar" });
+  const avatar = avatarList?.[0] ?? null;
+
+  const { mutate, isPending, error } = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => navigate("/login", { replace: true }),
+    onError: (err) => {
+      err.fieldErrors?.forEach(({ field, message }) =>
+        setError(field, { message }),
+      );
+    },
+  });
+
+  const formError = error && !error.fieldErrors?.length ? error.message : null;
 
   return (
     <AuthSplit aside={<Aside {...aside} />}>
@@ -58,16 +82,37 @@ export default function Register() {
 
       <form
         className="sb-auth-fields"
-        onSubmit={handleSubmit((values) => console.log(values))}
+        onSubmit={handleSubmit((values) => mutate({ ...values, avatar }))}
         noValidate
       >
+        {formError && (
+          <p className="sb-form-error" role="alert">
+            <i className="bi bi-exclamation-triangle-fill" /> {formError}
+          </p>
+        )}
+
         <TextField
           id="name"
           label="Full name"
-          placeholder="Your Full Name"
+          placeholder="Your full name"
           autoComplete="name"
           error={errors.name?.message}
           {...register("name", { required: "Enter your full name" })}
+        />
+
+        <TextField
+          id="username"
+          label="Username"
+          placeholder="yourusername"
+          autoComplete="username"
+          error={errors.username?.message}
+          {...register("username", {
+            required: "Choose a username",
+            pattern: {
+              value: /^[a-zA-Z0-9._-]{3,}$/,
+              message: "Use 3+ letters, numbers, dot, underscore or dash",
+            },
+          })}
         />
 
         <TextField
@@ -83,12 +128,50 @@ export default function Register() {
           })}
         />
 
+        <AvatarField
+          id="avatar"
+          label="Profile photo"
+          help="Optional. JPEG, PNG, WebP or GIF, up to 2 MB."
+          file={avatar}
+          error={errors.avatar?.message}
+          onClear={() => resetField("avatar")}
+          {...register("avatar", {
+            validate: {
+              type: (list) =>
+                !list?.[0] ||
+                AVATAR_TYPES.includes(list[0].type) ||
+                "Use a JPEG, PNG, WebP or GIF image",
+              size: (list) =>
+                !list?.[0] ||
+                list[0].size <= AVATAR_MAX_BYTES ||
+                "Keep the image under 2 MB",
+            },
+          })}
+        />
+
+        <TextField
+          id="phone"
+          type="tel"
+          label="Phone number"
+          placeholder="+6281234567890"
+          autoComplete="tel"
+          error={errors.phone?.message}
+          help="10 to 15 digits, may start with +"
+          {...register("phone", {
+            required: "Enter your phone number",
+            pattern: {
+              value: PHONE_PATTERN,
+              message: "Enter a valid phone number",
+            },
+          })}
+        />
+
         <div>
           <TextField
             id="password"
             type={visible.password ? "text" : "password"}
             label="Password"
-            placeholder="At least 8 characters"
+            placeholder="At least 6 characters"
             autoComplete="new-password"
             error={errors.password?.message}
             trailing={
@@ -101,7 +184,7 @@ export default function Register() {
             }
             {...register("password", {
               required: "Choose a password",
-              minLength: { value: 8, message: "Use at least 8 characters" },
+              minLength: { value: 6, message: "Use at least 6 characters" },
             })}
           />
           <PasswordStrength value={password} />
@@ -137,8 +220,12 @@ export default function Register() {
           </span>
         </label>
 
-        <button type="submit" className="btn btn-primary sb-btn-block">
-          {submit}
+        <button
+          type="submit"
+          className="btn btn-primary sb-btn-block"
+          disabled={isPending}
+        >
+          {isPending ? "Creating account…" : submit}
         </button>
       </form>
 

@@ -581,6 +581,57 @@ body {
 .sb-input-toggle:hover {
   color: var(--sb-text-primary);
 }
+.sb-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+.sb-avatar-field {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.sb-avatar-preview {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--sb-radius-full);
+  overflow: hidden;
+  background: var(--sb-bg-subtle);
+  color: var(--sb-text-muted);
+  font-size: 1.5rem;
+}
+.sb-avatar-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sb-avatar-clear {
+  padding: 0 0 0 12px;
+  font-size: 0.8125rem;
+  color: var(--sb-warning);
+  text-decoration: none;
+}
+
+.sb-form-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: var(--sb-radius-md);
+  background: rgba(247, 144, 9, 0.12);
+  color: var(--sb-warning);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
 .sb-field-help,
 .sb-field-error {
   font-size: 0.6875rem;
