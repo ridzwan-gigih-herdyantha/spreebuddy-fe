@@ -17,7 +17,7 @@ export default function ShopCard({ product, wishlisted, onToggleWishlist }) {
       <div className="sb-shop-body">
         {category && <span className="sb-pill sb-shop-badge">{category}</span>}
 
-        <h3 className="sb-h3 mb-1 text-truncate" title={name}>
+        <h3 className="sb-shop-name text-truncate" title={name}>
           {name}
         </h3>
 

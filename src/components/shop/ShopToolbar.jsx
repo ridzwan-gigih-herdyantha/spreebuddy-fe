@@ -1,3 +1,4 @@
+import Select from "@/components/ui/Select";
 import { shopContent, sortOptions } from "@/data/shop";
 
 export default function ShopToolbar({
@@ -22,20 +23,12 @@ export default function ShopToolbar({
         ))}
       </div>
 
-      <label className="sb-shop-sort">
-        <span className="sb-meta">Sort</span>
-        <select
-          className="sb-input"
-          value={sort}
-          onChange={(e) => onSort(e.target.value)}
-        >
-          {sortOptions.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <Select
+        label="Sort"
+        value={sort}
+        options={sortOptions}
+        onChange={onSort}
+      />
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function AppNavbar({
             ))}
           </Nav>
 
-          <div className="sb-nav-actions d-flex align-items-center gap-3 mt-3 mt-lg-0">
+          <div className="sb-nav-actions d-flex align-items-center gap-lg-4 gap-3 mt-3 mt-lg-0">
             <SearchField onChange={(e) => onSearch?.(e.target.value)} />
 
             <Button
