@@ -14,10 +14,7 @@ export default function CtaBanner({ data = footerBannerCTA }) {
       <h2 className="sb-h1 mb-2">{title}</h2>
       <p className="sb-cta-lead mx-auto mb-4">{lead}</p>
 
-      <Link
-        to={button.to}
-        className="btn sb-btn-invert fw-semibold px-4"
-      >
+      <Link to={button.to} className="btn sb-btn-invert fw-semibold px-4">
         {button.label} <i className="bi bi-arrow-right" />
       </Link>
     </div>

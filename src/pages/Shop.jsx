@@ -4,7 +4,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ShopCard from "@/components/shop/ShopCard";
 import ShopToolbar from "@/components/shop/ShopToolbar";
 import { listCategories, listProducts } from "@/api/products";
-import { addToWishlist, removeFromWishlist } from "@/api/wishlist";
+import {
+  addToWishlist,
+  listWishlist,
+  removeFromWishlist,
+} from "@/api/wishlist";
+import { useAuth } from "@/hooks/useAuth";
+import { useCart } from "@/hooks/useCart";
 import { currentPrice } from "@/utils/format";
 import { PAGE_SIZE, shopContent } from "@/data/shop";
 
@@ -19,10 +25,13 @@ export default function Shop() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
+  const { user } = useAuth();
+  const { addItem } = useCart();
+
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [category, setCategory] = useState(allCategories);
   const [sort, setSort] = useState("relevance");
-  const [wishlisted, setWishlisted] = useState({});
+  const [pending, setPending] = useState({});
 
   const products = useQuery({
     queryKey: ["products", limit],
@@ -36,13 +45,26 @@ export default function Shop() {
     staleTime: 5 * 60 * 1000,
   });
 
+  const wishlist = useQuery({
+    queryKey: ["wishlists"],
+    queryFn: listWishlist,
+    enabled: Boolean(user),
+    retry: false,
+  });
+
+  const savedIds = useMemo(
+    () =>
+      new Set((wishlist.data?.data ?? []).map((entry) => entry.product?.id)),
+    [wishlist.data],
+  );
+
   const toggleWishlist = useMutation({
     mutationFn: ({ id, saved }) =>
       saved ? removeFromWishlist(id) : addToWishlist(id),
-    onSuccess: (_data, { id, saved }) => {
-      setWishlisted((state) => ({ ...state, [id]: !saved }));
-      queryClient.invalidateQueries({ queryKey: ["wishlist"] });
-    },
+    onMutate: ({ id }) => setPending((state) => ({ ...state, [id]: true })),
+    onSettled: (_data, _err, { id }) =>
+      setPending((state) => ({ ...state, [id]: false })),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["wishlists"] }),
     onError: (err) => {
       if (err.status === 401) navigate("/login");
     },
@@ -115,10 +137,12 @@ export default function Shop() {
             <div className="col" key={product.id}>
               <ShopCard
                 product={product}
-                wishlisted={Boolean(wishlisted[product.id])}
+                wishlisted={savedIds.has(product.id)}
+                busy={Boolean(pending[product.id])}
                 onToggleWishlist={({ id }) =>
-                  toggleWishlist.mutate({ id, saved: Boolean(wishlisted[id]) })
+                  toggleWishlist.mutate({ id, saved: savedIds.has(id) })
                 }
+                onAddToCart={addItem}
               />
             </div>
           ))}

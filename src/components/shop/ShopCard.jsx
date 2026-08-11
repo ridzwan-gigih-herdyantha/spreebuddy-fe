@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
 
-export default function ShopCard({ product, wishlisted, onToggleWishlist }) {
+export default function ShopCard({
+  product,
+  wishlisted,
+  busy,
+  onToggleWishlist,
+  onAddToCart,
+}) {
   const { id, name, category, stock } = product;
   const soldOut = stock <= 0;
   const lowStock = !soldOut && stock <= LOW_STOCK_THRESHOLD;
+  const [added, setAdded] = useState(false);
+
+  useEffect(() => {
+    if (!added) return;
+    const timer = setTimeout(() => setAdded(false), 1500);
+    return () => clearTimeout(timer);
+  }, [added]);
 
   return (
     <article className="sb-card sb-card-hover sb-shop-card h-100">
@@ -46,9 +60,13 @@ export default function ShopCard({ product, wishlisted, onToggleWishlist }) {
           type="button"
           className="btn btn-primary rounded-pill flex-grow-1"
           disabled={soldOut}
+          onClick={() => {
+            onAddToCart(product);
+            setAdded(true);
+          }}
         >
-          <i className="bi bi-cart2" />{" "}
-          {soldOut ? "Out of stock" : "Add to cart"}
+          <i className={`bi ${added ? "bi-check2" : "bi-cart2"}`} />{" "}
+          {soldOut ? "Out of stock" : added ? "Added" : "Add to cart"}
         </button>
 
         <Link
@@ -64,6 +82,7 @@ export default function ShopCard({ product, wishlisted, onToggleWishlist }) {
           className="sb-shop-icon-btn"
           aria-pressed={wishlisted}
           aria-label={wishlisted ? "Remove from wishlist" : "Save to wishlist"}
+          disabled={busy}
           onClick={() => onToggleWishlist(product)}
         >
           <i className={`bi ${wishlisted ? "bi-heart-fill" : "bi-heart"}`} />

@@ -10,7 +10,6 @@ export default function Layout() {
   return (
     <div className="d-flex flex-column min-vh-100">
       <AppNavbar
-        user={{ name: "Rani" }}
         onStartChat={() => navigate("/chat")}
         onSearch={(q) => setQuery(q)}
       />

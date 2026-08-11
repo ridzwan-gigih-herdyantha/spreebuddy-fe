@@ -5,3 +5,5 @@ export const listProducts = ({ page = 1, limit = 8 } = {}) =>
 
 export const listCategories = () =>
   api.get("/api/v1/categories", { params: { page: 1, limit: 50 } });
+
+export const getProduct = (id) => api.get(`/api/v1/products/${id}`);

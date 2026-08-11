@@ -21,3 +21,7 @@ export const registerUser = ({
 
   return api.post("/api/v1/auth/register", form);
 };
+
+export const getMe = () => api.get("/api/v1/auth/me");
+
+export const logoutUser = () => api.post("/api/v1/auth/logout");

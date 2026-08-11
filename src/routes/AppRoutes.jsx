@@ -9,6 +9,7 @@ import NotFound from "@/pages/NotFound";
 import Register from "@/pages/Register";
 import Login from "@/pages/Login";
 import Shop from "@/pages/Shop";
+import ProductDetail from "@/pages/ProductDetail";
 import { placeholderRoutes } from "@/config/navigation";
 import {
   maintenanceMode,
@@ -42,6 +43,8 @@ export default function AppRoutes() {
         />
 
         <Route path="/shop" element={<Shop />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/cart" element={<ComingSoon />} />
 
         {placeholderRoutes
           .filter((path) => path !== "/shop")
