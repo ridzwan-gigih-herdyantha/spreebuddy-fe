@@ -1,8 +1,10 @@
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { Link } from "react-router-dom";
 import Logo from "@/components/ui/Logo";
-import { currentPrice, formatPrice } from "@/utils/format";
+import { currentPrice, formatPrice, formatSpec } from "@/utils/format";
 
-function ProductRow({ product }) {
+function ProductRow({ product, onMention }) {
   return (
     <div className="sb-chat-product">
       <span className="sb-chat-thumb">
@@ -19,6 +21,15 @@ function ProductRow({ product }) {
       <span className="fw-bold text-primary">
         {formatPrice(currentPrice(product))}
       </span>
+
+      <button
+        type="button"
+        className="sb-mention-btn"
+        aria-label={`Mention ${product.name}`}
+        onClick={() => onMention?.(product.name)}
+      >
+        <i className="bi bi-at" />
+      </button>
 
       <Link
         to={`/product/${product.id}`}
@@ -47,11 +58,7 @@ function Comparison({ data }) {
             <tr key={key}>
               <td>{label}</td>
               {data.products.map((product) => (
-                <td key={product.id}>
-                  {key.toLowerCase().includes("price")
-                    ? formatPrice(product[key])
-                    : String(product[key] ?? "—")}
-                </td>
+                <td key={product.id}>{formatSpec(key, product[key])}</td>
               ))}
             </tr>
           ))}
@@ -61,7 +68,7 @@ function Comparison({ data }) {
   );
 }
 
-export default function ChatMessage({ message }) {
+export default function ChatMessage({ message, onMention }) {
   const isUser = message.role === "user";
   const attachments = message.attachments;
   const products = attachments?.products ?? [];
@@ -80,10 +87,16 @@ export default function ChatMessage({ message }) {
       <Logo withText={false} />
 
       <div className="sb-bubble sb-bubble-ai">
-        {message.content}
+        <div className="sb-markdown">
+          <Markdown remarkPlugins={[remarkGfm]}>{message.content}</Markdown>
+        </div>
 
         {products.map((product) => (
-          <ProductRow key={product.id} product={product} />
+          <ProductRow
+            key={product.id}
+            product={product}
+            onMention={onMention}
+          />
         ))}
 
         {comparison && <Comparison data={comparison} />}

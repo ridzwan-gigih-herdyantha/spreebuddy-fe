@@ -9,7 +9,7 @@ const sorters = {
   "price-desc": (a, b) => currentPrice(b) - currentPrice(a),
 };
 
-export default function ResultsPanel({ products, onAddToCart }) {
+export default function ResultsPanel({ products, onAddToCart, onMention }) {
   const content = chatContent.results;
   const [category, setCategory] = useState(content.allCategories);
   const [sort, setSort] = useState("relevance");
@@ -87,6 +87,14 @@ export default function ResultsPanel({ products, onAddToCart }) {
                     onClick={() => onAddToCart(product)}
                   >
                     {product.stock <= 0 ? "Out of stock" : "Add to cart"}
+                  </button>
+                  <button
+                    type="button"
+                    className="sb-shop-icon-btn"
+                    aria-label={`Mention ${product.name}`}
+                    onClick={() => onMention?.(product.name)}
+                  >
+                    <i className="bi bi-at" />
                   </button>
                   <Link
                     to={`/product/${product.id}`}

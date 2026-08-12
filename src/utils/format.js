@@ -25,3 +25,19 @@ export function formatRelative(value) {
   if (days < 60) return `${Math.floor(days / 7)} weeks ago`;
   return `${Math.floor(days / 30)} months ago`;
 }
+
+export function formatDimensions(value) {
+  if (!value || typeof value !== "object") return "—";
+  const { length, width, height } = value;
+  if ([length, width, height].some((side) => side === undefined)) return "—";
+  return `${length} × ${width} × ${height} cm`;
+}
+
+export function formatSpec(key, value) {
+  if (value === null || value === undefined || value === "") return "—";
+  if (key === "dimensions") return formatDimensions(value);
+  if (key === "weight") return `${value} kg`;
+  if (key.toLowerCase().includes("price")) return formatPrice(value);
+  if (typeof value === "object") return JSON.stringify(value);
+  return String(value);
+}

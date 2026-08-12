@@ -22,6 +22,17 @@ export const chatContent = {
   },
 };
 
+export const thinkingWords = [
+  "Thinking",
+  "Pondering",
+  "Rummaging",
+  "Scouting",
+  "Comparing",
+  "Curating",
+  "Digging",
+  "Weighing",
+];
+
 export const chatSortOptions = [
   { id: "relevance", label: "Best match" },
   { id: "price-asc", label: "Price: low to high" },

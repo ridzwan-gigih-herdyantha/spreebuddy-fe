@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ChatMessage from "@/components/chat/ChatMessage";
+import Thinking from "@/components/chat/Thinking";
 import ResultsPanel from "@/components/chat/ResultsPanel";
 import PromptInput from "@/components/ui/PromptInput";
 import { createSession, getSession, sendMessage } from "@/api/chat";
@@ -21,7 +22,11 @@ export default function Chat() {
     const names = params.get("compare");
     return names ? `Compare these products: ${names}` : "";
   });
+  const [sent, setSent] = useState(null);
   const endRef = useRef(null);
+
+  const mention = (name) =>
+    setDraft((current) => (current ? `${current.trim()} ${name}` : name));
 
   const session = useQuery({
     queryKey: ["session", sessionId],
@@ -46,13 +51,21 @@ export default function Chat() {
       await sendMessage({ id, message });
       return id;
     },
-    onSuccess: (id) =>
-      queryClient.invalidateQueries({ queryKey: ["session", id] }),
+    onMutate: (message) => setSent(message),
+    // Keep the echoed message on screen until the refetch carries the real one.
+    onSuccess: async (id) => {
+      await queryClient.invalidateQueries({ queryKey: ["session", id] });
+      setSent(null);
+    },
+    onError: (_err, message) => {
+      setSent(null);
+      setDraft(message);
+    },
   });
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length, send.isPending]);
+  }, [messages.length, sent, send.isPending]);
 
   const products = useMemo(() => {
     const withProducts = [...messages]
@@ -89,14 +102,22 @@ export default function Chat() {
           )}
 
           {messages.map((message) => (
-            <ChatMessage key={message.id} message={message} />
+            <ChatMessage
+              key={message.id}
+              message={message}
+              onMention={mention}
+            />
           ))}
+
+          {sent && (
+            <div className="sb-chat-turn is-user">
+              <div className="sb-bubble sb-bubble-user">{sent}</div>
+            </div>
+          )}
 
           {send.isPending && (
             <div className="sb-chat-turn">
-              <span className="sb-pill sb-pill-outline">
-                <i className="bi bi-three-dots" /> Thinking…
-              </span>
+              <Thinking />
             </div>
           )}
 
@@ -138,7 +159,11 @@ export default function Chat() {
         </div>
       </div>
 
-      <ResultsPanel products={products} onAddToCart={addItem} />
+      <ResultsPanel
+        products={products}
+        onAddToCart={addItem}
+        onMention={mention}
+      />
     </div>
   );
 }
