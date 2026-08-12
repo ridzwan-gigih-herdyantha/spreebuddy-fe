@@ -51,6 +51,10 @@ export default function AppRoutes() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/chat" element={<Chat />} />
 
+        {["/account", "/settings", "/orders"].map((path) => (
+          <Route key={path} path={path} element={<ComingSoon />} />
+        ))}
+
         {placeholderRoutes
           .filter(
             (path) =>

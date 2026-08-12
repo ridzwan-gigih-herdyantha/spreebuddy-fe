@@ -1,7 +1,7 @@
 import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
 import Logo from "@/components/ui/Logo";
-import Avatar from "@/components/ui/Avatar";
+import UserMenu from "./UserMenu";
 import SearchField from "@/components/ui/SearchField";
 import { mainNav } from "@/config/navigation";
 import { useAuth } from "@/hooks/useAuth";
@@ -25,7 +25,7 @@ export default function AppNavbar({ links = mainNav, onSearch, onStartChat }) {
   const { count } = useCart();
 
   const avatar = user ? (
-    <Avatar name={user.name} src={user.avatarUrl} title={user.name} />
+    <UserMenu user={user} />
   ) : (
     <Link to="/login" className="sb-pill sb-pill-outline text-nowrap">
       Sign in

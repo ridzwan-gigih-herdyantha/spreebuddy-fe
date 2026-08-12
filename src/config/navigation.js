@@ -41,6 +41,13 @@ export const footerNav = [
   },
 ];
 
+export const userMenu = [
+  { label: "Account", to: "/account", icon: "bi-person" },
+  { label: "Settings", to: "/settings", icon: "bi-gear" },
+  { label: "Wishlist", to: "/wishlist", icon: "bi-heart" },
+  { label: "Orders", to: "/orders", icon: "bi-receipt" },
+];
+
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];
 
 export const navLabels = Object.fromEntries(
