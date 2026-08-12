@@ -9,6 +9,7 @@ import {
 export default function WishlistCard({
   entry,
   selected,
+  selectDisabled,
   removing,
   onSelect,
   onRemove,
@@ -30,10 +31,14 @@ export default function WishlistCard({
           <span className="sb-pill sb-shop-badge">{product.category}</span>
         )}
 
-        <label className="sb-wish-name">
+        <label
+          className={`sb-wish-name ${selectDisabled ? "is-disabled" : ""}`}
+        >
           <input
             type="checkbox"
+            className="sb-check-box"
             checked={selected}
+            disabled={selectDisabled}
             onChange={onSelect}
             aria-label={`Select ${product?.name ?? "item"} to compare`}
           />

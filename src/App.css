@@ -1585,11 +1585,44 @@ body {
   margin-bottom: 4px;
   cursor: pointer;
 }
-.sb-wish-name input {
+.sb-wish-name.is-disabled {
+  color: var(--sb-text-muted);
+  cursor: not-allowed;
+}
+
+.sb-check-box {
+  appearance: none;
   flex: none;
-  width: 16px;
-  height: 16px;
-  accent-color: var(--sb-accent-blue);
+  width: 18px;
+  height: 18px;
+  display: inline-grid;
+  place-content: center;
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-xs);
+  background: var(--sb-bg-surface);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+.sb-check-box:hover:not(:disabled) {
+  border-color: var(--sb-accent-blue);
+}
+.sb-check-box:checked {
+  background: var(--sb-accent-blue);
+  border-color: var(--sb-accent-blue);
+}
+.sb-check-box:checked::after {
+  content: "";
+  width: 9px;
+  height: 5px;
+  border: 2px solid var(--sb-text-on-dark);
+  border-top: 0;
+  border-right: 0;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+.sb-check-box:disabled {
+  background: var(--sb-bg-subtle);
+  cursor: not-allowed;
 }
 .sb-wish-note {
   font-size: 0.75rem;
@@ -1601,4 +1634,49 @@ body {
 }
 .sb-shop-card.is-removing {
   opacity: 0.55;
+}
+
+.sb-select-bar {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 12px 12px 20px;
+  background: var(--sb-bg-surface);
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-full);
+  box-shadow: var(--sb-shadow-lg);
+  animation: sb-rise 0.18s ease-out;
+}
+.sb-select-bar-count {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--sb-text-primary);
+  white-space: nowrap;
+}
+.sb-select-bar-clear {
+  padding: 0;
+  font-size: 0.8125rem;
+  color: var(--sb-text-muted);
+  text-decoration: none;
+}
+.sb-select-bar-clear:hover {
+  color: var(--sb-warning);
+}
+@keyframes sb-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+@media (max-width: 575.98px) {
+  .sb-select-bar {
+    right: 16px;
+    left: 16px;
+    bottom: 16px;
+    justify-content: space-between;
+  }
 }

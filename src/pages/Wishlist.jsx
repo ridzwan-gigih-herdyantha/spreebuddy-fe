@@ -127,20 +127,9 @@ export default function Wishlist() {
           </p>
         </div>
 
-        <div className="d-flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="sb-pill sb-pill-outline"
-            disabled={selected.length < 2}
-            onClick={() => navigate(`/compare?ids=${selected.join(",")}`)}
-          >
-            {content.compare}
-            {selected.length > 0 && ` (${selected.length})`}
-          </button>
-          <Link to={content.askAi.to} className="sb-pill sb-pill-outline">
-            <i className="bi bi-stars" /> {content.askAi.label}
-          </Link>
-        </div>
+        <Link to={content.askAi.to} className="sb-pill sb-pill-outline">
+          <i className="bi bi-stars" /> {content.askAi.label}
+        </Link>
       </div>
 
       {entries.length > 0 && (
@@ -197,6 +186,32 @@ export default function Wishlist() {
         </div>
       )}
 
+      {selected.length > 0 && (
+        <div className="sb-select-bar" role="region" aria-label="Selection">
+          <span className="sb-select-bar-count">
+            {selected.length} of {COMPARE_MAX} selected
+          </span>
+
+          <button
+            type="button"
+            className="btn btn-link sb-select-bar-clear"
+            onClick={() => setSelected([])}
+          >
+            Clear
+          </button>
+
+          <button
+            type="button"
+            className="btn btn-primary rounded-pill px-4"
+            disabled={selected.length < 2}
+            onClick={() => navigate(`/chat?compare=${selected.join(",")}`)}
+          >
+            <i className="bi bi-bar-chart" />{" "}
+            {selected.length < 2 ? "Pick one more" : content.compare}
+          </button>
+        </div>
+      )}
+
       {visible.length > 0 && (
         <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-0">
           {visible.map((entry) => (
@@ -204,6 +219,10 @@ export default function Wishlist() {
               <WishlistCard
                 entry={entry}
                 selected={selected.includes(entry.product.id)}
+                selectDisabled={
+                  !selected.includes(entry.product.id) &&
+                  selected.length >= COMPARE_MAX
+                }
                 removing={Boolean(removing[entry.product.id])}
                 onSelect={() => toggleSelected(entry.product.id)}
                 onRemove={() => remove.mutate(entry.product.id)}
