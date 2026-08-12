@@ -6,6 +6,7 @@ import AuthSplit from "@/components/auth/AuthSplit";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
 import { loginUser } from "@/api/auth";
+import { useAuth } from "@/hooks/useAuth";
 import { loginContent } from "@/data/auth";
 
 function Aside({ title, lead }) {
@@ -31,6 +32,7 @@ export default function Login() {
     aside,
   } = loginContent;
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [visible, setVisible] = useState(false);
 
   const {
@@ -43,7 +45,7 @@ export default function Login() {
   const { mutate, isPending, error } = useMutation({
     mutationFn: loginUser,
     onSuccess: (res) => {
-      if (res?.data?.token) localStorage.setItem("token", res.data.token);
+      if (res?.data?.token) login(res.data.token);
       navigate("/", { replace: true });
     },
     onError: (err) => {

@@ -1680,3 +1680,124 @@ body {
     justify-content: space-between;
   }
 }
+
+.sb-chat {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 24px;
+  align-items: start;
+  padding: 32px 80px;
+  min-height: calc(100vh - 72px);
+}
+@media (max-width: 1199.98px) {
+  .sb-chat {
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: 24px;
+  }
+}
+.sb-chat-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.sb-chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 24px;
+}
+.sb-chat-turn {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.sb-chat-turn.is-user {
+  justify-content: flex-end;
+}
+.sb-chat-turn .sb-bubble-ai {
+  max-width: 720px;
+}
+.sb-chat-composer {
+  position: sticky;
+  bottom: 0;
+  padding-top: 16px;
+  padding-bottom: 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(246, 247, 251, 0) 0%,
+    var(--sb-bg-base) 32%
+  );
+}
+
+.sb-chat-product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-md);
+  background: var(--sb-bg-surface);
+}
+.sb-chat-thumb {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--sb-radius-md);
+  background: var(--sb-bg-subtle);
+  color: var(--sb-text-muted);
+}
+.sb-chat-product-name {
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+.sb-chat-product .fw-bold {
+  margin-left: auto;
+}
+
+.sb-chat-compare {
+  margin-top: 12px;
+  overflow-x: auto;
+}
+.sb-chat-compare table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+.sb-chat-compare th,
+.sb-chat-compare td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--sb-border-subtle);
+  text-align: left;
+  white-space: nowrap;
+}
+.sb-chat-compare th {
+  font-weight: 600;
+  color: var(--sb-text-primary);
+}
+.sb-chat-compare td:first-child {
+  color: var(--sb-text-secondary);
+}
+
+.sb-chat-rail {
+  position: sticky;
+  top: 96px;
+  padding: 24px;
+  background: var(--sb-bg-surface);
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-xl);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+.sb-chat-result {
+  padding: 16px;
+}
+.sb-chat-price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--sb-accent-blue);
+  margin-top: 4px;
+}

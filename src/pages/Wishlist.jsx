@@ -204,7 +204,12 @@ export default function Wishlist() {
             type="button"
             className="btn btn-primary rounded-pill px-4"
             disabled={selected.length < 2}
-            onClick={() => navigate(`/chat?compare=${selected.join(",")}`)}
+            onClick={() => {
+              const names = entries
+                .filter((entry) => selected.includes(entry.product.id))
+                .map((entry) => entry.product.name);
+              navigate(`/chat?compare=${encodeURIComponent(names.join(", "))}`);
+            }}
           >
             <i className="bi bi-bar-chart" />{" "}
             {selected.length < 2 ? "Pick one more" : content.compare}

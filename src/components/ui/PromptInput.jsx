@@ -1,13 +1,23 @@
 import { useState } from "react";
 import IconButton from "@/components/ui/IconButton";
 
-export default function PromptInput({ onSubmit, placeholder }) {
-  const [value, setValue] = useState("");
+export default function PromptInput({
+  value,
+  onChange,
+  onSubmit,
+  placeholder,
+  disabled,
+}) {
+  const [internal, setInternal] = useState("");
+  const controlled = value !== undefined;
+  const text = controlled ? value : internal;
+
+  const setText = (next) => (controlled ? onChange?.(next) : setInternal(next));
 
   const submit = () => {
-    if (!value.trim()) return;
-    onSubmit?.(value.trim());
-    setValue("");
+    if (!text.trim() || disabled) return;
+    onSubmit?.(text.trim());
+    setText("");
   };
 
   return (
@@ -16,12 +26,13 @@ export default function PromptInput({ onSubmit, placeholder }) {
         <i className="bi bi-chat-dots" />
       </span>
       <input
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
+        value={text}
+        disabled={disabled}
+        onChange={(e) => setText(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && submit()}
         placeholder={placeholder}
       />
-      <IconButton onClick={submit} aria-label="Send">
+      <IconButton onClick={submit} disabled={disabled} aria-label="Send">
         <i className="bi bi-arrow-up" />
       </IconButton>
     </div>
