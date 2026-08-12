@@ -1574,3 +1574,31 @@ body {
   border-color: transparent;
   opacity: 1;
 }
+
+.sb-wish-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.35;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.sb-wish-name input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--sb-accent-blue);
+}
+.sb-wish-note {
+  font-size: 0.75rem;
+  color: var(--sb-text-secondary);
+  background: var(--sb-bg-subtle);
+  border-radius: var(--sb-radius-sm);
+  padding: 6px 10px;
+  margin: 0 0 10px;
+}
+.sb-shop-card.is-removing {
+  opacity: 0.55;
+}

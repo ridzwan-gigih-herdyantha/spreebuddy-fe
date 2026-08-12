@@ -11,6 +11,7 @@ import Login from "@/pages/Login";
 import Shop from "@/pages/Shop";
 import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
+import Wishlist from "@/pages/Wishlist";
 import { placeholderRoutes } from "@/config/navigation";
 import {
   maintenanceMode,
@@ -46,9 +47,10 @@ export default function AppRoutes() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
 
         {placeholderRoutes
-          .filter((path) => path !== "/shop")
+          .filter((path) => path !== "/shop" && path !== "/wishlist")
           .map((path) => (
             <Route key={path} path={path} element={<ComingSoon />} />
           ))}
