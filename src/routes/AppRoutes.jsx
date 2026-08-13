@@ -14,6 +14,7 @@ import Cart from "@/pages/Cart";
 import Wishlist from "@/pages/Wishlist";
 import Chat from "@/pages/Chat";
 import Orders from "@/pages/Orders";
+import OrderDetail from "@/pages/OrderDetail";
 import { placeholderRoutes } from "@/config/navigation";
 import {
   maintenanceMode,
@@ -53,6 +54,7 @@ export default function AppRoutes() {
         <Route path="/chat" element={<Chat />} />
 
         <Route path="/orders" element={<Orders />} />
+        <Route path="/orders/:id" element={<OrderDetail />} />
 
         {["/account", "/settings"].map((path) => (
           <Route key={path} path={path} element={<ComingSoon />} />

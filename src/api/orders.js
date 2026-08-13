@@ -7,3 +7,5 @@ export const createOrders = (items) =>
 
 export const listOrders = ({ page = 1, limit = 10 } = {}) =>
   api.get("/api/v1/orders", { params: { page, limit } });
+
+export const getOrder = (id) => api.get(`/api/v1/orders/${id}`);

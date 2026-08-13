@@ -2218,3 +2218,91 @@ body {
 .sb-page-btn:disabled {
   color: var(--sb-border-subtle);
 }
+
+.sb-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sb-timeline li {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 0 0 24px 4px;
+}
+.sb-timeline li:last-child {
+  padding-bottom: 0;
+}
+.sb-timeline li::before {
+  content: "";
+  position: absolute;
+  left: 9px;
+  top: 18px;
+  bottom: 0;
+  width: 2px;
+  background: var(--sb-border-subtle);
+}
+.sb-timeline li:last-child::before {
+  display: none;
+}
+.sb-timeline-dot {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: var(--sb-radius-full);
+  background: var(--sb-border-subtle);
+}
+.sb-timeline li.is-done .sb-timeline-dot,
+.sb-timeline li.is-current .sb-timeline-dot {
+  background: var(--sb-text-muted);
+}
+.sb-timeline li.is-pending.is-done .sb-timeline-dot,
+.sb-timeline li.is-pending.is-current .sb-timeline-dot {
+  background: var(--sb-warning);
+}
+.sb-timeline li.is-processing.is-done .sb-timeline-dot,
+.sb-timeline li.is-processing.is-current .sb-timeline-dot {
+  background: var(--sb-accent-blue);
+}
+.sb-timeline li.is-shipped.is-done .sb-timeline-dot,
+.sb-timeline li.is-shipped.is-current .sb-timeline-dot {
+  background: var(--sb-accent-violet);
+}
+.sb-timeline li.is-delivered.is-done .sb-timeline-dot,
+.sb-timeline li.is-delivered.is-current .sb-timeline-dot {
+  background: var(--sb-success);
+}
+.sb-timeline li.is-cancelled.is-current .sb-timeline-dot {
+  background: var(--sb-text-muted);
+}
+.sb-timeline li.is-current .sb-timeline-dot {
+  box-shadow: 0 0 0 4px var(--sb-bg-subtle);
+}
+.sb-timeline-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+.sb-timeline li:not(.is-done):not(.is-current) .sb-timeline-label {
+  color: var(--sb-text-muted);
+}
+.sb-timeline li > div {
+  flex-grow: 1;
+  min-width: 0;
+}
+.sb-timeline li > .sb-caption {
+  white-space: nowrap;
+}
+
+.sb-help-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--sb-radius-full);
+  background: var(--sb-bg-subtle);
+  color: var(--sb-text-secondary);
+  font-size: 1.25rem;
+}

@@ -31,3 +31,33 @@ export const orderSortOptions = [
 ];
 
 export const ORDERS_PAGE_SIZE = 10;
+
+export const orderDetailContent = {
+  back: { label: "Back to orders", to: "/orders" },
+  itemsTitle: "Items",
+  progressTitle: "Delivery progress",
+  summaryTitle: "Summary",
+  infoTitle: "Order info",
+  helpTitle: "Need help?",
+  helpLead: "Have an issue with this order? The assistant knows its details.",
+  askAssistant: "Ask the assistant",
+  contact: "Contact support",
+  buyAgain: "Buy it again",
+  viewProduct: "View product",
+  paymentNote: "Not required for this demo",
+};
+
+export const orderSteps = [
+  {
+    key: "pending",
+    label: "Pending",
+    note: "Order created and stock reserved",
+  },
+  {
+    key: "processing",
+    label: "Processing",
+    note: "Being prepared for shipment",
+  },
+  { key: "shipped", label: "Shipped", note: "On its way to you" },
+  { key: "delivered", label: "Delivered", note: "Delivered to you" },
+];
