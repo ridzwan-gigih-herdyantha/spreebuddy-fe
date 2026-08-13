@@ -8,13 +8,13 @@ import { LOW_STOCK_THRESHOLD } from "@/data/shop";
 import { useCart } from "@/hooks/useCart";
 
 export default function ProductDetail() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
 
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ["product", id],
-    queryFn: () => getProduct(id),
+    queryKey: ["product", slug],
+    queryFn: () => getProduct(slug),
     retry: false,
   });
 

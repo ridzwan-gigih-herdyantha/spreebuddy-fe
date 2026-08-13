@@ -10,7 +10,7 @@ export default function ShopCard({
   onToggleWishlist,
   onAddToCart,
 }) {
-  const { id, name, category, stock } = product;
+  const { slug, name, category, stock } = product;
   const soldOut = stock <= 0;
   const lowStock = !soldOut && stock <= LOW_STOCK_THRESHOLD;
   const [added, setAdded] = useState(false);
@@ -70,7 +70,7 @@ export default function ShopCard({
         </button>
 
         <Link
-          to={`/product/${id}`}
+          to={`/product/${slug}`}
           className="sb-shop-icon-btn"
           aria-label={`View ${name}`}
         >

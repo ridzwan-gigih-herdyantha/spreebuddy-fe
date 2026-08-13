@@ -48,7 +48,7 @@ export default function AppRoutes() {
         />
 
         <Route path="/shop" element={<Shop />} />
-        <Route path="/product/:id" element={<ProductDetail />} />
+        <Route path="/product/:slug" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/chat" element={<Chat />} />
