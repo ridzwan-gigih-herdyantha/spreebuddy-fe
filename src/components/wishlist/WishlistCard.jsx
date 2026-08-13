@@ -68,7 +68,7 @@ export default function WishlistCard({
 
       <div className="sb-shop-actions">
         <Link
-          to={`/product/${product?.id}`}
+          to={`/product/${product?.slug}`}
           className="btn btn-primary rounded-pill flex-grow-1"
         >
           View
