@@ -1,8 +1,8 @@
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ShopCard from "@/components/shop/ShopCard";
-import ShopToolbar from "@/components/shop/ShopToolbar";
+import FilterBar from "@/components/ui/FilterBar";
 import { listCategories, listProducts } from "@/api/products";
 import {
   addToWishlist,
@@ -12,7 +12,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { currentPrice } from "@/utils/format";
-import { PAGE_SIZE, shopContent } from "@/data/shop";
+import { PAGE_SIZE, shopContent, sortOptions } from "@/data/shop";
 
 const WISHLIST_TOGGLE = ["wishlists", "toggle"];
 
@@ -33,10 +33,12 @@ export default function Shop() {
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [category, setCategory] = useState(allCategories);
   const [sort, setSort] = useState("relevance");
+  const [search, setSearch] = useState("");
+  const term = useDeferredValue(search);
 
   const products = useQuery({
-    queryKey: ["products", limit],
-    queryFn: () => listProducts({ page: 1, limit }),
+    queryKey: ["products", limit, term],
+    queryFn: () => listProducts({ page: 1, limit, search: term }),
     placeholderData: (previous) => previous,
   });
 
@@ -125,11 +127,15 @@ export default function Shop() {
         </Link>
       </div>
 
-      <ShopToolbar
-        categories={categoryNames}
-        category={category}
-        onCategory={setCategory}
+      <FilterBar
+        search={search}
+        onSearch={setSearch}
+        searchPlaceholder="Search products"
+        chips={[allCategories, ...categoryNames]}
+        active={category}
+        onChip={setCategory}
         sort={sort}
+        sortOptions={sortOptions}
         onSort={setSort}
       />
 
