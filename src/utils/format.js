@@ -15,9 +15,20 @@ export const currentPrice = (product) =>
 
 const DAY = 86_400_000;
 
+// The API sends dates as DD/MM/YYYY, which Date parses as MM/DD/YYYY.
+export function parseApiDate(value) {
+  if (!value) return null;
+  const dmy = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(value);
+  const date = dmy
+    ? new Date(Number(dmy[3]), Number(dmy[2]) - 1, Number(dmy[1]))
+    : new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
 export function formatRelative(value) {
-  if (!value) return "";
-  const days = Math.floor((Date.now() - new Date(value).getTime()) / DAY);
+  const date = parseApiDate(value);
+  if (!date) return "";
+  const days = Math.floor((Date.now() - date.getTime()) / DAY);
   if (days <= 0) return "today";
   if (days === 1) return "yesterday";
   if (days < 7) return `${days} days ago`;

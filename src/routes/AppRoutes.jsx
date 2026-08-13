@@ -13,6 +13,7 @@ import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
 import Wishlist from "@/pages/Wishlist";
 import Chat from "@/pages/Chat";
+import ChatHistory from "@/pages/ChatHistory";
 import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
 import { placeholderRoutes } from "@/config/navigation";
@@ -52,6 +53,7 @@ export default function AppRoutes() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/chat" element={<Chat />} />
+        <Route path="/chat-history" element={<ChatHistory />} />
 
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
@@ -63,7 +65,10 @@ export default function AppRoutes() {
         {placeholderRoutes
           .filter(
             (path) =>
-              path !== "/shop" && path !== "/wishlist" && path !== "/chat",
+              path !== "/shop" &&
+              path !== "/wishlist" &&
+              path !== "/chat" &&
+              path !== "/chat-history",
           )
           .map((path) => (
             <Route key={path} path={path} element={<ComingSoon />} />
