@@ -38,6 +38,11 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
+      <Route element={<Layout footer={false} />}>
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat-history" element={<ChatHistory />} />
+      </Route>
+
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
 
@@ -52,9 +57,6 @@ export default function AppRoutes() {
         <Route path="/product/:slug" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/chat" element={<Chat />} />
-        <Route path="/chat-history" element={<ChatHistory />} />
-
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
 

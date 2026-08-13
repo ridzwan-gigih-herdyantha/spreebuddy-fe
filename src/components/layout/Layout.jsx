@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import AppNavbar from "./Navbar";
 import Footer from "./Footer";
 
-export default function Layout() {
+export default function Layout({ footer = true }) {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
 
@@ -16,7 +16,7 @@ export default function Layout() {
       <main className="flex-grow-1">
         <Outlet context={{ query }} />
       </main>
-      <Footer />
+      {footer && <Footer />}
     </div>
   );
 }
