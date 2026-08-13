@@ -1039,12 +1039,12 @@ body {
 
 .sb-composer {
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
+  flex-direction: column;
+  gap: 0.5rem;
   background: var(--sb-bg-surface);
   border: 1px solid var(--sb-border-subtle);
-  border-radius: var(--sb-radius-full);
-  padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+  border-radius: var(--sb-radius-xl);
+  padding: 0.875rem 1rem 0.75rem;
   box-shadow: var(--sb-shadow-sm);
   transition:
     border-color 0.15s ease,
@@ -1054,16 +1054,26 @@ body {
   border-color: var(--sb-accent-blue);
   box-shadow: var(--sb-focus-ring);
 }
-.sb-composer input {
-  flex: 1;
-  min-width: 0;
+.sb-composer textarea {
+  width: 100%;
   border: 0;
   outline: 0;
+  padding: 0;
   background: transparent;
+  font-family: inherit;
   font-size: 1rem;
-  padding-block: 0.5rem;
+  line-height: 1.5;
+  resize: none;
+  max-height: 160px;
+  overflow-y: auto;
 }
-.sb-composer input::placeholder {
+.sb-composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sb-composer textarea::placeholder {
   color: var(--sb-text-muted);
 }
 
