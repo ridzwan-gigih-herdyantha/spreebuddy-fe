@@ -16,6 +16,11 @@ import Chat from "@/pages/Chat";
 import ChatHistory from "@/pages/ChatHistory";
 import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
+import AdminLayout from "@/components/admin/AdminLayout";
+import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminSoon from "@/pages/admin/AdminSoon";
+import Dashboard from "@/pages/admin/Dashboard";
+import { adminNav, adminRoutes } from "@/config/admin";
 import { placeholderRoutes } from "@/config/navigation";
 import {
   maintenanceMode,
@@ -37,6 +42,22 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
+      <Route path={adminRoutes.login} element={<AdminLogin />} />
+
+      <Route path={adminRoutes.dashboard} element={<AdminLayout />}>
+        <Route index element={<Dashboard />} />
+
+        {adminNav
+          .filter(({ end }) => !end)
+          .map(({ to, label }) => (
+            <Route
+              key={to}
+              path={to.replace(`${adminRoutes.dashboard}/`, "")}
+              element={<AdminSoon title={label} />}
+            />
+          ))}
+      </Route>
 
       <Route element={<Layout footer={false} />}>
         <Route path="/chat" element={<Chat />} />
