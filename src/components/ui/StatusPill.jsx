@@ -4,6 +4,9 @@ const TONES = {
   shipped: "is-shipped",
   delivered: "is-delivered",
   cancelled: "is-cancelled",
+  "in stock": "is-instock",
+  "low stock": "is-lowstock",
+  "out of stock": "is-outofstock",
 };
 
 export default function StatusPill({ status }) {

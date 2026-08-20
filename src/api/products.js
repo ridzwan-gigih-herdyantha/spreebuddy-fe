@@ -1,8 +1,14 @@
 import api from "./axios";
 
-export const listProducts = ({ page = 1, limit = 8, search } = {}) =>
+// `category` matches on the exact category name, not its id.
+export const listProducts = ({ page = 1, limit = 8, search, category } = {}) =>
   api.get("/api/v1/products", {
-    params: { page, limit, ...(search ? { search } : {}) },
+    params: {
+      page,
+      limit,
+      ...(search ? { search } : {}),
+      ...(category ? { category } : {}),
+    },
   });
 
 export const listCategories = () =>

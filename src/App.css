@@ -2748,3 +2748,124 @@ body {
   background: rgba(255, 255, 255, 0.16);
   color: var(--sb-text-on-dark);
 }
+
+.sb-status-pill.is-instock {
+  background: var(--sb-success-soft);
+  color: var(--sb-success);
+}
+.sb-status-pill.is-lowstock {
+  background: rgba(247, 144, 9, 0.12);
+  color: var(--sb-warning);
+}
+.sb-status-pill.is-outofstock {
+  background: var(--sb-bg-subtle);
+  color: var(--sb-text-muted);
+}
+
+.sb-filterbar-trailing {
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+.sb-admin-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -16px 0 24px;
+  font-size: 0.8125rem;
+  color: var(--sb-text-secondary);
+}
+.sb-admin-hint i {
+  color: var(--sb-accent-blue);
+}
+
+.sb-bulkbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: var(--sb-radius-lg);
+  background: var(--sb-accent-blue-soft);
+  font-size: 0.8125rem;
+  color: var(--sb-accent-blue);
+}
+.sb-bulkbar .sb-pill-outline:last-child {
+  margin-left: auto;
+}
+
+.sb-table-check {
+  width: 48px;
+}
+.sb-prod-slug {
+  color: var(--sb-text-muted);
+}
+
+.sb-row-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+.sb-row-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: var(--sb-radius-md);
+  background: none;
+  color: var(--sb-text-muted);
+  text-decoration: none;
+}
+.sb-row-action:hover:not(:disabled) {
+  background: var(--sb-bg-subtle);
+  color: var(--sb-accent-blue);
+}
+.sb-row-action:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sb-page-btn.is-active {
+  background: var(--sb-accent-blue);
+  border-color: var(--sb-accent-blue);
+  color: var(--sb-text-on-dark);
+  font-weight: 600;
+}
+
+.sb-admin-head .sb-lead {
+  font-size: 0.9375rem;
+}
+
+.sb-prod-cell {
+  max-width: 260px;
+}
+.sb-prod-slug {
+  font-size: 0.6875rem;
+}
+.sb-table .sb-order-name {
+  font-size: 0.8125rem;
+}
+.sb-table .sb-order-total {
+  font-size: 0.8125rem;
+}
+.sb-table .sb-price-old {
+  font-size: 0.6875rem;
+}
+.sb-table .sb-pill {
+  display: inline-block;
+  max-width: 150px;
+  padding: 0.1875rem 0.625rem;
+  font-size: 0.6875rem;
+  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.sb-table .sb-status-pill {
+  font-size: 0.6875rem;
+}

@@ -10,6 +10,7 @@ export default function FilterBar({
   sort,
   sortOptions,
   onSort,
+  trailing,
 }) {
   return (
     <div className="sb-card sb-filterbar">
@@ -43,6 +44,8 @@ export default function FilterBar({
       {sortOptions && (
         <Select value={sort} options={sortOptions} onChange={onSort} />
       )}
+
+      {trailing && <span className="sb-filterbar-trailing">{trailing}</span>}
     </div>
   );
 }

@@ -31,7 +31,7 @@ export const adminDeniedContent = {
 export const dashboardContent = {
   title: "Dashboard",
   lead: "Store activity for the selected window.",
-  addProduct: { label: "Add product", to: adminRoutes.products },
+  addProduct: { label: "Add product", to: `${adminRoutes.products}/new` },
   chartTitle: "Orders over time",
   breakdownTitle: "Orders by status",
   recentTitle: "Recent orders",
@@ -56,3 +56,32 @@ export const adminSoonContent = {
 export const ADMIN_ORDERS_SAMPLE = 100;
 export const CHART_BUCKETS = 8;
 export const RECENT_ORDERS = 6;
+
+export const productsContent = {
+  title: "Products",
+  lead: "in the catalogue. Changes are picked up by the assistant immediately.",
+  leadFiltered: "products match this filter.",
+  add: { label: "Add product", to: `${adminRoutes.products}/new` },
+  searchPlaceholder: "Search products",
+  allCategories: "All",
+  empty: {
+    title: "No products match",
+    lead: "Try another category, or clear the search.",
+  },
+  bulk: {
+    count: "selected",
+    selectAll: "Select all",
+    allSelected: "Every product matching this filter is selected.",
+    clear: "Clear",
+    remove: "Delete selected",
+    disabled:
+      "Bulk delete needs a products endpoint that is not documented yet.",
+  },
+  actions: {
+    view: "View in the shop",
+    edit: "Edit",
+    editDisabled: "Editing needs a product update endpoint.",
+  },
+};
+
+export const PRODUCTS_PAGE_SIZE = 15;

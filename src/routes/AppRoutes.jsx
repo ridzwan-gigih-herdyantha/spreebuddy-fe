@@ -18,9 +18,10 @@ import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminProducts from "@/pages/admin/AdminProducts";
 import AdminSoon from "@/pages/admin/AdminSoon";
 import Dashboard from "@/pages/admin/Dashboard";
-import { adminNav, adminRoutes } from "@/config/admin";
+import { adminRoutes } from "@/config/admin";
 import { placeholderRoutes } from "@/config/navigation";
 import {
   maintenanceMode,
@@ -47,16 +48,18 @@ export default function AppRoutes() {
 
       <Route path={adminRoutes.dashboard} element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
-
-        {adminNav
-          .filter(({ end }) => !end)
-          .map(({ to, label }) => (
-            <Route
-              key={to}
-              path={to.replace(`${adminRoutes.dashboard}/`, "")}
-              element={<AdminSoon title={label} />}
-            />
-          ))}
+        <Route path="products" element={<AdminProducts />} />
+        <Route
+          path="products/new"
+          element={<AdminSoon title="Add product" />}
+        />
+        <Route path="orders" element={<AdminSoon title="Orders" />} />
+        <Route path="users" element={<AdminSoon title="Users" />} />
+        <Route
+          path="chat-sessions"
+          element={<AdminSoon title="Chat sessions" />}
+        />
+        <Route path="settings" element={<AdminSoon title="Settings" />} />
       </Route>
 
       <Route element={<Layout footer={false} />}>
