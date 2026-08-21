@@ -71,17 +71,101 @@ export const productsContent = {
   bulk: {
     count: "selected",
     selectAll: "Select all",
-    allSelected: "Every product matching this filter is selected.",
+    resolving: "Collecting…",
     clear: "Clear",
     remove: "Delete selected",
-    disabled:
-      "Bulk delete needs a products endpoint that is not documented yet.",
   },
   actions: {
-    view: "View in the shop",
+    detail: "Open",
     edit: "Edit",
-    editDisabled: "Editing needs a product update endpoint.",
+    remove: "Delete",
   },
+};
+
+export const productFormContent = {
+  create: {
+    title: "Add product",
+    lead: "It goes live in the catalogue as soon as you save.",
+    submit: "Create product",
+    pending: "Creating…",
+  },
+  edit: {
+    title: "Edit product",
+    lead: "Saving regenerates the slug, so any old link stops resolving.",
+    submit: "Save changes",
+    pending: "Saving…",
+  },
+  back: { label: "Back to products", to: adminRoutes.products },
+  sections: {
+    details: "Details",
+    pricing: "Pricing",
+    inventory: "Inventory",
+    dimensions: "Dimensions",
+  },
+  fields: {
+    name: "Name",
+    description: "Description",
+    category: "Category",
+    type: "Type",
+    regularPrice: "Regular price",
+    salePrice: "Sale price",
+    stock: "Stock",
+    weight: "Weight",
+    length: "Length",
+    width: "Width",
+    height: "Height",
+  },
+  help: {
+    salePrice:
+      "Leave empty for no discount. Must not exceed the regular price.",
+    weight: "In kilograms.",
+    dimensions: "In centimetres. Fill all three, or leave all three empty.",
+  },
+  errors: {
+    dimensions: "Enter all three sides, or clear them all.",
+    salePrice: "Sale price cannot be higher than the regular price.",
+  },
+  cancel: "Cancel",
+};
+
+export const productTypes = [
+  { id: "physical", label: "Physical" },
+  { id: "digital", label: "Digital" },
+];
+
+export const productDetailContent = {
+  back: { label: "Back to products", to: adminRoutes.products },
+  edit: "Edit",
+  remove: "Delete",
+  viewInShop: "View in the shop",
+  descriptionTitle: "Description",
+  specsTitle: "Specifications",
+  pricingTitle: "Pricing",
+  noDescription: "No description yet.",
+  fields: {
+    slug: "Slug",
+    type: "Type",
+    category: "Category",
+    stock: "Stock",
+    weight: "Weight",
+    dimensions: "Dimensions",
+    created: "Created",
+    updated: "Updated",
+    regularPrice: "Regular price",
+    salePrice: "Sale price",
+    discount: "Discount",
+  },
+};
+
+export const productDeleteContent = {
+  title: "Delete this product?",
+  bodyOne: "It is removed from the catalogue and the assistant straight away.",
+  bodyMany:
+    "They are removed from the catalogue and the assistant straight away.",
+  irreversible: "This cannot be undone.",
+  confirm: "Delete",
+  cancel: "Keep it",
+  partial: "Some products could not be deleted.",
 };
 
 export const PRODUCTS_PAGE_SIZE = 15;

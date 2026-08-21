@@ -1,12 +1,23 @@
 import { useDeferredValue, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import FilterBar from "@/components/ui/FilterBar";
 import StatusPill from "@/components/ui/StatusPill";
-import { listCategories, listProducts } from "@/api/products";
+import {
+  deleteProduct,
+  fetchProductIds,
+  listCategories,
+  listProducts,
+} from "@/api/products";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
+import { adminRoutes } from "@/config/admin";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
-import { PRODUCTS_PAGE_SIZE, productsContent } from "@/data/admin";
+import {
+  PRODUCTS_PAGE_SIZE,
+  productDeleteContent,
+  productsContent,
+} from "@/data/admin";
 
 const PAGE_SPAN = 3;
 
@@ -23,12 +34,14 @@ function pageWindow(current, totalPages) {
 
 export default function AdminProducts() {
   const content = productsContent;
+  const removeCopy = productDeleteContent;
+  const queryClient = useQueryClient();
 
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState(content.allCategories);
   const [selected, setSelected] = useState(() => new Set());
-  const [allMatching, setAllMatching] = useState(false);
+  const [pending, setPending] = useState(null);
   const term = useDeferredValue(search);
 
   const filter = category === content.allCategories ? undefined : category;
@@ -62,52 +75,66 @@ export default function AdminProducts() {
     [categories.data],
   );
 
-  // Narrowing the filter resets to page one, so the two only ever disagree
-  // between a filter change and its refetch.
   const current = Math.min(page, totalPages);
   const pages = pageWindow(current, totalPages);
 
-  const isChecked = (id) => allMatching || selected.has(id);
-  const allChecked = items.length > 0 && items.every(({ id }) => isChecked(id));
-  const selectedCount = allMatching ? total : selected.size;
-  const canSelectAll = !allMatching && allChecked && total > items.length;
+  const allChecked =
+    items.length > 0 && items.every(({ id }) => selected.has(id));
+  const canSelectAll = allChecked && total > selected.size;
+
+  // "Select all" resolves real ids, so a bulk action never acts on a count it
+  // cannot enumerate.
+  const resolveAll = useMutation({
+    mutationFn: () => fetchProductIds({ search: term, category: filter }),
+    onSuccess: (ids) => setSelected(new Set(ids)),
+  });
+
+  const remove = useMutation({
+    mutationFn: async (ids) => {
+      const results = await Promise.allSettled(ids.map(deleteProduct));
+      const failed = results.filter(({ status }) => status === "rejected");
+      if (failed.length) {
+        throw new Error(
+          `${removeCopy.partial} (${failed.length}/${ids.length})`,
+        );
+      }
+      return ids;
+    },
+    onSuccess: (ids) => {
+      setSelected((state) => {
+        const next = new Set(state);
+        ids.forEach((id) => next.delete(id));
+        return next;
+      });
+      setPending(null);
+      queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
 
   const resetFilter = (apply) => {
     apply();
     setPage(1);
-    setAllMatching(false);
   };
 
-  const clearSelection = () => {
-    setAllMatching(false);
-    setSelected(new Set());
-  };
-
-  const toggleOne = (id) => {
-    if (allMatching) {
-      setAllMatching(false);
-      setSelected(
-        new Set(items.map((product) => product.id).filter((it) => it !== id)),
-      );
-      return;
-    }
-
+  const toggleOne = (id) =>
     setSelected((state) => {
       const next = new Set(state);
       if (next.has(id)) next.delete(id);
       else next.add(id);
       return next;
     });
-  };
 
-  const toggleAll = () => {
-    if (allMatching) return clearSelection();
-
+  const toggleAll = () =>
     setSelected((state) => {
       const next = new Set(state);
       items.forEach(({ id }) => (allChecked ? next.delete(id) : next.add(id)));
       return next;
     });
+
+  const askDelete = (ids, label) => {
+    remove.reset();
+    setPending({ ids, label });
   };
 
   return (
@@ -150,31 +177,29 @@ export default function AdminProducts() {
         </p>
       )}
 
-      {selectedCount > 0 && (
+      {selected.size > 0 && (
         <div className="sb-bulkbar">
           <span className="fw-semibold">
-            {selectedCount} {content.bulk.count}
+            {selected.size} {content.bulk.count}
           </span>
 
           {canSelectAll && (
             <button
               type="button"
               className="sb-pill sb-pill-outline"
-              onClick={() => setAllMatching(true)}
+              disabled={resolveAll.isPending}
+              onClick={() => resolveAll.mutate()}
             >
-              {content.bulk.selectAll} {total}
+              {resolveAll.isPending
+                ? content.bulk.resolving
+                : `${content.bulk.selectAll} ${total}`}
             </button>
-          )}
-
-          {allMatching && (
-            <span className="sb-meta">{content.bulk.allSelected}</span>
           )}
 
           <button
             type="button"
-            className="sb-pill sb-pill-outline"
-            disabled
-            title={content.bulk.disabled}
+            className="sb-pill sb-pill-danger"
+            onClick={() => askDelete([...selected])}
           >
             <i className="bi bi-trash3" /> {content.bulk.remove}
           </button>
@@ -182,7 +207,7 @@ export default function AdminProducts() {
           <button
             type="button"
             className="sb-pill sb-pill-outline"
-            onClick={clearSelection}
+            onClick={() => setSelected(new Set())}
           >
             {content.bulk.clear}
           </button>
@@ -229,7 +254,7 @@ export default function AdminProducts() {
                         type="checkbox"
                         className="sb-check-box"
                         aria-label={`Select ${product.name}`}
-                        checked={isChecked(product.id)}
+                        checked={selected.has(product.id)}
                         onChange={() => toggleOne(product.id)}
                       />
                     </td>
@@ -240,12 +265,13 @@ export default function AdminProducts() {
                           <i className="bi bi-box-seam" />
                         </span>
                         <div className="min-w-0 sb-prod-cell">
-                          <div
-                            className="sb-order-name text-truncate"
+                          <Link
+                            to={`${adminRoutes.products}/${product.slug}`}
+                            className="sb-order-name sb-prod-link text-truncate"
                             title={product.name}
                           >
                             {product.name}
-                          </div>
+                          </Link>
                           <div className="sb-mono sb-prod-slug text-truncate">
                             {product.slug}
                           </div>
@@ -283,21 +309,29 @@ export default function AdminProducts() {
                     <td>
                       <div className="sb-row-actions">
                         <Link
-                          to={`/product/${product.slug}`}
+                          to={`${adminRoutes.products}/${product.slug}`}
                           className="sb-row-action"
-                          title={content.actions.view}
-                          aria-label={`${content.actions.view}: ${product.name}`}
+                          title={content.actions.detail}
+                          aria-label={`${content.actions.detail} ${product.name}`}
                         >
                           <i className="bi bi-eye" />
                         </Link>
-                        <button
-                          type="button"
+                        <Link
+                          to={`${adminRoutes.products}/${product.slug}/edit`}
                           className="sb-row-action"
-                          disabled
-                          title={content.actions.editDisabled}
+                          title={content.actions.edit}
                           aria-label={`${content.actions.edit} ${product.name}`}
                         >
                           <i className="bi bi-pencil" />
+                        </Link>
+                        <button
+                          type="button"
+                          className="sb-row-action is-danger"
+                          title={content.actions.remove}
+                          aria-label={`${content.actions.remove} ${product.name}`}
+                          onClick={() => askDelete([product.id], product.name)}
+                        >
+                          <i className="bi bi-trash3" />
                         </button>
                       </div>
                     </td>
@@ -352,6 +386,32 @@ export default function AdminProducts() {
           )}
         </div>
       </section>
+
+      <ConfirmDialog
+        open={Boolean(pending)}
+        title={removeCopy.title}
+        body={
+          <>
+            {pending?.label ? (
+              <>
+                <strong>{pending.label}</strong> — {removeCopy.bodyOne}
+              </>
+            ) : (
+              <>
+                <strong>{pending?.ids.length} products</strong> —{" "}
+                {removeCopy.bodyMany}
+              </>
+            )}{" "}
+            {removeCopy.irreversible}
+          </>
+        }
+        confirmLabel={removeCopy.confirm}
+        cancelLabel={removeCopy.cancel}
+        pending={remove.isPending}
+        error={remove.error?.message}
+        onConfirm={() => remove.mutate(pending.ids)}
+        onCancel={() => (remove.isPending ? null : setPending(null))}
+      />
     </>
   );
 }

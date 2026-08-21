@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
-export default function Select({ label, value, options, onChange }) {
+export default function Select({
+  label,
+  value,
+  options,
+  onChange,
+  placeholder,
+  className = "",
+}) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const selected = options.find((option) => option.id === value);
@@ -24,7 +31,7 @@ export default function Select({ label, value, options, onChange }) {
   }, [open]);
 
   return (
-    <div className="sb-select" data-open={open} ref={ref}>
+    <div className={`sb-select ${className}`} data-open={open} ref={ref}>
       {label && <span className="sb-meta">{label}</span>}
 
       <button
@@ -34,7 +41,11 @@ export default function Select({ label, value, options, onChange }) {
         aria-expanded={open}
         onClick={() => setOpen((state) => !state)}
       >
-        <span className="text-truncate">{selected?.label}</span>
+        <span
+          className={`text-truncate ${selected ? "" : "sb-select-placeholder"}`}
+        >
+          {selected?.label ?? placeholder}
+        </span>
         <i className="bi bi-chevron-down" />
       </button>
 

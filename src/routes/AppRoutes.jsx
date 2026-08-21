@@ -18,6 +18,8 @@ import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminProductDetail from "@/pages/admin/AdminProductDetail";
+import AdminProductForm from "@/pages/admin/AdminProductForm";
 import AdminProducts from "@/pages/admin/AdminProducts";
 import AdminSoon from "@/pages/admin/AdminSoon";
 import Dashboard from "@/pages/admin/Dashboard";
@@ -49,10 +51,9 @@ export default function AppRoutes() {
       <Route path={adminRoutes.dashboard} element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="products" element={<AdminProducts />} />
-        <Route
-          path="products/new"
-          element={<AdminSoon title="Add product" />}
-        />
+        <Route path="products/new" element={<AdminProductForm />} />
+        <Route path="products/:slug" element={<AdminProductDetail />} />
+        <Route path="products/:slug/edit" element={<AdminProductForm />} />
         <Route path="orders" element={<AdminSoon title="Orders" />} />
         <Route path="users" element={<AdminSoon title="Users" />} />
         <Route

@@ -2869,3 +2869,150 @@ body {
 .sb-table .sb-status-pill {
   font-size: 0.6875rem;
 }
+
+.sb-textarea {
+  height: auto;
+  padding-block: 12px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.sb-form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sb-dimension-field .sb-field-label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--sb-text-muted);
+}
+
+.sb-admin-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--sb-text-muted);
+  text-decoration: none;
+}
+.sb-admin-back:hover {
+  color: var(--sb-accent-blue);
+}
+
+.sb-prod-link {
+  color: inherit;
+  text-decoration: none;
+  display: block;
+}
+.sb-prod-link:hover {
+  color: var(--sb-accent-blue);
+}
+
+.sb-pill-danger {
+  background: rgba(220, 53, 69, 0.1);
+  color: #d92d20;
+}
+.sb-pill-danger:hover:not(:disabled) {
+  background: rgba(220, 53, 69, 0.16);
+}
+.sb-row-action.is-danger:hover:not(:disabled) {
+  background: rgba(220, 53, 69, 0.1);
+  color: #d92d20;
+}
+
+.sb-detail-price {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--sb-accent-blue);
+}
+.sb-spec-list {
+  display: flex;
+  flex-direction: column;
+}
+.sb-spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--sb-border-subtle);
+  font-size: 0.8125rem;
+}
+.sb-spec-row:last-child {
+  border-bottom: 0;
+}
+.sb-spec-label {
+  color: var(--sb-text-secondary);
+}
+.sb-spec-value {
+  font-weight: 600;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.sb-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1080;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 18, 34, 0.55);
+}
+.sb-modal {
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  border-radius: var(--sb-radius-xl);
+  background: var(--sb-bg-surface);
+  box-shadow: var(--sb-shadow-lg);
+}
+.sb-modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  border-radius: var(--sb-radius-md);
+  background: rgba(220, 53, 69, 0.1);
+  color: #d92d20;
+  font-size: 1.25rem;
+}
+.sb-modal-body {
+  font-size: 0.9375rem;
+}
+.sb-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.sb-card-overflow {
+  overflow: visible;
+}
+.sb-select-placeholder {
+  color: var(--sb-text-muted);
+}
+.sb-select-field {
+  display: block;
+}
+.sb-select-field .sb-select-trigger {
+  width: 100%;
+  min-width: 0;
+  height: 48px;
+  padding-inline: 16px;
+  font-size: 1rem;
+  font-weight: 400;
+}
+.sb-select-field .sb-select-menu {
+  left: 0;
+  right: 0;
+  min-width: 0;
+  max-height: 260px;
+  overflow-y: auto;
+}
