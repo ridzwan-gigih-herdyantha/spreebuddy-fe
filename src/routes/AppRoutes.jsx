@@ -17,6 +17,7 @@ import ChatHistory from "@/pages/ChatHistory";
 import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
 import AdminLayout from "@/components/admin/AdminLayout";
+import AdminChatSessions from "@/pages/admin/AdminChatSessions";
 import AdminLogin from "@/pages/admin/AdminLogin";
 import AdminOrderDetail from "@/pages/admin/AdminOrderDetail";
 import AdminOrders from "@/pages/admin/AdminOrders";
@@ -64,10 +65,7 @@ export default function AppRoutes() {
         <Route path="users" element={<AdminUsers />} />
         <Route path="users/:id" element={<AdminUserDetail />} />
         <Route path="users/:id/edit" element={<AdminUserForm />} />
-        <Route
-          path="chat-sessions"
-          element={<AdminSoon title="Chat sessions" />}
-        />
+        <Route path="chat-sessions" element={<AdminChatSessions />} />
         <Route path="settings" element={<AdminSoon title="Settings" />} />
       </Route>
 

@@ -315,3 +315,75 @@ export const userFormContent = {
 };
 
 export const USERS_PAGE_SIZE = 15;
+
+export const chatAdminContent = {
+  title: "Chat sessions",
+  lead: "How the assistant is being used across the store.",
+  chartTitle: "Chat activity",
+  chartCaption: "messages per day",
+  usersTitle: "Busiest users",
+  usageTitle: "AI account",
+  healthTitle: "Reply health",
+  emptyUsers: "Nobody has chatted yet.",
+  stats: {
+    sessions: "Sessions",
+    sessionsNote: "conversations started",
+    today: "Messages today",
+    todayNote: "since midnight UTC",
+    people: "People chatting",
+    peopleNote: "accounts with a session",
+    messages: "Messages",
+    messagesNote: "user and assistant turns",
+  },
+  usage: {
+    model: "Model",
+    plan: "Plan",
+    free: "Free tier",
+    paid: "Credits",
+    limit: "Spending limit",
+    remaining: "Remaining",
+    spentTotal: "Spent all time",
+    spentToday: "Spent today",
+    spentWeek: "Spent this week",
+    spentMonth: "Spent this month",
+    reset: "Limit resets",
+    expires: "Key expires",
+    uncapped: "Uncapped",
+    never: "Never",
+    noCredit: "No credit on this key",
+    unreachable: "Could not reach the AI provider.",
+    unconfigured: "No AI key is configured on the server.",
+    note: "These are spending limits in USD, not request quotas. Free models cost nothing, so a free-tier key shows no spend. The separate free-model daily request cap is not part of the provider API and only surfaces in a rejected request.",
+  },
+  health: {
+    replies: "Assistant replies",
+    failed: "Gave up",
+    rate: "Failure rate",
+    note: "A reply counts as given up when the assistant produced no answer and fell back to an apology.",
+  },
+  columns: { user: "User", sessions: "Sessions", messages: "Messages" },
+  meter: {
+    title: "Requests and tokens",
+    modelsTitle: "Models served",
+    requestsToday: "Requests today",
+    requestsTotal: "Requests all time",
+    capLabel: "of the free daily cap",
+    capNote:
+      "OpenRouter documents 50 free-model requests per day under $10 of credits, and 1,000 at $10 or more. The remaining count is not returned by any endpoint, so this bar counts the calls this server made and assumes the lower tier.",
+    observed: "Last rejection reported",
+    tokensToday: "Tokens today",
+    tokensTotal: "Tokens all time",
+    prompt: "Prompt",
+    completion: "Completion",
+    perRequest: "Average per request",
+    context: "Context window",
+    maxCompletion: "Max completion",
+    failedToday: "Rejected today",
+    fanoutNote:
+      "One user message can cost several requests: each tool step is its own call, and the title is another.",
+    emptyModels: "No calls recorded yet.",
+    columns: { model: "Model", calls: "Calls", tokens: "Tokens" },
+  },
+};
+
+export const FREE_DAILY_CAP = 50;

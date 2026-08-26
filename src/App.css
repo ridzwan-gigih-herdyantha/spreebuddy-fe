@@ -3052,3 +3052,8 @@ body {
   height: 56px;
   font-size: 18px;
 }
+
+/* Panels whose content is a table still fill an equal-height card. */
+.sb-panel > .sb-table-wrap {
+  flex: 1;
+}

@@ -21,3 +21,7 @@ export const updateUser = ({ id, avatar, ...fields }) => {
 
   return api.patch(`/api/v1/users/${id}`, form);
 };
+
+export const getChatStats = () => api.get("/api/v1/sessions/stats");
+
+export const getAiUsage = () => api.get("/api/v1/sessions/usage");
