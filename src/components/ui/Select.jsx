@@ -6,6 +6,7 @@ export default function Select({
   options,
   onChange,
   placeholder,
+  icon,
   className = "",
 }) {
   const [open, setOpen] = useState(false);
@@ -41,6 +42,7 @@ export default function Select({
         aria-expanded={open}
         onClick={() => setOpen((state) => !state)}
       >
+        {icon && <i className={`bi ${icon} sb-select-icon`} />}
         <span
           className={`text-truncate ${selected ? "" : "sb-select-placeholder"}`}
         >

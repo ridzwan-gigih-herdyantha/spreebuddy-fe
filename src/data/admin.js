@@ -32,7 +32,13 @@ export const dashboardContent = {
   title: "Dashboard",
   lead: "Store activity for the selected window.",
   addProduct: { label: "Add product", to: `${adminRoutes.products}/new` },
+  rangeLabel: "Range",
   chartTitle: "Orders over time",
+  chartCaption: "days, one bar per day",
+  chartUnit: "orders",
+  revenueNote: "excluding cancelled",
+  productsNote: "in the catalogue",
+  customersNote: "registered accounts",
   breakdownTitle: "Orders by status",
   recentTitle: "Recent orders",
   viewAll: { label: "View all", to: adminRoutes.orders },
@@ -45,12 +51,6 @@ export const dashboardRanges = [
   { id: "90", label: "Last 90 days" },
   { id: "all", label: "All time" },
 ];
-
-// GET /orders has no aggregate endpoint, so the dashboard derives its figures
-// from the newest slice of orders and says so in the UI.
-export const ADMIN_ORDERS_SAMPLE = 100;
-export const CHART_BUCKETS = 8;
-export const RECENT_ORDERS = 6;
 
 export const productsContent = {
   title: "Products",

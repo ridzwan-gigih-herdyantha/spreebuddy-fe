@@ -10,6 +10,9 @@ export const listOrders = ({ page = 1, limit = 10, status } = {}) =>
     params: { page, limit, ...(status ? { status } : {}) },
   });
 
+export const getOrderStats = ({ days = "30" } = {}) =>
+  api.get("/api/v1/orders/stats", { params: { days } });
+
 export const getOrder = (id) => api.get(`/api/v1/orders/${id}`);
 
 export const updateOrderStatus = ({ id, status }) =>

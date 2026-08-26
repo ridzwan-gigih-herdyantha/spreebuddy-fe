@@ -2641,44 +2641,70 @@ body {
 .sb-chart {
   display: flex;
   gap: 12px;
-  height: 220px;
+  height: 240px;
 }
 .sb-chart-axis {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding-bottom: 24px;
+  padding-top: 18px;
+  padding-bottom: 26px;
   font-size: 0.6875rem;
   color: var(--sb-text-muted);
   text-align: right;
 }
 .sb-chart-plot {
+  position: relative;
   display: flex;
   flex: 1;
   align-items: stretch;
   gap: 8px;
-  border-left: 1px solid var(--sb-border-subtle);
   padding-left: 12px;
+  border-left: 1px solid var(--sb-border-subtle);
+}
+.sb-chart-lines {
+  position: absolute;
+  left: 12px;
+  right: 0;
+  top: 18px;
+  bottom: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.sb-chart-lines span {
+  height: 1px;
+  background: var(--sb-border-subtle);
+  opacity: 0.7;
 }
 .sb-chart-col {
+  position: relative;
   display: flex;
   flex: 1;
   flex-direction: column;
   min-width: 0;
 }
+.sb-chart-value {
+  height: 18px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--sb-text-secondary);
+  text-align: center;
+}
 .sb-chart-bar {
   display: flex;
   flex: 1;
   align-items: flex-end;
-  border-bottom: 1px solid var(--sb-border-subtle);
 }
 .sb-chart-fill {
   width: 100%;
-  min-height: 2px;
+  min-height: 3px;
   border-radius: var(--sb-radius-xs) var(--sb-radius-xs) 0 0;
   background: var(--sb-gradient-ai-vertical);
 }
 .sb-chart-label {
+  height: 26px;
   padding-top: 8px;
   font-size: 0.6875rem;
   color: var(--sb-text-muted);
@@ -3133,4 +3159,19 @@ body {
 .sb-admin .sb-avatar-preview {
   width: 48px;
   height: 48px;
+}
+
+.sb-select-icon {
+  color: var(--sb-text-muted);
+  font-size: 0.8125rem;
+}
+
+.sb-chart-plot[data-dense="true"] {
+  gap: 2px;
+}
+.sb-chart-plot[data-dense="true"] .sb-chart-value {
+  display: none;
+}
+.sb-chart-plot[data-dense="true"] .sb-chart-fill {
+  border-radius: 2px 2px 0 0;
 }
