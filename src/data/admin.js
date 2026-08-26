@@ -231,3 +231,87 @@ export const orderDeleteContent = {
 };
 
 export const ORDERS_ADMIN_PAGE_SIZE = 15;
+
+export const usersAdminContent = {
+  title: "Users",
+  lead: "customer accounts. Admin accounts are not listed here.",
+  leadFiltered: "accounts match this search.",
+  searchPlaceholder: "Search name, username, email or phone",
+  empty: {
+    title: "No accounts match",
+    lead: "Try a different name, email or phone number.",
+  },
+  columns: {
+    user: "User",
+    contact: "Contact",
+    location: "Location",
+    joined: "Joined",
+    actions: "Actions",
+  },
+  actions: { detail: "Open", edit: "Edit" },
+  noAddress: "No address",
+};
+
+export const userDetailContent = {
+  back: { label: "Back to users", to: adminRoutes.users },
+  edit: "Edit",
+  accountTitle: "Account",
+  contactTitle: "Contact",
+  addressTitle: "Address",
+  noAddress: "This account has no address on file.",
+  fields: {
+    id: "User id",
+    username: "Username",
+    email: "Email",
+    phone: "Phone",
+    role: "Role",
+    joined: "Joined",
+    updated: "Updated",
+    street: "Street",
+    district: "District",
+    city: "City",
+    state: "State",
+    zip: "Postcode",
+    fullAddress: "Full address",
+  },
+};
+
+export const userFormContent = {
+  title: "Edit user",
+  lead: "Changes apply to the customer account immediately.",
+  submit: "Save changes",
+  pending: "Saving…",
+  cancel: "Cancel",
+  back: { label: "Back to users", to: adminRoutes.users },
+  sections: {
+    profile: "Profile",
+    security: "Security",
+    address: "Address",
+  },
+  fields: {
+    name: "Name",
+    username: "Username",
+    email: "Email",
+    phone: "Phone",
+    password: "New password",
+    avatar: "Avatar",
+    street: "Street",
+    district: "District",
+    city: "City",
+    state: "State",
+    zip: "Postcode",
+    fullAddress: "Full address",
+  },
+  help: {
+    password: "Leave empty to keep the current password.",
+    avatar: "JPG, PNG, WEBP or GIF, up to 2 MB.",
+    address:
+      "The API stores the address as one block, so fill every part or leave them all empty.",
+    phone: "Digits only, 10 to 15, optionally starting with +.",
+  },
+  errors: {
+    address: "Fill every address field, or clear them all.",
+  },
+};
+
+export const USERS_PAGE_SIZE = 15;

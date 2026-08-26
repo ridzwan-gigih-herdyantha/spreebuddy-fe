@@ -3046,3 +3046,9 @@ body {
   font-size: 0.6875rem;
   text-transform: capitalize;
 }
+
+.sb-avatar-lg {
+  width: 56px;
+  height: 56px;
+  font-size: 18px;
+}
