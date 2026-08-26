@@ -4,12 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import FilterBar from "@/components/ui/FilterBar";
 import StatusPill from "@/components/ui/StatusPill";
-import {
-  deleteProduct,
-  fetchProductIds,
-  listCategories,
-  listProducts,
-} from "@/api/products";
+import { deleteProduct, fetchProductIds, listProducts } from "@/api/products";
+import { listCategories } from "@/api/categories";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
 import { adminRoutes } from "@/config/admin";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";

@@ -46,11 +46,6 @@ export const dashboardRanges = [
   { id: "all", label: "All time" },
 ];
 
-export const adminSoonContent = {
-  lead: "This screen is designed but not wired up yet.",
-  back: { label: "Back to dashboard", to: adminRoutes.dashboard },
-};
-
 // GET /orders has no aggregate endpoint, so the dashboard derives its figures
 // from the newest slice of orders and says so in the UI.
 export const ADMIN_ORDERS_SAMPLE = 100;
@@ -387,3 +382,97 @@ export const chatAdminContent = {
 };
 
 export const FREE_DAILY_CAP = 50;
+
+export const settingsContent = {
+  title: "Settings",
+  lead: "Your own account, the catalogue taxonomy, and what this server is running.",
+  account: {
+    title: "Your account",
+    lead: "You are editing the admin you are signed in as.",
+    submit: "Save changes",
+    pending: "Saving…",
+    saved: "Saved.",
+    fields: {
+      name: "Name",
+      username: "Username",
+      email: "Email",
+      phone: "Phone",
+      password: "New password",
+      avatar: "Avatar",
+    },
+    help: {
+      password: "Leave empty to keep your current password.",
+      avatar: "JPG, PNG, WEBP or GIF, up to 2 MB.",
+      phone: "Digits only, 10 to 15, optionally starting with +.",
+    },
+  },
+  categories: {
+    title: "Categories",
+    lead: "Products reference a category by name, so renaming one moves every product with it.",
+    add: "Add category",
+    adding: "Adding…",
+    namePlaceholder: "Category name",
+    descriptionPlaceholder: "Short description (optional)",
+    inUse: "in use",
+    empty: "No categories yet.",
+    lockedHint: "A category cannot be deleted while products still use it.",
+    columns: { name: "Name", products: "Products", actions: "Actions" },
+    save: "Save",
+    cancel: "Cancel",
+    rename: "Rename",
+    remove: "Delete",
+  },
+  categoryDelete: {
+    title: "Delete this category?",
+    body: "Nothing references it, so removing it is safe.",
+    confirm: "Delete",
+    cancel: "Keep it",
+  },
+  assistant: {
+    title: "Assistant configuration",
+    lead: "Set in the server environment, shown here read only.",
+    fields: {
+      model: "Model",
+      context: "Context window",
+      history: "History carried",
+      steps: "Tool steps per reply",
+      tools: "Tools available",
+    },
+    messages: "messages",
+    steps: "calls",
+  },
+  lifecycle: {
+    title: "Order lifecycle",
+    lead: "The transitions the API accepts. Cancelling uses its own endpoint, and only cancelled orders can be deleted.",
+    terminal: "Terminal",
+  },
+  rules: {
+    title: "Catalogue rules",
+    lead: "Frontend constants, changed in code rather than here.",
+    lowStock: "Low stock at or below",
+    productsPerPage: "Products per page",
+    ordersPerPage: "Orders per page",
+    usersPerPage: "Users per page",
+    units: "units",
+    rows: "rows",
+  },
+  system: {
+    title: "System",
+    apiTitle: "API",
+    aiTitle: "Assistant",
+    appTitle: "This build",
+    fields: {
+      status: "Status",
+      database: "Database",
+      uptime: "Uptime",
+      baseUrl: "API base URL",
+      model: "Model",
+      plan: "Plan",
+      previewPages: "Preview pages",
+      maintenance: "Maintenance mode",
+    },
+    on: "Enabled",
+    off: "Disabled",
+    unreachable: "Not reachable",
+  },
+};

@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ShopCard from "@/components/shop/ShopCard";
 import FilterBar from "@/components/ui/FilterBar";
-import { listCategories, listProducts } from "@/api/products";
+import { listProducts } from "@/api/products";
+import { listCategories } from "@/api/categories";
 import {
   addToWishlist,
   listWishlist,

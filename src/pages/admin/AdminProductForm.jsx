@@ -4,12 +4,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Select from "@/components/ui/Select";
 import TextArea from "@/components/ui/TextArea";
 import TextField from "@/components/ui/TextField";
-import {
-  createProduct,
-  getProduct,
-  listCategories,
-  updateProduct,
-} from "@/api/products";
+import { createProduct, getProduct, updateProduct } from "@/api/products";
+import { listCategories } from "@/api/categories";
 import { adminRoutes } from "@/config/admin";
 import { productFormContent, productTypes } from "@/data/admin";
 

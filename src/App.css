@@ -2394,15 +2394,19 @@ body {
   min-height: 100vh;
   background: var(--sb-bg-base);
 }
+/* The aside stretches with the grid so its fill reaches the page bottom; the
+   inner block is what actually sticks. */
 .sb-admin-sidebar {
+  background: var(--sb-bg-surface);
+  border-right: 1px solid var(--sb-border-subtle);
+}
+.sb-admin-sidebar-inner {
   position: sticky;
   top: 0;
   display: flex;
   flex-direction: column;
   height: 100vh;
   padding: 24px 16px;
-  background: var(--sb-bg-surface);
-  border-right: 1px solid var(--sb-border-subtle);
 }
 .sb-admin-brand {
   display: flex;
@@ -2512,7 +2516,7 @@ body {
   .sb-admin {
     grid-template-columns: 1fr;
   }
-  .sb-admin-sidebar {
+  .sb-admin-sidebar-inner {
     position: static;
     height: auto;
   }
@@ -2631,7 +2635,7 @@ body {
 }
 .sb-panel-body {
   flex: 1;
-  padding: 20px;
+  padding: 16px;
 }
 
 .sb-chart {
@@ -3056,4 +3060,77 @@ body {
 /* Panels whose content is a table still fill an equal-height card. */
 .sb-panel > .sb-table-wrap {
   flex: 1;
+}
+
+.sb-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sb-flow li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.sb-flow-arrow {
+  font-size: 0.75rem;
+  color: var(--sb-text-muted);
+}
+
+/* The console is a dense working surface, so its type runs a step smaller
+   than the storefront. Scoped to .sb-admin so the shop is untouched. */
+.sb-admin .sb-h1 {
+  font-size: 1.5rem;
+}
+.sb-admin .sb-h2 {
+  font-size: 1.25rem;
+}
+.sb-admin .sb-h3 {
+  font-size: 1rem;
+}
+.sb-admin .sb-lead,
+.sb-admin-head .sb-lead {
+  font-size: 0.875rem;
+}
+.sb-admin .sb-field-label {
+  font-size: 0.75rem;
+  margin-bottom: 6px;
+}
+.sb-admin .sb-field-help,
+.sb-admin .sb-field-error {
+  font-size: 0.6875rem;
+}
+.sb-admin .sb-input {
+  height: 42px;
+  padding-inline: 14px;
+  font-size: 0.875rem;
+}
+.sb-admin .sb-textarea {
+  height: auto;
+  padding-block: 10px;
+}
+.sb-admin .btn {
+  font-size: 0.875rem;
+}
+.sb-admin .sb-pill {
+  font-size: 0.75rem;
+  padding: 0.3125rem 0.75rem;
+}
+.sb-admin .sb-select-field .sb-select-trigger {
+  height: 42px;
+  font-size: 0.875rem;
+}
+.sb-admin .sb-spec-row {
+  font-size: 0.75rem;
+}
+.sb-admin .sb-stat-value {
+  font-size: 1.25rem;
+}
+.sb-admin .sb-avatar-preview {
+  width: 48px;
+  height: 48px;
 }

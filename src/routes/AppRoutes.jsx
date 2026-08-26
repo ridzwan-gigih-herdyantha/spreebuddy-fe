@@ -27,7 +27,7 @@ import AdminProducts from "@/pages/admin/AdminProducts";
 import AdminUserDetail from "@/pages/admin/AdminUserDetail";
 import AdminUserForm from "@/pages/admin/AdminUserForm";
 import AdminUsers from "@/pages/admin/AdminUsers";
-import AdminSoon from "@/pages/admin/AdminSoon";
+import AdminSettings from "@/pages/admin/AdminSettings";
 import Dashboard from "@/pages/admin/Dashboard";
 import { adminRoutes } from "@/config/admin";
 import { placeholderRoutes } from "@/config/navigation";
@@ -66,7 +66,7 @@ export default function AppRoutes() {
         <Route path="users/:id" element={<AdminUserDetail />} />
         <Route path="users/:id/edit" element={<AdminUserForm />} />
         <Route path="chat-sessions" element={<AdminChatSessions />} />
-        <Route path="settings" element={<AdminSoon title="Settings" />} />
+        <Route path="settings" element={<AdminSettings />} />
       </Route>
 
       <Route element={<Layout footer={false} />}>
