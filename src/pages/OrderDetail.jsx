@@ -1,67 +1,13 @@
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Breadcrumb from "@/components/ui/Breadcrumb";
+import OrderTimeline from "@/components/orders/OrderTimeline";
 import StatusPill from "@/components/ui/StatusPill";
 import { getOrder } from "@/api/orders";
 import { formatPrice } from "@/utils/format";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
-import { orderDetailContent, orderSteps } from "@/data/orders";
-
-function Timeline({ status, placed, updated }) {
-  const current = String(status ?? "").toLowerCase();
-
-  if (current === "cancelled") {
-    return (
-      <ol className="sb-timeline">
-        <li className="is-done is-pending">
-          <span className="sb-timeline-dot" />
-          <div>
-            <div className="sb-timeline-label">Pending</div>
-            <p className="sb-meta mb-0">Order created and stock reserved</p>
-          </div>
-          <span className="sb-caption">{placed}</span>
-        </li>
-        <li className="is-current is-cancelled">
-          <span className="sb-timeline-dot" />
-          <div>
-            <div className="sb-timeline-label">Cancelled</div>
-            <p className="sb-meta mb-0">Reserved stock returned to the shop</p>
-          </div>
-          <span className="sb-caption">{updated}</span>
-        </li>
-      </ol>
-    );
-  }
-
-  const index = orderSteps.findIndex((step) => step.key === current);
-
-  return (
-    <ol className="sb-timeline">
-      {orderSteps.map((step, position) => {
-        const state =
-          position < index ? "is-done" : position === index ? "is-current" : "";
-        const stamp =
-          position === 0 ? placed : position === index ? updated : null;
-
-        return (
-          <li key={step.key} className={`${state} is-${step.key}`}>
-            <span className="sb-timeline-dot" />
-            <div>
-              <div className="sb-timeline-label">{step.label}</div>
-              <p className="sb-meta mb-0">
-                {position > index
-                  ? `Not yet ${step.label.toLowerCase()}`
-                  : step.note}
-              </p>
-            </div>
-            {stamp && <span className="sb-caption">{stamp}</span>}
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
+import { orderDetailContent } from "@/data/orders";
 
 export default function OrderDetail() {
   const { id } = useParams();
@@ -182,7 +128,7 @@ export default function OrderDetail() {
 
           <div className="sb-card p-4">
             <h2 className="sb-h2 mb-4">{content.progressTitle}</h2>
-            <Timeline
+            <OrderTimeline
               status={order.status}
               placed={order.createdAt}
               updated={order.updatedAt}

@@ -169,3 +169,65 @@ export const productDeleteContent = {
 };
 
 export const PRODUCTS_PAGE_SIZE = 15;
+
+export const ordersAdminContent = {
+  title: "Orders",
+  lead: "in the store. Status changes move stock in the same transaction.",
+  leadFiltered: "orders with this status.",
+  allStatuses: "All",
+  empty: {
+    title: "No orders here",
+    lead: "Nothing matches this status yet.",
+  },
+  actions: {
+    detail: "Open",
+    advance: "Move to",
+  },
+  columns: {
+    order: "Order",
+    customer: "Customer",
+    product: "Product",
+    qty: "Qty",
+    total: "Total",
+    status: "Status",
+    placed: "Placed",
+    actions: "Actions",
+  },
+  terminal: "No further transitions from here.",
+};
+
+export const orderDetailAdminContent = {
+  back: { label: "Back to orders", to: adminRoutes.orders },
+  timelineTitle: "Lifecycle",
+  customerTitle: "Customer",
+  itemTitle: "Item",
+  summaryTitle: "Summary",
+  actionsTitle: "Move this order",
+  viewProduct: "View product",
+  remove: "Delete order",
+  deleteHint: "Only cancelled orders can be deleted.",
+  fields: {
+    order: "Order id",
+    placed: "Placed",
+    updated: "Updated",
+    unitPrice: "Unit price",
+    quantity: "Quantity",
+    total: "Total",
+    name: "Name",
+    email: "Email",
+    username: "Username",
+    phone: "Phone",
+  },
+  missingProduct: "This product has been deleted.",
+  missingCustomer: "This account has been removed.",
+};
+
+export const orderDeleteContent = {
+  title: "Delete this order?",
+  body: "The record is removed for good. Stock was already released when it was cancelled.",
+  irreversible: "This cannot be undone.",
+  confirm: "Delete",
+  cancel: "Keep it",
+};
+
+export const ORDERS_ADMIN_PAGE_SIZE = 15;

@@ -61,3 +61,16 @@ export const orderSteps = [
   { key: "shipped", label: "Shipped", note: "On its way to you" },
   { key: "delivered", label: "Delivered", note: "Delivered to you" },
 ];
+
+// Mirrors the state machine in the API (order.lifecycle.ts). Cancelled and
+// delivered are terminal, so nothing follows them.
+export const orderTransitions = {
+  pending: ["processing", "cancelled"],
+  processing: ["shipped", "cancelled"],
+  shipped: ["delivered"],
+  delivered: [],
+  cancelled: [],
+};
+
+export const nextStatuses = (status) =>
+  orderTransitions[String(status ?? "").toLowerCase()] ?? [];

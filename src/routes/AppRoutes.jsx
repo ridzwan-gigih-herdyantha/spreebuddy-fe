@@ -18,6 +18,8 @@ import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminLogin from "@/pages/admin/AdminLogin";
+import AdminOrderDetail from "@/pages/admin/AdminOrderDetail";
+import AdminOrders from "@/pages/admin/AdminOrders";
 import AdminProductDetail from "@/pages/admin/AdminProductDetail";
 import AdminProductForm from "@/pages/admin/AdminProductForm";
 import AdminProducts from "@/pages/admin/AdminProducts";
@@ -54,7 +56,8 @@ export default function AppRoutes() {
         <Route path="products/new" element={<AdminProductForm />} />
         <Route path="products/:slug" element={<AdminProductDetail />} />
         <Route path="products/:slug/edit" element={<AdminProductForm />} />
-        <Route path="orders" element={<AdminSoon title="Orders" />} />
+        <Route path="orders" element={<AdminOrders />} />
+        <Route path="orders/:id" element={<AdminOrderDetail />} />
         <Route path="users" element={<AdminSoon title="Users" />} />
         <Route
           path="chat-sessions"
