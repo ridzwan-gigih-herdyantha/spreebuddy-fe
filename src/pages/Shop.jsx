@@ -39,9 +39,12 @@ export default function Shop() {
   const [search, setSearch] = useState("");
   const term = useDeferredValue(search);
 
+  const filter = category === allCategories ? undefined : category;
+
   const products = useQuery({
-    queryKey: ["products", limit, term],
-    queryFn: () => listProducts({ page: 1, limit, search: term }),
+    queryKey: ["products", limit, term, filter],
+    queryFn: () =>
+      listProducts({ page: 1, limit, search: term, category: filter }),
     placeholderData: (previous) => previous,
   });
 
@@ -118,13 +121,16 @@ export default function Shop() {
     [categories.data],
   );
 
-  const visible = useMemo(() => {
-    const filtered =
-      category === allCategories
-        ? items
-        : items.filter((product) => product.category === category);
-    return sorters[sort] ? [...filtered].sort(sorters[sort]) : filtered;
-  }, [items, category, sort, allCategories]);
+  const visible = useMemo(
+    () => (sorters[sort] ? [...items].sort(sorters[sort]) : items),
+    [items, sort],
+  );
+
+  // Narrowing the results has to start the page count over.
+  const narrow = (apply) => {
+    apply();
+    setLimit(PAGE_SIZE);
+  };
 
   return (
     <section className="sb-section">
@@ -140,11 +146,11 @@ export default function Shop() {
 
       <FilterBar
         search={search}
-        onSearch={setSearch}
+        onSearch={(value) => narrow(() => setSearch(value))}
         searchPlaceholder="Search products"
         chips={[allCategories, ...categoryNames]}
         active={category}
-        onChip={setCategory}
+        onChip={(value) => narrow(() => setCategory(value))}
         sort={sort}
         sortOptions={sortOptions}
         onSort={setSort}
