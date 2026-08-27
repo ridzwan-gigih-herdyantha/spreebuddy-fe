@@ -19,6 +19,7 @@ import OrderDetail from "@/pages/OrderDetail";
 import About from "@/pages/About";
 import Account from "@/pages/Account";
 import Help from "@/pages/Help";
+import Privacy from "@/pages/Privacy";
 import AccountSettings from "@/pages/AccountSettings";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminChatSessions from "@/pages/admin/AdminChatSessions";
@@ -97,6 +98,7 @@ export default function AppRoutes() {
 
         <Route path="/about" element={<About />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="/account" element={<Account />} />
         <Route path="/settings" element={<AccountSettings />} />
 
@@ -110,7 +112,8 @@ export default function AppRoutes() {
               path !== "/account" &&
               path !== "/settings" &&
               path !== "/about" &&
-              path !== "/help",
+              path !== "/help" &&
+              path !== "/privacy",
           )
           .map((path) => (
             <Route key={path} path={path} element={<ComingSoon />} />

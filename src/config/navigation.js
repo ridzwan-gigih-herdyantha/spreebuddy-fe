@@ -100,6 +100,12 @@ export const searchablePages = [
     icon: "bi-life-preserver",
     keywords: "support faq questions returns orders",
   },
+  {
+    label: "Privacy",
+    to: "/privacy",
+    icon: "bi-shield-check",
+    keywords: "data cookies policy personal",
+  },
 ];
 
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];

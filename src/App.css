@@ -3602,3 +3602,44 @@ body {
   gap: 24px;
   padding: 32px;
 }
+
+.sb-legal-nav {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-left: 14px;
+  border-left: 2px solid var(--sb-border-subtle);
+}
+.sb-legal-nav a {
+  font-size: 0.8125rem;
+  color: var(--sb-text-secondary);
+  text-decoration: none;
+}
+.sb-legal-nav a:hover {
+  color: var(--sb-accent-blue);
+}
+
+.sb-legal > section {
+  padding-bottom: 40px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--sb-border-subtle);
+  scroll-margin-top: 96px;
+}
+.sb-legal > section:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+.sb-legal h3 {
+  margin-top: 24px;
+}
+.sb-legal > section > div:first-child h3 {
+  margin-top: 0;
+}
+@media (max-width: 991.98px) {
+  .sb-legal-nav {
+    position: static;
+  }
+}
