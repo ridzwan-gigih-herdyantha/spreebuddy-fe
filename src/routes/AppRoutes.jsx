@@ -102,7 +102,9 @@ export default function AppRoutes() {
               path !== "/shop" &&
               path !== "/wishlist" &&
               path !== "/chat" &&
-              path !== "/chat-history",
+              path !== "/chat-history" &&
+              path !== "/account" &&
+              path !== "/settings",
           )
           .map((path) => (
             <Route key={path} path={path} element={<ComingSoon />} />
