@@ -13,9 +13,7 @@ export const footerNav = [
     title: "Product",
     links: [
       { label: "AI Chat", to: "/chat" },
-      { label: "Compare", to: "/compare" },
       { label: "Wishlist", to: "/wishlist" },
-      { label: "Pricing", to: "/pricing" },
     ],
   },
   {
