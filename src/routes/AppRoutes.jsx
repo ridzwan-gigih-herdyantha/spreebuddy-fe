@@ -24,6 +24,8 @@ import Terms from "@/pages/Terms";
 import Status from "@/pages/Status";
 import Contact from "@/pages/Contact";
 import Careers from "@/pages/Careers";
+import Blog from "@/pages/Blog";
+import BlogPost from "@/pages/BlogPost";
 import AccountSettings from "@/pages/AccountSettings";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminChatSessions from "@/pages/admin/AdminChatSessions";
@@ -107,6 +109,8 @@ export default function AppRoutes() {
         <Route path="/status" element={<Status />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/careers" element={<Careers />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route path="/account" element={<Account />} />
         <Route path="/settings" element={<AccountSettings />} />
 
@@ -125,7 +129,8 @@ export default function AppRoutes() {
               path !== "/terms" &&
               path !== "/status" &&
               path !== "/contact" &&
-              path !== "/careers",
+              path !== "/careers" &&
+              path !== "/blog",
           )
           .map((path) => (
             <Route key={path} path={path} element={<ComingSoon />} />
