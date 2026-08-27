@@ -3567,3 +3567,38 @@ body {
   color: var(--sb-accent-blue);
   font-size: 1rem;
 }
+
+.sb-help-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.sb-help-search i {
+  position: absolute;
+  left: 20px;
+  color: var(--sb-text-muted);
+}
+.sb-help-search input {
+  width: 100%;
+  height: 52px;
+  padding: 0 20px 0 48px;
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-full);
+  background: var(--sb-bg-surface);
+  font-size: 0.9375rem;
+  box-shadow: var(--sb-shadow-sm);
+}
+.sb-help-search input:focus {
+  outline: 0;
+  border-color: var(--sb-accent-blue);
+  box-shadow: var(--sb-focus-ring);
+}
+
+.sb-help-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 32px;
+}

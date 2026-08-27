@@ -94,6 +94,12 @@ export const searchablePages = [
     icon: "bi-info-circle",
     keywords: "how it works stack story",
   },
+  {
+    label: "Help center",
+    to: "/help",
+    icon: "bi-life-preserver",
+    keywords: "support faq questions returns orders",
+  },
 ];
 
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];
