@@ -16,6 +16,7 @@ import Chat from "@/pages/Chat";
 import ChatHistory from "@/pages/ChatHistory";
 import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
+import About from "@/pages/About";
 import Account from "@/pages/Account";
 import AccountSettings from "@/pages/AccountSettings";
 import AdminLayout from "@/components/admin/AdminLayout";
@@ -93,6 +94,7 @@ export default function AppRoutes() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
 
+        <Route path="/about" element={<About />} />
         <Route path="/account" element={<Account />} />
         <Route path="/settings" element={<AccountSettings />} />
 
@@ -104,7 +106,8 @@ export default function AppRoutes() {
               path !== "/chat" &&
               path !== "/chat-history" &&
               path !== "/account" &&
-              path !== "/settings",
+              path !== "/settings" &&
+              path !== "/about",
           )
           .map((path) => (
             <Route key={path} path={path} element={<ComingSoon />} />

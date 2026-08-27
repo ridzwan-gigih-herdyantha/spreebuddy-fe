@@ -6,11 +6,13 @@ const TONES = {
   dark: "sb-dark",
 };
 
-export default function CtaBanner({ data = footerBannerCTA }) {
+export default function CtaBanner({ data = footerBannerCTA, className = "" }) {
   const { tone = "gradient", title, lead, button } = data;
 
   return (
-    <div className={`sb-cta text-center ${TONES[tone] ?? TONES.gradient}`}>
+    <div
+      className={`sb-cta text-center ${TONES[tone] ?? TONES.gradient} ${className}`}
+    >
       <h2 className="sb-h1 mb-2">{title}</h2>
       <p className="sb-cta-lead mx-auto mb-4">{lead}</p>
 

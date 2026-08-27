@@ -2583,6 +2583,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex: none;
   width: 36px;
   height: 36px;
   margin-bottom: 12px;
@@ -3505,4 +3506,64 @@ body {
     max-width: none;
     flex: 1 0 100%;
   }
+}
+
+.sb-measure-wide {
+  max-width: 760px;
+}
+
+.sb-about-step {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--sb-text-muted);
+}
+
+.sb-faq {
+  border-bottom: 1px solid var(--sb-border-subtle);
+}
+.sb-faq:last-child {
+  border-bottom: 0;
+}
+.sb-faq > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+.sb-faq > summary::-webkit-details-marker {
+  display: none;
+}
+.sb-faq > summary:hover {
+  color: var(--sb-accent-blue);
+}
+.sb-faq > summary i {
+  flex: none;
+  font-size: 0.8125rem;
+  color: var(--sb-text-muted);
+  transition: transform 0.15s ease;
+}
+.sb-faq[open] > summary i {
+  transform: rotate(180deg);
+}
+.sb-faq > p {
+  padding: 0 24px 20px;
+}
+
+.sb-about-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--sb-radius-md);
+  background: var(--sb-accent-blue-soft);
+  color: var(--sb-accent-blue);
+  font-size: 1rem;
 }

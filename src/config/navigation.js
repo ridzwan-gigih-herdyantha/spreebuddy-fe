@@ -90,6 +90,12 @@ export const searchablePages = [
     icon: "bi-gear",
     keywords: "profile password address",
   },
+  {
+    label: "About SpreeBuddy",
+    to: "/about",
+    icon: "bi-info-circle",
+    keywords: "how it works stack story",
+  },
 ];
 
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];

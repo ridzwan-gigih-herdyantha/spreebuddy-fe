@@ -159,7 +159,7 @@ export default function Account() {
         {content.links.map(({ label, to, icon }) => (
           <div className="col" key={to}>
             <Link to={to} className="sb-card sb-account-link">
-              <span className="sb-stat-icon is-primary">
+              <span className="sb-about-icon">
                 <i className={`bi ${icon}`} />
               </span>
               <span className="fw-semibold">{label}</span>
