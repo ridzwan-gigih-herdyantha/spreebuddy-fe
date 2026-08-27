@@ -3765,3 +3765,31 @@ body {
   margin-top: 2rem;
   color: var(--sb-text-primary);
 }
+
+.sb-search-kbd {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  display: none;
+  align-items: center;
+  gap: 2px;
+  padding: 2px 7px;
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-sm);
+  background: var(--sb-bg-surface);
+  font-family: inherit;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--sb-text-muted);
+  pointer-events: none;
+}
+.sb-globalsearch .sb-search {
+  padding-right: 56px;
+}
+@media (min-width: 992px) {
+  .sb-search-kbd {
+    display: inline-flex;
+  }
+}

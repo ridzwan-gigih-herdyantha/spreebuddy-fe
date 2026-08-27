@@ -8,6 +8,12 @@ import { searchablePages } from "@/config/navigation";
 import { globalSearchContent } from "@/data/search";
 
 const MIN_CHARS = 2;
+
+const IS_APPLE =
+  typeof navigator !== "undefined" &&
+  /Mac|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+const SHORTCUT_KEY = IS_APPLE ? "⌘" : "Ctrl";
 const MAX_PAGES = 4;
 const MAX_PRODUCTS = 5;
 
@@ -17,7 +23,27 @@ export default function GlobalSearch() {
   const [term, setTerm] = useState("");
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const inputRef = useRef(null);
   const query = useDeferredValue(term.trim());
+
+  // Cmd+K on Apple keyboards, Ctrl+K everywhere else.
+  useEffect(() => {
+    const onKeyDown = (event) => {
+      if (
+        !(event.metaKey || event.ctrlKey) ||
+        event.key.toLowerCase() !== "k"
+      ) {
+        return;
+      }
+      event.preventDefault();
+      setOpen(true);
+      inputRef.current?.focus();
+      inputRef.current?.select();
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -63,6 +89,7 @@ export default function GlobalSearch() {
   return (
     <div className="sb-globalsearch" ref={ref}>
       <input
+        ref={inputRef}
         type="search"
         className="sb-search form-control bg-body-secondary border-0 rounded-pill px-3"
         placeholder={content.placeholder}
@@ -87,6 +114,13 @@ export default function GlobalSearch() {
           }
         }}
       />
+
+      {!term && (
+        <kbd className="sb-search-kbd" aria-hidden="true">
+          {SHORTCUT_KEY}
+          <span>K</span>
+        </kbd>
+      )}
 
       {active && (
         <div className="sb-search-panel" id="sb-search-results" role="listbox">
