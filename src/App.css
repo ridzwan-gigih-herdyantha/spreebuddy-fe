@@ -3386,3 +3386,23 @@ body {
 .sb-toast-action:hover {
   text-decoration: underline;
 }
+
+.sb-account-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  padding: 16px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.sb-account-link:hover {
+  border-color: var(--sb-accent-blue);
+  box-shadow: var(--sb-shadow-sm);
+}
+.sb-account-link i:last-child {
+  color: var(--sb-text-muted);
+}

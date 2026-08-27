@@ -16,6 +16,8 @@ import Chat from "@/pages/Chat";
 import ChatHistory from "@/pages/ChatHistory";
 import Orders from "@/pages/Orders";
 import OrderDetail from "@/pages/OrderDetail";
+import Account from "@/pages/Account";
+import AccountSettings from "@/pages/AccountSettings";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminChatSessions from "@/pages/admin/AdminChatSessions";
 import AdminLogin from "@/pages/admin/AdminLogin";
@@ -91,9 +93,8 @@ export default function AppRoutes() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
 
-        {["/account", "/settings"].map((path) => (
-          <Route key={path} path={path} element={<ComingSoon />} />
-        ))}
+        <Route path="/account" element={<Account />} />
+        <Route path="/settings" element={<AccountSettings />} />
 
         {placeholderRoutes
           .filter(

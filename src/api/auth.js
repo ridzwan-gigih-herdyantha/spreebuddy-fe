@@ -24,4 +24,18 @@ export const registerUser = ({
 
 export const getMe = () => api.get("/api/v1/auth/me");
 
+// Multipart only when an avatar is attached; `address` travels as JSON either way.
+export const updateMe = ({ avatar, ...fields }) => {
+  if (!avatar) return api.patch("/api/v1/auth/me", fields);
+
+  const form = new FormData();
+  Object.entries(fields).forEach(([key, value]) => {
+    if (value === undefined || value === null) return;
+    form.append(key, typeof value === "object" ? JSON.stringify(value) : value);
+  });
+  form.append("avatar", avatar);
+
+  return api.patch("/api/v1/auth/me", form);
+};
+
 export const logoutUser = () => api.post("/api/v1/auth/logout");

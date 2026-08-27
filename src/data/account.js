@@ -1,0 +1,78 @@
+export const accountContent = {
+  title: "Your account",
+  lead: "Everything tied to this SpreeBuddy profile.",
+  edit: { label: "Edit profile", to: "/settings" },
+  signedOut: {
+    title: "Sign in to see your account",
+    lead: "Your profile, orders and saved items live behind a sign in.",
+  },
+  stats: {
+    orders: "Orders",
+    wishlist: "Saved items",
+    sessions: "Conversations",
+  },
+  links: [
+    { label: "My orders", to: "/orders", icon: "bi-receipt" },
+    { label: "Wishlist", to: "/wishlist", icon: "bi-heart" },
+    { label: "Chat history", to: "/chat-history", icon: "bi-chat-dots" },
+    { label: "Cart", to: "/cart", icon: "bi-cart2" },
+  ],
+  profileTitle: "Profile",
+  addressTitle: "Delivery address",
+  noAddress: "No address saved yet.",
+  addAddress: "Add one in settings",
+  fields: {
+    username: "Username",
+    email: "Email",
+    phone: "Phone",
+    joined: "Member since",
+    street: "Street",
+    district: "District",
+    city: "City",
+    state: "State",
+    zip: "Postcode",
+    fullAddress: "Full address",
+  },
+};
+
+export const accountSettingsContent = {
+  title: "Settings",
+  lead: "Update the details attached to your account.",
+  back: { label: "Back to account", to: "/account" },
+  submit: "Save changes",
+  pending: "Saving…",
+  saved: "Your profile is up to date.",
+  sections: {
+    profile: "Profile",
+    security: "Password",
+    address: "Delivery address",
+    session: "This device",
+  },
+  fields: {
+    name: "Name",
+    username: "Username",
+    email: "Email",
+    phone: "Phone",
+    password: "New password",
+    avatar: "Avatar",
+    street: "Street",
+    district: "District",
+    city: "City",
+    state: "State",
+    zip: "Postcode",
+    fullAddress: "Full address",
+  },
+  help: {
+    password: "Leave empty to keep your current password.",
+    avatar: "JPG, PNG, WEBP or GIF, up to 2 MB.",
+    phone: "Digits only, 10 to 15, optionally starting with +.",
+    address:
+      "The address is stored as one block, so fill every part or leave them all empty.",
+  },
+  errors: {
+    address: "Fill every address field, or clear them all.",
+  },
+  signOut: "Sign out",
+  signOutLead: "You will need to sign in again on this device.",
+  signingOut: "Signing out…",
+};
