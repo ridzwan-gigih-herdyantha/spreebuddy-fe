@@ -118,6 +118,12 @@ export const searchablePages = [
     icon: "bi-activity",
     keywords: "uptime outage down health",
   },
+  {
+    label: "Contact",
+    to: "/contact",
+    icon: "bi-envelope",
+    keywords: "support email help reach message",
+  },
 ];
 
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];

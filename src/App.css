@@ -3707,3 +3707,17 @@ body {
   color: var(--sb-accent-blue);
   margin-right: 4px;
 }
+
+.sb-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--sb-border-subtle);
+}
+.sb-contact-row:last-of-type {
+  border-bottom: 0;
+}
+.sb-contact-row a {
+  overflow-wrap: anywhere;
+}
