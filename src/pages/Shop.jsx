@@ -1,5 +1,5 @@
 import { useDeferredValue, useMemo, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ShopCard from "@/components/shop/ShopCard";
 import FilterBar from "@/components/ui/FilterBar";
@@ -36,7 +36,8 @@ export default function Shop() {
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [category, setCategory] = useState(allCategories);
   const [sort, setSort] = useState("relevance");
-  const [search, setSearch] = useState("");
+  const [params] = useSearchParams();
+  const [search, setSearch] = useState(() => params.get("search") ?? "");
   const term = useDeferredValue(search);
 
   const filter = category === allCategories ? undefined : category;

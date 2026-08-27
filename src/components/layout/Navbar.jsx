@@ -2,7 +2,7 @@ import { Navbar, Nav, Container, Button } from "react-bootstrap";
 import { NavLink, Link } from "react-router-dom";
 import Logo from "@/components/ui/Logo";
 import UserMenu from "./UserMenu";
-import SearchField from "@/components/ui/SearchField";
+import GlobalSearch from "@/components/ui/GlobalSearch";
 import { mainNav } from "@/config/navigation";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
@@ -20,7 +20,7 @@ function CartLink({ count }) {
   );
 }
 
-export default function AppNavbar({ links = mainNav, onSearch, onStartChat }) {
+export default function AppNavbar({ links = mainNav, onStartChat }) {
   const { user } = useAuth();
   const { count } = useCart();
 
@@ -56,7 +56,7 @@ export default function AppNavbar({ links = mainNav, onSearch, onStartChat }) {
           </Nav>
 
           <div className="sb-nav-actions d-flex align-items-center gap-lg-4 gap-3 mt-3 mt-lg-0">
-            <SearchField onChange={(e) => onSearch?.(e.target.value)} />
+            <GlobalSearch />
 
             <span className="d-none d-lg-flex">
               <CartLink count={count} />

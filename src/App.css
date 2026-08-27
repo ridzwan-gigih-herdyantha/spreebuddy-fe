@@ -3406,3 +3406,103 @@ body {
 .sb-account-link i:last-child {
   color: var(--sb-text-muted);
 }
+
+.sb-globalsearch {
+  position: relative;
+  max-width: 260px;
+  width: 100%;
+}
+.sb-search-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  z-index: 1040;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 8px;
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-lg);
+  background: var(--sb-bg-surface);
+  box-shadow: var(--sb-shadow-lg);
+}
+.sb-search-group {
+  margin: 8px 8px 4px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--sb-text-muted);
+}
+.sb-search-group:not(:first-child) {
+  padding-top: 8px;
+  border-top: 1px solid var(--sb-border-subtle);
+}
+.sb-search-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px;
+  border: 0;
+  border-radius: var(--sb-radius-md);
+  background: none;
+  font-size: 0.8125rem;
+  color: var(--sb-text-primary);
+  text-align: left;
+}
+.sb-search-item:hover:not(.is-static) {
+  background: var(--sb-bg-base);
+}
+.sb-search-item.is-static {
+  cursor: default;
+}
+.sb-search-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--sb-radius-sm);
+  background: var(--sb-bg-subtle);
+  color: var(--sb-text-secondary);
+  font-size: 0.8125rem;
+}
+.sb-search-hint {
+  margin-left: auto;
+  padding-left: 8px;
+  font-size: 0.6875rem;
+  color: var(--sb-text-muted);
+  white-space: nowrap;
+}
+.sb-search-none {
+  margin: 4px 8px 8px;
+  font-size: 0.8125rem;
+  color: var(--sb-text-muted);
+}
+.sb-search-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  margin-top: 4px;
+  padding: 10px 8px;
+  border: 0;
+  border-top: 1px solid var(--sb-border-subtle);
+  border-radius: 0 0 var(--sb-radius-md) var(--sb-radius-md);
+  background: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--sb-accent-blue);
+}
+.sb-search-all:hover {
+  background: var(--sb-bg-base);
+}
+@media (max-width: 991.98px) {
+  .sb-globalsearch {
+    max-width: none;
+    flex: 1 0 100%;
+  }
+}
