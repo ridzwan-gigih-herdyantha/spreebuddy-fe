@@ -112,6 +112,12 @@ export const searchablePages = [
     icon: "bi-file-text",
     keywords: "conditions rules agreement legal",
   },
+  {
+    label: "Status",
+    to: "/status",
+    icon: "bi-activity",
+    keywords: "uptime outage down health",
+  },
 ];
 
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];

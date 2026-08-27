@@ -10,7 +10,7 @@ export const notFoundStatus = {
   suggestionsTitle: "Popular destinations",
   suggestions: [
     { label: "Shop", to: "/shop", icon: "bi-bag" },
-    { label: "Compare", to: "/compare", icon: "bi-columns-gap" },
+    { label: "Chat with the assistant", to: "/chat", icon: "bi-stars" },
     { label: "Wishlist", to: "/wishlist", icon: "bi-heart" },
     { label: "Help center", to: "/help", icon: "bi-life-preserver" },
   ],
@@ -48,4 +48,47 @@ export const comingSoonStatus = {
     { label: "Start chatting", to: "/chat", variant: "primary" },
     { label: "Back to home", to: "/", variant: "outline" },
   ],
+};
+
+export const statusContent = {
+  badge: "Live status",
+  refresh: "Check again",
+  checking: "Checking…",
+  lastChecked: "Last checked",
+  uptime: "Server up {time}",
+  banner: {
+    checking: {
+      title: "Checking the shop…",
+      lead: "Asking the server how it is doing.",
+    },
+    ok: {
+      title: "Everything is running",
+      lead: "The shop, your account and your orders are all responding normally.",
+    },
+    down: {
+      title: "Something is not right",
+      lead: "Part of the shop is not responding. We can see it too, and the page below shows which part.",
+    },
+  },
+  components: {
+    shop: {
+      title: "Shop and accounts",
+      body: "Browsing, searching, your cart, wishlist and orders.",
+    },
+    database: {
+      title: "Database",
+      body: "Where the catalogue, accounts and orders are stored.",
+    },
+    assistant: {
+      title: "AI assistant",
+      body: "Runs on a model hosted by an outside provider, so its availability is not something this page can measure.",
+    },
+  },
+  states: {
+    up: "Operational",
+    down: "Not responding",
+    unknown: "Unknown",
+    external: "Third party",
+  },
+  note: "Readings are taken live and refresh every thirty seconds. There is no incident history yet, so this shows how things are now rather than how they have been.",
 };

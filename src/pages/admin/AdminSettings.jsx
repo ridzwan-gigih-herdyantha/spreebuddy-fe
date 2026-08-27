@@ -7,7 +7,8 @@ import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import TextField from "@/components/ui/TextField";
 import Spinner from "@/components/ui/Spinner";
 import StatusPill from "@/components/ui/StatusPill";
-import { getAiUsage, getHealth, updateUser } from "@/api/admin";
+import { getAiUsage, updateUser } from "@/api/admin";
+import { getHealth } from "@/api/health";
 import {
   createCategory,
   deleteCategory,

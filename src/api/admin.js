@@ -25,5 +25,3 @@ export const updateUser = ({ id, avatar, ...fields }) => {
 export const getChatStats = () => api.get("/api/v1/sessions/stats");
 
 export const getAiUsage = () => api.get("/api/v1/sessions/usage");
-
-export const getHealth = () => api.get("/api/v1/health");
