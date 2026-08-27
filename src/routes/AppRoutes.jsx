@@ -23,6 +23,7 @@ import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
 import Status from "@/pages/Status";
 import Contact from "@/pages/Contact";
+import Careers from "@/pages/Careers";
 import AccountSettings from "@/pages/AccountSettings";
 import AdminLayout from "@/components/admin/AdminLayout";
 import AdminChatSessions from "@/pages/admin/AdminChatSessions";
@@ -105,6 +106,7 @@ export default function AppRoutes() {
         <Route path="/terms" element={<Terms />} />
         <Route path="/status" element={<Status />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/careers" element={<Careers />} />
         <Route path="/account" element={<Account />} />
         <Route path="/settings" element={<AccountSettings />} />
 
@@ -122,7 +124,8 @@ export default function AppRoutes() {
               path !== "/privacy" &&
               path !== "/terms" &&
               path !== "/status" &&
-              path !== "/contact",
+              path !== "/contact" &&
+              path !== "/careers",
           )
           .map((path) => (
             <Route key={path} path={path} element={<ComingSoon />} />

@@ -124,6 +124,12 @@ export const searchablePages = [
     icon: "bi-envelope",
     keywords: "support email help reach message",
   },
+  {
+    label: "Careers",
+    to: "/careers",
+    icon: "bi-briefcase",
+    keywords: "jobs hiring vacancy work",
+  },
 ];
 
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];
