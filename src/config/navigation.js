@@ -14,6 +14,7 @@ export const footerNav = [
     links: [
       { label: "AI Chat", to: "/chat" },
       { label: "Wishlist", to: "/wishlist" },
+      { label: "Shop", to: "/shop" },
     ],
   },
   {
@@ -129,6 +130,12 @@ export const searchablePages = [
     to: "/careers",
     icon: "bi-briefcase",
     keywords: "jobs hiring vacancy work",
+  },
+  {
+    label: "Blog",
+    to: "/blog",
+    icon: "bi-journal-text",
+    keywords: "posts articles news updates",
   },
 ];
 
