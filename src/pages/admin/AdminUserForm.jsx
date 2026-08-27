@@ -5,9 +5,11 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import AvatarField from "@/components/auth/AvatarField";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
+import Spinner from "@/components/ui/Spinner";
 import { getUser, updateUser } from "@/api/admin";
 import { adminRoutes } from "@/config/admin";
 import { userFormContent } from "@/data/admin";
+import { useToast } from "@/hooks/useToast";
 
 const ADDRESS_PARTS = [
   "street",
@@ -44,6 +46,7 @@ export default function AdminUserForm() {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [avatar, setAvatar] = useState(null);
   const [visible, setVisible] = useState(false);
 
@@ -68,6 +71,7 @@ export default function AdminUserForm() {
   const save = useMutation({
     mutationFn: (body) => updateUser({ id, ...body }),
     onSuccess: () => {
+      toast.success("Account updated.");
       queryClient.invalidateQueries({ queryKey: ["admin", "user", id] });
       queryClient.invalidateQueries({ queryKey: ["admin", "users"] });
       navigate(`${adminRoutes.users}/${id}`, { replace: true });
@@ -76,6 +80,7 @@ export default function AdminUserForm() {
       err.fieldErrors?.forEach(({ field, message }) => {
         if (field) setError(field, { message });
       });
+      if (!err.fieldErrors?.length) toast.error(err.message);
     },
   });
 
@@ -143,6 +148,7 @@ export default function AdminUserForm() {
             className="btn btn-primary rounded-pill px-4 text-nowrap"
             disabled={save.isPending || query.isPending}
           >
+            {save.isPending && <Spinner size={14} className="me-2" />}
             {save.isPending ? content.pending : content.submit}
           </button>
         </div>

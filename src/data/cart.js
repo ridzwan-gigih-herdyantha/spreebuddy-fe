@@ -26,3 +26,13 @@ export const cartContent = {
     lead: "Your cart is tied to your account, so it follows you across devices.",
   },
 };
+
+export const cartMessages = {
+  added: "Added to your cart.",
+  viewCart: "View cart",
+  addFailed: "Could not add that to your cart.",
+  updateFailed: "Could not change the quantity.",
+  removed: "Removed from your cart.",
+  removeFailed: "Could not remove that item.",
+  clearFailed: "Could not empty the cart.",
+};

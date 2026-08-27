@@ -3175,3 +3175,212 @@ body {
 .sb-chart-plot[data-dense="true"] .sb-chart-fill {
   border-radius: 2px 2px 0 0;
 }
+
+@keyframes sb-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+.sb-skeleton {
+  display: block;
+  width: 100%;
+  height: 14px;
+  border-radius: var(--sb-radius-sm);
+  background: linear-gradient(
+    90deg,
+    var(--sb-bg-subtle) 25%,
+    #f3f4f9 50%,
+    var(--sb-bg-subtle) 75%
+  );
+  background-size: 200% 100%;
+  animation: sb-shimmer 1.4s ease-in-out infinite;
+}
+.sb-skeleton-card {
+  border-radius: var(--sb-radius-lg);
+}
+.sb-skeleton-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sb-skeleton-rows {
+  display: flex;
+  flex-direction: column;
+}
+.sb-skeleton-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 18px 16px;
+  border-bottom: 1px solid var(--sb-border-subtle);
+}
+.sb-skeleton-row:last-child {
+  border-bottom: 0;
+}
+.sb-skeleton-row > .sb-skeleton {
+  flex: 1;
+}
+
+@keyframes sb-spin-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.sb-spinner {
+  display: inline-block;
+  flex: none;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--sb-radius-full);
+  opacity: 0.85;
+  animation: sb-spin-rotate 0.6s linear infinite;
+  vertical-align: -2px;
+}
+
+@keyframes sb-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+/* A stack: the newest card sits in front, older ones peek out behind it and
+   fan into a list on hover. */
+.sb-toasts {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1090;
+  width: min(380px, calc(100vw - 48px));
+  height: 96px;
+  pointer-events: none;
+}
+.sb-toast {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border-radius: var(--sb-radius-lg);
+  border: 1px solid var(--sb-border-subtle);
+  border-left: 3px solid var(--sb-accent-blue);
+  background: var(--sb-bg-surface);
+  box-shadow: var(--sb-shadow-lg);
+  pointer-events: auto;
+  z-index: calc(10 - var(--depth));
+  /* Scaling from the bottom centre keeps every card's baseline and horizontal
+     centre aligned, so the ones behind peek out evenly. */
+  transform-origin: bottom center;
+  transform: translateY(calc(var(--depth) * -10px))
+    scale(calc(1 - var(--depth) * 0.045));
+  will-change: transform;
+  transition:
+    transform 0.26s cubic-bezier(0.2, 0.7, 0.3, 1),
+    opacity 0.2s ease;
+  animation: sb-toast-in 0.26s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.sb-toasts:hover .sb-toast {
+  transform: translateY(calc(var(--depth) * -76px)) scale(1);
+}
+/* Only the front card is readable while collapsed. */
+.sb-toasts:not(:hover) .sb-toast:not([data-depth="0"]) > * {
+  opacity: 0;
+  transition: opacity 0.16s ease;
+}
+.sb-toasts:hover .sb-toast > * {
+  transition: opacity 0.2s ease 0.06s;
+}
+.sb-toast.is-leaving {
+  opacity: 0;
+  transform: translateY(8px) scale(0.96);
+}
+.sb-toast-icon {
+  margin-top: 1px;
+  font-size: 1rem;
+  color: var(--sb-accent-blue);
+}
+.sb-toast.is-success {
+  border-left-color: var(--sb-success);
+}
+.sb-toast.is-success .sb-toast-icon {
+  color: var(--sb-success);
+}
+.sb-toast.is-error {
+  border-left-color: #d92d20;
+}
+.sb-toast.is-error .sb-toast-icon {
+  color: #d92d20;
+}
+.sb-toast-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.sb-toast-message {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--sb-text-secondary);
+  overflow-wrap: anywhere;
+}
+.sb-toast-close {
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--sb-text-muted);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+.sb-toast-close:hover {
+  color: var(--sb-text-primary);
+}
+@media (max-width: 575.98px) {
+  .sb-toasts {
+    right: 12px;
+    left: 12px;
+    bottom: 12px;
+    width: auto;
+  }
+}
+
+.sb-product-media {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(140deg, #eef0ff 0%, #f3eeff 55%, #eef4ff 100%);
+  color: var(--sb-text-secondary);
+  text-decoration: none;
+}
+
+.sb-toast-message {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.sb-toast-count {
+  margin-left: 6px;
+  font-weight: 600;
+  color: var(--sb-text-muted);
+}
+.sb-toast-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--sb-accent-blue);
+  text-decoration: none;
+}
+.sb-toast-action:hover {
+  text-decoration: underline;
+}

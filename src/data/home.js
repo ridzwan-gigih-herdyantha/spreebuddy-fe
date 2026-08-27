@@ -1,4 +1,5 @@
 export const heroContent = {
+  signInToAsk: "Sign in first so the assistant can remember your chat.",
   badge: "AI-native shopping",
   title: ["Shop by conversation,", "not by browsing."],
   lead: "SpreeBuddy is your AI shopping assistant. Describe what you need in plain language.",
@@ -14,6 +15,8 @@ export const heroContent = {
 
 export const featuredProducts = {
   title: "Featured products",
+  unavailable: "The catalogue is not reachable right now.",
+  signInToAdd: "Sign in first to build a cart.",
   subtitle: "Hand-picked by the AI based on trending needs",
   viewAll: "View all",
   items: [

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Skeleton, { SkeletonText } from "@/components/ui/Skeleton";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import OrderTimeline from "@/components/orders/OrderTimeline";
@@ -10,6 +11,7 @@ import { formatPrice } from "@/utils/format";
 import { adminRoutes } from "@/config/admin";
 import { nextStatuses } from "@/data/orders";
 import { orderDeleteContent, orderDetailAdminContent } from "@/data/admin";
+import { useToast } from "@/hooks/useToast";
 
 function Row({ label, children }) {
   return (
@@ -20,6 +22,33 @@ function Row({ label, children }) {
   );
 }
 
+function DetailSkeleton() {
+  return (
+    <>
+      <header className="sb-admin-head">
+        <div className="w-100">
+          <Skeleton width={140} height={12} />
+          <Skeleton width="35%" height={26} className="mt-3" />
+          <Skeleton width={180} height={12} className="mt-3" />
+        </div>
+      </header>
+
+      <div className="row g-3">
+        <div className="col-12 col-xl-8">
+          <div className="sb-card sb-panel p-4">
+            <SkeletonText lines={6} />
+          </div>
+        </div>
+        <div className="col-12 col-xl-4">
+          <div className="sb-card sb-panel p-4">
+            <SkeletonText lines={8} />
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function AdminOrderDetail() {
   const { id } = useParams();
   const content = orderDetailAdminContent;
@@ -27,6 +56,7 @@ export default function AdminOrderDetail() {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [confirming, setConfirming] = useState(false);
 
   const query = useQuery({
@@ -42,11 +72,17 @@ export default function AdminOrderDetail() {
     queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
   };
 
-  const move = useMutation({ mutationFn: moveOrderTo, onSettled: settle });
+  const move = useMutation({
+    mutationFn: moveOrderTo,
+    onSuccess: (_data, { status }) => toast.success(`Moved to ${status}.`),
+    onError: (err) => toast.error(err?.message ?? "That move was rejected."),
+    onSettled: settle,
+  });
 
   const remove = useMutation({
     mutationFn: () => deleteOrder(id),
     onSuccess: () => {
+      toast.success("Order deleted.");
       queryClient.invalidateQueries({ queryKey: ["admin", "orders"] });
       navigate(adminRoutes.orders, { replace: true });
     },
@@ -64,7 +100,7 @@ export default function AdminOrderDetail() {
     );
   }
 
-  if (!order) return <div className="sb-admin-boot">Loading…</div>;
+  if (!order) return <DetailSkeleton />;
 
   const moves = nextStatuses(order.status);
   const cancelled = order.status?.toLowerCase() === "cancelled";

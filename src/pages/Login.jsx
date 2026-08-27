@@ -5,8 +5,10 @@ import { useMutation } from "@tanstack/react-query";
 import AuthSplit from "@/components/auth/AuthSplit";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
+import Spinner from "@/components/ui/Spinner";
 import { loginUser } from "@/api/auth";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
 import { loginContent } from "@/data/auth";
 
 function Aside({ title, lead }) {
@@ -32,6 +34,7 @@ export default function Login() {
     aside,
   } = loginContent;
   const navigate = useNavigate();
+  const toast = useToast();
   const { login } = useAuth();
   const [visible, setVisible] = useState(false);
 
@@ -52,6 +55,7 @@ export default function Login() {
       err.fieldErrors?.forEach(({ field, message }) =>
         setError(field, { message }),
       );
+      if (!err.fieldErrors?.length) toast.error(err.message);
     },
   });
 
@@ -115,6 +119,7 @@ export default function Login() {
           className="btn btn-primary sb-btn-block"
           disabled={isPending}
         >
+          {isPending && <Spinner size={14} className="me-2" />}
           {isPending ? "Signing in…" : submit}
         </button>
       </form>

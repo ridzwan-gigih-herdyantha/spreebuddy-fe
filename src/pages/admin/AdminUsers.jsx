@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Avatar from "@/components/ui/Avatar";
 import FilterBar from "@/components/ui/FilterBar";
+import { SkeletonRows } from "@/components/ui/Skeleton";
 import { listUsers } from "@/api/admin";
 import { formatRelative } from "@/utils/format";
 import { adminRoutes } from "@/config/admin";
@@ -70,7 +71,9 @@ export default function AdminUsers() {
       )}
 
       <section className="sb-card">
-        {users.isSuccess && items.length === 0 ? (
+        {users.isPending ? (
+          <SkeletonRows rows={8} columns={5} />
+        ) : users.isSuccess && items.length === 0 ? (
           <div className="text-center py-5">
             <h2 className="sb-h2 mb-2">{content.empty.title}</h2>
             <p className="sb-lead mb-0">{content.empty.lead}</p>

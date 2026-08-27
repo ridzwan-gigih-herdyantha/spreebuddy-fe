@@ -6,6 +6,7 @@ import WishlistCard from "@/components/wishlist/WishlistCard";
 import { listWishlist, removeFromWishlist } from "@/api/wishlist";
 import { currentPrice } from "@/utils/format";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
 import {
   COMPARE_MAX,
   wishlistContent,
@@ -26,6 +27,7 @@ export default function Wishlist() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user } = useAuth();
+  const toast = useToast();
 
   const [category, setCategory] = useState(content.allCategories);
   const [sort, setSort] = useState("recent");
@@ -56,10 +58,12 @@ export default function Wishlist() {
 
       return { previous };
     },
-    onError: (_err, _productId, context) => {
+    onError: (err, _productId, context) => {
       if (context?.previous)
         queryClient.setQueryData(WISHLIST_KEY, context.previous);
+      toast.error(err?.message ?? "Could not update your wishlist.");
     },
+    onSuccess: () => toast.success("Removed from your wishlist."),
     onSettled: (_data, _err, productId) => {
       setRemoving((state) => {
         const next = { ...state };

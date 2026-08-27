@@ -4,11 +4,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Avatar from "@/components/ui/Avatar";
 import FilterBar from "@/components/ui/FilterBar";
 import StatusPill from "@/components/ui/StatusPill";
+import { SkeletonRows } from "@/components/ui/Skeleton";
 import { listOrders, moveOrderTo } from "@/api/orders";
 import { formatPrice, formatRelative } from "@/utils/format";
 import { adminRoutes } from "@/config/admin";
 import { nextStatuses, orderStatuses } from "@/data/orders";
 import { ORDERS_ADMIN_PAGE_SIZE, ordersAdminContent } from "@/data/admin";
+import { useToast } from "@/hooks/useToast";
 
 const PAGE_SPAN = 3;
 const ORDERS_KEY = ["admin", "orders"];
@@ -26,6 +28,7 @@ const forwardStatus = (status) =>
 export default function AdminOrders() {
   const content = ordersAdminContent;
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState(content.allStatuses);
@@ -71,6 +74,9 @@ export default function AdminOrders() {
   const move = useMutation({
     mutationFn: moveOrderTo,
     onMutate: ({ id }) => setBusy(id),
+    onSuccess: (_data, { status }) =>
+      toast.success(`Order moved to ${status}.`),
+    onError: (err) => toast.error(err?.message ?? "Could not move that order."),
     onSettled: () => {
       setBusy(null);
       queryClient.invalidateQueries({ queryKey: ORDERS_KEY });
@@ -130,7 +136,9 @@ export default function AdminOrders() {
       )}
 
       <section className="sb-card">
-        {orders.isSuccess && items.length === 0 ? (
+        {orders.isPending ? (
+          <SkeletonRows rows={8} columns={8} />
+        ) : orders.isSuccess && items.length === 0 ? (
           <div className="text-center py-5">
             <h2 className="sb-h2 mb-2">{content.empty.title}</h2>
             <p className="sb-lead mb-0">{content.empty.lead}</p>

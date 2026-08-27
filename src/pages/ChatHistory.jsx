@@ -5,6 +5,7 @@ import FilterBar from "@/components/ui/FilterBar";
 import { deleteSession, listSessions } from "@/api/chat";
 import { formatRelative, parseApiDate } from "@/utils/format";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
 import { chatHistoryContent, chatHistorySortOptions } from "@/data/chatHistory";
 
 const SESSIONS_KEY = ["sessions"];
@@ -30,6 +31,7 @@ export default function ChatHistory() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user } = useAuth();
+  const toast = useToast();
 
   const [search, setSearch] = useState("");
   const [range, setRange] = useState(content.allRange);
@@ -58,10 +60,12 @@ export default function ChatHistory() {
 
       return { previous };
     },
-    onError: (_err, _id, context) => {
+    onError: (err, _id, context) => {
       if (context?.previous)
         queryClient.setQueryData(SESSIONS_KEY, context.previous);
+      toast.error(err?.message ?? "Could not delete that conversation.");
     },
+    onSuccess: () => toast.success("Conversation deleted."),
     onSettled: (_data, _err, id) => {
       setRemoving((state) => {
         const next = { ...state };

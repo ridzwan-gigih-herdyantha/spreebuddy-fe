@@ -3,6 +3,12 @@ export const shopContent = {
   lead: "Browse the catalogue, or just ask the assistant to find it for you.",
   askAi: { label: "Ask the AI instead", to: "/chat" },
   allCategories: "All",
+  wishlist: {
+    saved: "Saved to your wishlist.",
+    removed: "Removed from your wishlist.",
+    view: "View wishlist",
+    failed: "Could not update your wishlist.",
+  },
   loadMore: "Load more",
   empty: {
     title: "Nothing here yet",

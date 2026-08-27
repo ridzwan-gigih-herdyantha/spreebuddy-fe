@@ -1,4 +1,5 @@
 export const chatContent = {
+  sendFailed: "Your message did not go through. It is back in the box.",
   newChat: "New chat",
   placeholder: "Message SpreeBuddy…",
   greeting: {

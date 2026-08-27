@@ -12,6 +12,7 @@ import {
 } from "@/api/wishlist";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
+import { useToast } from "@/hooks/useToast";
 import { currentPrice } from "@/utils/format";
 import { PAGE_SIZE, shopContent, sortOptions } from "@/data/shop";
 
@@ -30,6 +31,7 @@ export default function Shop() {
 
   const { user } = useAuth();
   const { addItem } = useCart();
+  const toast = useToast();
 
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [category, setCategory] = useState(allCategories);
@@ -84,10 +86,18 @@ export default function Shop() {
       return { previous };
     },
 
+    onSuccess: (_data, { saved }) =>
+      saved
+        ? toast.success(shopContent.wishlist.removed)
+        : toast.success(shopContent.wishlist.saved, {
+            action: { label: shopContent.wishlist.view, to: "/wishlist" },
+          }),
+
     onError: (err, _variables, context) => {
       if (context?.previous)
         queryClient.setQueryData(["wishlists"], context.previous);
       if (err.status === 401) navigate("/login");
+      else toast.error(err?.message ?? shopContent.wishlist.failed);
     },
 
     // Refetch only once the last toggle has settled, otherwise the response

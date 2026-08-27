@@ -8,6 +8,8 @@ import {
   updateCartItem,
 } from "@/api/cart";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
+import { cartMessages } from "@/data/cart";
 import { CartContext } from "./cartStore";
 
 const CART_KEY = ["cart"];
@@ -18,6 +20,7 @@ const sumTotal = (items) => items.reduce((sum, item) => sum + item.total, 0);
 export default function CartProvider({ children }) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [busy, setBusy] = useState({});
 
   const cart = useQuery({
@@ -80,7 +83,13 @@ export default function CartProvider({ children }) {
   const add = useMutation({
     mutationKey: CART_MUTATION,
     mutationFn: addToCart,
-    onSettled: () => settle(),
+    onMutate: ({ productId }) => mark(productId, "add"),
+    onSuccess: () =>
+      toast.success(cartMessages.added, {
+        action: { label: cartMessages.viewCart, to: "/cart" },
+      }),
+    onError: (err) => toast.error(err?.message ?? cartMessages.addFailed),
+    onSettled: (_data, _err, { productId }) => settle(productId),
   });
 
   const update = useMutation({
@@ -102,7 +111,10 @@ export default function CartProvider({ children }) {
       );
       return { previous };
     },
-    onError: (_err, _variables, context) => rollback(context),
+    onError: (err, _variables, context) => {
+      rollback(context);
+      toast.error(err?.message ?? cartMessages.updateFailed);
+    },
     onSettled: (_data, _err, { productId }) => settle(productId),
   });
 
@@ -117,7 +129,11 @@ export default function CartProvider({ children }) {
       );
       return { previous };
     },
-    onError: (_err, _variables, context) => rollback(context),
+    onError: (err, _variables, context) => {
+      rollback(context);
+      toast.error(err?.message ?? cartMessages.removeFailed);
+    },
+    onSuccess: () => toast.success(cartMessages.removed),
     onSettled: (_data, _err, productId) => settle(productId),
   });
 
@@ -129,7 +145,10 @@ export default function CartProvider({ children }) {
       patchItems(() => []);
       return { previous };
     },
-    onError: (_err, _variables, context) => rollback(context),
+    onError: (err, _variables, context) => {
+      rollback(context);
+      toast.error(err?.message ?? cartMessages.clearFailed);
+    },
     onSettled: () => settle(),
   });
 

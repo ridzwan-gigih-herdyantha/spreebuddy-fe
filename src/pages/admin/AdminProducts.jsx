@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import FilterBar from "@/components/ui/FilterBar";
 import StatusPill from "@/components/ui/StatusPill";
+import { SkeletonRows } from "@/components/ui/Skeleton";
 import { deleteProduct, fetchProductIds, listProducts } from "@/api/products";
 import { listCategories } from "@/api/categories";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
@@ -211,7 +212,9 @@ export default function AdminProducts() {
       )}
 
       <section className="sb-card">
-        {products.isSuccess && items.length === 0 ? (
+        {products.isPending ? (
+          <SkeletonRows rows={8} columns={7} />
+        ) : products.isSuccess && items.length === 0 ? (
           <div className="text-center py-5">
             <h2 className="sb-h2 mb-2">{content.empty.title}</h2>
             <p className="sb-lead mb-0">{content.empty.lead}</p>

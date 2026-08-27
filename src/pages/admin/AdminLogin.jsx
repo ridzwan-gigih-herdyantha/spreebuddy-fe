@@ -5,10 +5,12 @@ import { useMutation } from "@tanstack/react-query";
 import AuthSplit from "@/components/auth/AuthSplit";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
+import Spinner from "@/components/ui/Spinner";
 import { loginUser } from "@/api/auth";
 import { adminRoutes, isAdmin } from "@/config/admin";
 import { adminLoginContent } from "@/data/admin";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
 
 function Aside({ title, lead, benefits }) {
   return (
@@ -46,6 +48,7 @@ export default function AdminLogin() {
   } = adminLoginContent;
 
   const navigate = useNavigate();
+  const toast = useToast();
   const { user, login } = useAuth();
   const [visible, setVisible] = useState(false);
 
@@ -66,6 +69,7 @@ export default function AdminLogin() {
       err.fieldErrors?.forEach(({ field, message }) =>
         setError(field, { message }),
       );
+      if (!err.fieldErrors?.length) toast.error(err.message);
     },
   });
 
@@ -129,6 +133,7 @@ export default function AdminLogin() {
           className="btn btn-primary sb-btn-block"
           disabled={isPending}
         >
+          {isPending && <Spinner size={14} className="me-2" />}
           {isPending ? "Signing in…" : submit}
         </button>
       </form>

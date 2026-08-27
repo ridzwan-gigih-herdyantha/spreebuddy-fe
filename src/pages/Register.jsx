@@ -7,8 +7,10 @@ import AvatarField from "@/components/auth/AvatarField";
 import PasswordStrength from "@/components/auth/PasswordStrength";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import TextField from "@/components/ui/TextField";
+import Spinner from "@/components/ui/Spinner";
 import { registerUser } from "@/api/auth";
 import { registerContent } from "@/data/auth";
+import { useToast } from "@/hooks/useToast";
 
 const PHONE_PATTERN = /^\+?\d{10,15}$/;
 const AVATAR_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
@@ -48,6 +50,7 @@ function Aside({ title, benefits, card }) {
 export default function Register() {
   const { title, lead, submit, footer, aside } = registerContent;
   const navigate = useNavigate();
+  const toast = useToast();
   const [visible, setVisible] = useState({ password: false, confirm: false });
 
   const {
@@ -65,8 +68,12 @@ export default function Register() {
 
   const { mutate, isPending, error } = useMutation({
     mutationFn: registerUser,
-    onSuccess: () => navigate("/login", { replace: true }),
+    onSuccess: () => {
+      toast.success("Account created. Sign in to continue.");
+      navigate("/login", { replace: true });
+    },
     onError: (err) => {
+      if (!err.fieldErrors?.length) toast.error(err.message);
       err.fieldErrors?.forEach(({ field, message }) =>
         setError(field, { message }),
       );
@@ -225,6 +232,7 @@ export default function Register() {
           className="btn btn-primary sb-btn-block"
           disabled={isPending}
         >
+          {isPending && <Spinner size={14} className="me-2" />}
           {isPending ? "Creating account…" : submit}
         </button>
       </form>

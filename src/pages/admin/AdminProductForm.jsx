@@ -4,10 +4,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Select from "@/components/ui/Select";
 import TextArea from "@/components/ui/TextArea";
 import TextField from "@/components/ui/TextField";
+import Spinner from "@/components/ui/Spinner";
 import { createProduct, getProduct, updateProduct } from "@/api/products";
 import { listCategories } from "@/api/categories";
 import { adminRoutes } from "@/config/admin";
 import { productFormContent, productTypes } from "@/data/admin";
+import { useToast } from "@/hooks/useToast";
 
 const num = (value) =>
   value === "" || value === null || value === undefined
@@ -57,6 +59,7 @@ export default function AdminProductForm() {
 
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const toast = useToast();
 
   const product = useQuery({
     queryKey: ["product", slug],
@@ -90,6 +93,7 @@ export default function AdminProductForm() {
         : createProduct(body),
 
     onSuccess: (response) => {
+      toast.success(editing ? "Product updated." : "Product created.");
       queryClient.invalidateQueries({ queryKey: ["admin", "products"] });
       queryClient.invalidateQueries({ queryKey: ["products"] });
       // Editing regenerates the slug, so route off the response, not the param.
@@ -103,6 +107,7 @@ export default function AdminProductForm() {
       err.fieldErrors?.forEach(({ field, message }) => {
         if (field) setError(field, { message });
       });
+      if (!err.fieldErrors?.length) toast.error(err.message);
     },
   });
 
@@ -186,6 +191,7 @@ export default function AdminProductForm() {
             className="btn btn-primary rounded-pill px-4 text-nowrap"
             disabled={save.isPending || (editing && product.isPending)}
           >
+            {save.isPending && <Spinner size={14} className="me-2" />}
             {save.isPending ? mode.pending : mode.submit}
           </button>
         </div>

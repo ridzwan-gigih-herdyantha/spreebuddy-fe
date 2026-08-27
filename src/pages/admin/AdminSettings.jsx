@@ -5,6 +5,7 @@ import AvatarField from "@/components/auth/AvatarField";
 import PasswordToggle from "@/components/auth/PasswordToggle";
 import ConfirmDialog from "@/components/ui/ConfirmDialog";
 import TextField from "@/components/ui/TextField";
+import Spinner from "@/components/ui/Spinner";
 import StatusPill from "@/components/ui/StatusPill";
 import { getAiUsage, getHealth, updateUser } from "@/api/admin";
 import {
@@ -24,6 +25,7 @@ import {
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
 import { orderStatuses, orderTransitions } from "@/data/orders";
 import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/useToast";
 
 const CATEGORIES_KEY = ["categories"];
 const COUNTS_KEY = ["admin", "category-counts"];
@@ -46,6 +48,7 @@ function Row({ label, children }) {
 
 function AccountPanel({ content, user }) {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [avatar, setAvatar] = useState(null);
   const [visible, setVisible] = useState(false);
 
@@ -69,12 +72,14 @@ function AccountPanel({ content, user }) {
     mutationFn: (body) => updateUser({ id: user.id, ...body }),
     onSuccess: () => {
       setAvatar(null);
+      toast.success(content.saved);
       queryClient.invalidateQueries({ queryKey: ["me"] });
     },
     onError: (err) => {
       err.fieldErrors?.forEach(({ field, message }) => {
         if (field) setError(field, { message });
       });
+      if (!err.fieldErrors?.length) toast.error(err.message);
     },
   });
 
@@ -196,6 +201,7 @@ function AccountPanel({ content, user }) {
             className="btn btn-primary rounded-pill px-4"
             disabled={save.isPending || !user}
           >
+            {save.isPending && <Spinner size={14} className="me-2" />}
             {save.isPending ? content.pending : content.submit}
           </button>
         </div>
@@ -206,6 +212,7 @@ function AccountPanel({ content, user }) {
 
 function CategoriesPanel({ content, removeCopy }) {
   const queryClient = useQueryClient();
+  const toast = useToast();
   const [editing, setEditing] = useState(null);
   const [pending, setPending] = useState(null);
 
@@ -244,23 +251,29 @@ function CategoriesPanel({ content, removeCopy }) {
 
   const create = useMutation({
     mutationFn: createCategory,
-    onSuccess: () => {
+    onSuccess: (_data, { name }) => {
       add.reset({ name: "", description: "" });
+      toast.success(`Category "${name}" added.`);
       settle();
     },
+    onError: (err) =>
+      toast.error(err?.message ?? "Could not add that category."),
   });
 
   const rename = useMutation({
     mutationFn: updateCategory,
-    onSuccess: () => {
+    onSuccess: (_data, { name }) => {
       setEditing(null);
+      toast.success(`Renamed to "${name}". Products moved with it.`);
       settle();
     },
+    onError: (err) => toast.error(err?.message ?? "Could not rename it."),
   });
 
   const remove = useMutation({
     mutationFn: deleteCategory,
     onSuccess: () => {
+      toast.success("Category deleted.");
       setPending(null);
       settle();
     },

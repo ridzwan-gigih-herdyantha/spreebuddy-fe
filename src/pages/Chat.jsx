@@ -8,6 +8,7 @@ import PromptInput from "@/components/ui/PromptInput";
 import { createSession, getSession, sendMessage } from "@/api/chat";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
+import { useToast } from "@/hooks/useToast";
 import { chatContent } from "@/data/chatPage";
 
 export default function Chat() {
@@ -16,11 +17,13 @@ export default function Chat() {
   const queryClient = useQueryClient();
   const { user } = useAuth();
   const { addItem } = useCart();
+  const toast = useToast();
 
   const sessionId = params.get("session");
   const [draft, setDraft] = useState(() => {
     const names = params.get("compare");
-    return names ? `Compare these products: ${names}` : "";
+    if (names) return `Compare these products: ${names}`;
+    return params.get("ask") ?? "";
   });
   const [sent, setSent] = useState(null);
   const endRef = useRef(null);
@@ -57,9 +60,10 @@ export default function Chat() {
       await queryClient.invalidateQueries({ queryKey: ["session", id] });
       setSent(null);
     },
-    onError: (_err, message) => {
+    onError: (err, message) => {
       setSent(null);
       setDraft(message);
+      toast.error(err?.message ?? content.sendFailed);
     },
   });
 

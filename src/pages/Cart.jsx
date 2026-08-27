@@ -3,8 +3,10 @@ import { useMutation } from "@tanstack/react-query";
 import CartRow from "@/components/cart/CartRow";
 import { createOrders } from "@/api/orders";
 import { formatPrice } from "@/utils/format";
+import Spinner from "@/components/ui/Spinner";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
+import { useToast } from "@/hooks/useToast";
 import { cartContent, TAX_RATE } from "@/data/cart";
 
 function Notice({ title, lead, children }) {
@@ -22,6 +24,7 @@ function Notice({ title, lead, children }) {
 export default function Cart() {
   const content = cartContent;
   const navigate = useNavigate();
+  const toast = useToast();
   const { user } = useAuth();
   const {
     items,
@@ -45,6 +48,7 @@ export default function Cart() {
           })),
       ),
     onSuccess: () => {
+      toast.success("Order placed. You can follow it in My orders.");
       clear();
       navigate("/orders");
     },
@@ -169,6 +173,7 @@ export default function Cart() {
               disabled={blocked || placeOrder.isPending}
               onClick={() => placeOrder.mutate()}
             >
+              {placeOrder.isPending && <Spinner size={14} className="me-2" />}
               {placeOrder.isPending ? "Placing order…" : content.placeOrder}
             </button>
 
