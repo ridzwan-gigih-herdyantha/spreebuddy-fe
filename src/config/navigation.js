@@ -106,6 +106,12 @@ export const searchablePages = [
     icon: "bi-shield-check",
     keywords: "data cookies policy personal",
   },
+  {
+    label: "Terms",
+    to: "/terms",
+    icon: "bi-file-text",
+    keywords: "conditions rules agreement legal",
+  },
 ];
 
 const allLinks = [...mainNav, ...footerNav.flatMap((group) => group.links)];

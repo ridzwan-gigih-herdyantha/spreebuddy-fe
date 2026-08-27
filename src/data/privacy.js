@@ -1,9 +1,4 @@
-// Replace these before this page goes anywhere near real customers.
-export const legalEntity = {
-  name: "SpreeBuddy",
-  contactEmail: "privacy@spreebuddy.example",
-  updated: "27 August 2026",
-};
+export { legalEntity } from "@/data/legal";
 
 export const privacyContent = {
   badge: "Privacy",
