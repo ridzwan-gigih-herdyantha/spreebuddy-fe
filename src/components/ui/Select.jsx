@@ -48,7 +48,7 @@ export default function Select({
         >
           {selected?.label ?? placeholder}
         </span>
-        <i className="bi bi-chevron-down" />
+        <i className="bi bi-chevron-down sb-select-caret" />
       </button>
 
       {open && (

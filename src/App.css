@@ -628,13 +628,15 @@ body {
   flex: none;
   font-size: 0.75rem;
   color: var(--sb-text-muted);
+}
+.sb-select-caret {
   transition: transform 0.15s ease;
 }
 .sb-select[data-open="true"] .sb-select-trigger {
   border-color: var(--sb-accent-blue);
   box-shadow: var(--sb-focus-ring);
 }
-.sb-select[data-open="true"] .sb-select-trigger i {
+.sb-select[data-open="true"] .sb-select-caret {
   transform: rotate(180deg);
 }
 .sb-select-menu {
