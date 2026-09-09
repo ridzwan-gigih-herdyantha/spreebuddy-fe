@@ -1,8 +1,9 @@
 export const globalSearchContent = {
-  placeholder: "Search pages and products",
+  placeholder: "Search pages and categories",
   pages: "Pages",
-  products: "Products",
-  noProducts: "No products match that.",
+  categories: "Categories",
+  browse: "Browse",
+  noCategories: "No categories match that.",
   nothing: "Nothing matches that yet.",
-  seeAll: "See all {n} products",
+  searchShop: 'Search the shop for "{term}"',
 };

@@ -34,11 +34,23 @@ export default function Shop() {
   const toast = useToast();
 
   const [limit, setLimit] = useState(PAGE_SIZE);
-  const [category, setCategory] = useState(allCategories);
   const [sort, setSort] = useState("relevance");
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const [search, setSearch] = useState(() => params.get("search") ?? "");
   const term = useDeferredValue(search);
+
+  const category = params.get("category") ?? allCategories;
+
+  const setCategory = (value) =>
+    setParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        if (value === allCategories) next.delete("category");
+        else next.set("category", value);
+        return next;
+      },
+      { replace: true },
+    );
 
   const filter = category === allCategories ? undefined : category;
 
