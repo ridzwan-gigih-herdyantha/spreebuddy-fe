@@ -9,7 +9,7 @@ export const ADDRESS_PARTS = [
 
 export const checkoutContent = {
   title: "Checkout",
-  lead: "Confirm where this is going, then pay securely on Stripe.",
+  lead: "Confirm where this is going, and pay for your order.",
   back: { label: "Back to cart", to: "/cart" },
 
   addressTitle: "Delivery address",
@@ -40,9 +40,9 @@ export const checkoutContent = {
   tax: "Tax",
   total: "Total",
   freeShippingNote: "Shipping is free on orders over {amount}.",
-  pay: "Pay with Stripe",
-  paying: "Opening Stripe…",
-  leaving: "You will finish paying on Stripe and come straight back here.",
+  pay: "Pay",
+  paying: "Opening the payment service…",
+  leaving: "You will finish paying and come straight back here.",
   disabled: {
     title: "Payments are switched off",
     lead: "This server has no payment provider configured, so checkout is unavailable right now.",
@@ -63,7 +63,7 @@ export const checkoutContent = {
 export const checkoutReturnContent = {
   confirming: {
     title: "Confirming your payment",
-    lead: "Stripe is letting us know how it went. This usually takes a moment.",
+    lead: "The payment service is letting us know how it went. This usually takes a moment.",
   },
   paid: {
     title: "Payment received",
@@ -71,7 +71,7 @@ export const checkoutReturnContent = {
     action: { label: "View my orders", to: "/orders" },
   },
   slow: {
-    title: "Still waiting on Stripe",
+    title: "Still waiting on confirmation",
     lead: "Your payment went through, but the confirmation has not reached us yet. It will land shortly, and your orders page will show it once it does.",
     action: { label: "View my orders", to: "/orders" },
   },
