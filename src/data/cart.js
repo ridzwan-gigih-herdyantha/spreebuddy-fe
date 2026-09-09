@@ -11,7 +11,7 @@ export const cartContent = {
   blocked: "Remove the out of stock items to place your order.",
   note: "No payment is taken. Placing the order reserves stock and creates it as pending.",
   reassurance: [
-    { icon: "bi-truck", label: "Free shipping over Rp 100.000" },
+    { icon: "bi-truck", label: "Free shipping over $100" },
     { icon: "bi-arrow-counterclockwise", label: "30 day returns policy" },
     { icon: "bi-clock-history", label: "Stock reserved once ordered" },
   ],

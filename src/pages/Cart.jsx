@@ -98,7 +98,7 @@ export default function Cart() {
   }
 
   const blocked = items.some((item) => (item.product?.stock ?? 0) <= 0);
-  const tax = Math.round(total * TAX_RATE);
+  const tax = Math.round(total * TAX_RATE * 100) / 100;
   const grandTotal = total + tax;
 
   return (

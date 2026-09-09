@@ -19,6 +19,7 @@
   --sb-accent-violet: #8b5cf6;
   --sb-accent-violet-strong: #7c47f0;
 
+  --sb-danger: #ef4444;
   --sb-success: #12b76a;
   --sb-success-soft: #e7f8f0;
   --sb-warning: #f79009;
@@ -224,7 +225,7 @@ body {
 }
 .sb-price-old {
   font-size: 0.9375rem;
-  color: var(--sb-text-muted);
+  color: var(--sb-danger);
   text-decoration: line-through;
 }
 .sb-star {

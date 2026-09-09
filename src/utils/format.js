@@ -1,7 +1,8 @@
-const currency = new Intl.NumberFormat("id-ID", {
+const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
-  currency: "IDR",
-  maximumFractionDigits: 0,
+  currency: "USD",
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
 });
 
 export const formatPrice = (value) =>
