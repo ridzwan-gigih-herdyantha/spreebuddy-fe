@@ -108,7 +108,7 @@ export default function OrderDetail() {
 
                 {product && (
                   <div className="d-flex gap-3 mt-2">
-                    <Link to={`/product/${product.id}`} className="sb-small">
+                    <Link to={`/product/${product.slug}`} className="sb-small">
                       {content.viewProduct}
                     </Link>
                     <button
