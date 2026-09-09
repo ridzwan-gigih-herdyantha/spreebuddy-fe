@@ -1,12 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import CartRow from "@/components/cart/CartRow";
-import { createOrders } from "@/api/orders";
 import { formatPrice } from "@/utils/format";
-import Spinner from "@/components/ui/Spinner";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
-import { useToast } from "@/hooks/useToast";
 import { cartContent, TAX_RATE } from "@/data/cart";
 
 function Notice({ title, lead, children }) {
@@ -23,8 +19,6 @@ function Notice({ title, lead, children }) {
 
 export default function Cart() {
   const content = cartContent;
-  const navigate = useNavigate();
-  const toast = useToast();
   const { user } = useAuth();
   const {
     items,
@@ -36,23 +30,6 @@ export default function Cart() {
     removeItem,
     clear,
   } = useCart();
-
-  const placeOrder = useMutation({
-    mutationFn: () =>
-      createOrders(
-        items
-          .filter((item) => item.product?.id)
-          .map((item) => ({
-            productId: item.product.id,
-            quantity: item.quantity,
-          })),
-      ),
-    onSuccess: () => {
-      toast.success("Order placed. You can follow it in My orders.");
-      clear();
-      navigate("/orders");
-    },
-  });
 
   if (!user) {
     return (
@@ -155,7 +132,7 @@ export default function Cart() {
             </div>
             <div className="sb-cart-line">
               <span>Shipping</span>
-              <span className="text-success fw-semibold">Free</span>
+              <span className="sb-meta">{content.shippingLater}</span>
             </div>
             <div className="sb-cart-line">
               <span>Tax ({Math.round(TAX_RATE * 100)}%)</span>
@@ -167,30 +144,24 @@ export default function Cart() {
               <span className="sb-cart-grand">{formatPrice(grandTotal)}</span>
             </div>
 
-            <button
-              type="button"
-              className="btn btn-primary sb-btn-block mt-3"
-              disabled={blocked || placeOrder.isPending}
-              onClick={() => placeOrder.mutate()}
-            >
-              {placeOrder.isPending && <Spinner size={14} className="me-2" />}
-              {placeOrder.isPending ? "Placing order…" : content.placeOrder}
-            </button>
+            {blocked ? (
+              <button
+                type="button"
+                className="btn btn-primary sb-btn-block mt-3"
+                disabled
+              >
+                {content.checkout}
+              </button>
+            ) : (
+              <Link
+                to={content.checkoutTo}
+                className="btn btn-primary sb-btn-block mt-3"
+              >
+                {content.checkout}
+              </Link>
+            )}
 
             {blocked && <p className="sb-cart-warn mt-2">{content.blocked}</p>}
-
-            {placeOrder.isError && (
-              <p className="sb-form-error mt-3" role="alert">
-                <i className="bi bi-exclamation-triangle-fill" />
-                <span>
-                  {placeOrder.error.fieldErrors?.length
-                    ? placeOrder.error.fieldErrors
-                        .map(({ message }) => message)
-                        .join(". ")
-                    : placeOrder.error.message}
-                </span>
-              </p>
-            )}
 
             <p className="sb-meta mt-3 mb-0">{content.note}</p>
 

@@ -11,6 +11,8 @@ import Login from "@/pages/Login";
 import Shop from "@/pages/Shop";
 import ProductDetail from "@/pages/ProductDetail";
 import Cart from "@/pages/Cart";
+import Checkout from "@/pages/Checkout";
+import CheckoutReturn from "@/pages/CheckoutReturn";
 import Wishlist from "@/pages/Wishlist";
 import Chat from "@/pages/Chat";
 import ChatHistory from "@/pages/ChatHistory";
@@ -98,6 +100,9 @@ export default function AppRoutes() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/product/:slug" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/checkout/success" element={<CheckoutReturn />} />
+        <Route path="/checkout/cancelled" element={<CheckoutReturn cancelled />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/orders/:id" element={<OrderDetail />} />
