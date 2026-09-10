@@ -98,7 +98,7 @@ export default function GlobalSearch() {
       <input
         ref={inputRef}
         type="search"
-        className="sb-search form-control bg-body-secondary border-0 rounded-pill px-3"
+        className="sb-search form-control bg-body-secondary border-0 rounded-pill"
         placeholder={content.placeholder}
         aria-label={content.placeholder}
         value={term}

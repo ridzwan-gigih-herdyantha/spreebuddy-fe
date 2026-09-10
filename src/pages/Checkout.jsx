@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import Skeleton from "@/components/ui/Skeleton";
 import Spinner from "@/components/ui/Spinner";
 import TextField from "@/components/ui/TextField";
 import { createOrders } from "@/api/orders";
@@ -50,9 +52,13 @@ export default function Checkout() {
     formState: { errors },
   } = useForm({ mode: "onTouched", values: toAddressForm(user) });
 
-  // Orders are created first, then handed to the payment; the cart empties once
-  // the lines have become orders, whether or not Stripe opens.
+  // Placing the orders empties the cart, which would otherwise blank out the
+  // summary while the page is still on screen waiting for the redirect. The
+  // basket is frozen at submit time and rendered from that snapshot instead.
+  const [frozen, setFrozen] = useState(null);
+
   const pay = useMutation({
+    onMutate: () => setFrozen({ items, total }),
     mutationFn: async (shippingAddress) => {
       const placed = await createOrders(
         items
@@ -104,7 +110,9 @@ export default function Checkout() {
     );
   }
 
-  if (items.length === 0 && !pay.isPending && !pay.isSuccess) {
+  const basket = frozen ?? { items, total };
+
+  if (basket.items.length === 0) {
     return (
       <Notice title={content.empty.title} lead={content.empty.lead}>
         <Link
@@ -119,13 +127,15 @@ export default function Checkout() {
 
   const rules = config.data?.data;
   const enabled = rules?.enabled !== false;
+
+  const priced = Boolean(rules);
   const taxRate = rules?.taxRate ?? 0;
   const freeFrom = rules?.freeShippingFrom ?? 0;
-  const shipping = total >= freeFrom ? 0 : (rules?.shippingFlat ?? 0);
-  const tax = Math.round(total * taxRate * 100) / 100;
-  const grandTotal = total + shipping + tax;
+  const shipping = basket.total >= freeFrom ? 0 : (rules?.shippingFlat ?? 0);
+  const tax = Math.round(basket.total * taxRate * 100) / 100;
+  const grandTotal = basket.total + shipping + tax;
 
-  const blocked = items.some((item) => (item.product?.stock ?? 0) <= 0);
+  const blocked = basket.items.some((item) => (item.product?.stock ?? 0) <= 0);
   const busy = pay.isPending || pay.isSuccess;
 
   return (
@@ -175,7 +185,7 @@ export default function Checkout() {
               <h2 className="sb-h2 mb-4">{content.summaryTitle}</h2>
 
               <div className="sb-checkout-lines">
-                {items.map((item) => (
+                {basket.items.map((item) => (
                   <div className="sb-checkout-line" key={item.id}>
                     <span className="text-truncate">
                       {item.product?.name}
@@ -192,11 +202,13 @@ export default function Checkout() {
 
               <div className="sb-cart-line">
                 <span>{content.subtotal}</span>
-                <span className="fw-semibold">{formatPrice(total)}</span>
+                <span className="fw-semibold">{formatPrice(basket.total)}</span>
               </div>
               <div className="sb-cart-line">
                 <span>{content.shipping}</span>
-                {shipping === 0 ? (
+                {!priced ? (
+                  <Skeleton width={64} height={12} />
+                ) : shipping === 0 ? (
                   <span className="text-success fw-semibold">
                     {content.free}
                   </span>
@@ -206,14 +218,25 @@ export default function Checkout() {
               </div>
               <div className="sb-cart-line">
                 <span>
-                  {content.tax} ({Math.round(taxRate * 100)}%)
+                  {content.tax}
+                  {priced && ` (${Math.round(taxRate * 100)}%)`}
                 </span>
-                <span className="fw-semibold">{formatPrice(tax)}</span>
+                {priced ? (
+                  <span className="fw-semibold">{formatPrice(tax)}</span>
+                ) : (
+                  <Skeleton width={64} height={12} />
+                )}
               </div>
 
               <div className="sb-cart-total-block">
                 <span className="sb-meta">{content.total}</span>
-                <span className="sb-cart-grand">{formatPrice(grandTotal)}</span>
+                {priced ? (
+                  <span className="sb-cart-grand">
+                    {formatPrice(grandTotal)}
+                  </span>
+                ) : (
+                  <Skeleton width={140} height={32} />
+                )}
               </div>
 
               {enabled ? (
@@ -221,7 +244,7 @@ export default function Checkout() {
                   <button
                     type="submit"
                     className="btn btn-primary sb-btn-block mt-3"
-                    disabled={blocked || busy}
+                    disabled={blocked || busy || !priced}
                   >
                     {busy && <Spinner size={14} className="me-2" />}
                     {busy ? content.paying : content.pay}

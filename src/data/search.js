@@ -1,5 +1,5 @@
 export const globalSearchContent = {
-  placeholder: "Search pages and categories",
+  placeholder: "Search pages & categories",
   pages: "Pages",
   categories: "Categories",
   browse: "Browse",

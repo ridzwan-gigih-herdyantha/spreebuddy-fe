@@ -3786,7 +3786,10 @@ body {
   color: var(--sb-text-muted);
   pointer-events: none;
 }
+/* Bootstrap's px-3 carries !important, so the padding is set here instead of
+   through a utility class; the right side has to clear the shortcut badge. */
 .sb-globalsearch .sb-search {
+  padding-left: 16px;
   padding-right: 56px;
 }
 @media (min-width: 992px) {
