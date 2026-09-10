@@ -183,3 +183,15 @@ export const componentSpecs = [
     hint: "Gradient banner at radius xl, with an inverted pill button. Also ships in a dark tone.",
   },
 ];
+
+// Shaped exactly like a product from the API, so the card in the style guide
+// exercises the same fields the real one does.
+export const sampleProduct = {
+  id: "sample",
+  name: "Aurora NC 700 Headphones",
+  slug: "aurora-nc-700-headphones",
+  category: "Elektronik",
+  regularPrice: 199,
+  salePrice: 139,
+  stock: 12,
+};

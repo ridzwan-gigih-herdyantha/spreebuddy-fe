@@ -10,5 +10,7 @@ export const getSession = (id) => api.get(`${BASE}/${id}`);
 
 export const deleteSession = (id) => api.delete(`${BASE}/${id}`);
 
+const REPLY_TIMEOUT = 90_000;
+
 export const sendMessage = ({ id, message }) =>
-  api.post(`${BASE}/${id}/messages`, { message });
+  api.post(`${BASE}/${id}/messages`, { message }, { timeout: REPLY_TIMEOUT });

@@ -3886,3 +3886,30 @@ body {
   font-weight: 600;
   color: var(--sb-text-primary);
 }
+
+/* Hero chat preview -------------------------------------------------------- */
+.sb-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid var(--sb-border-subtle);
+  border-radius: var(--sb-radius-md);
+  background: var(--sb-bg-surface);
+  color: inherit;
+  text-decoration: none;
+}
+.sb-preview-row:hover {
+  border-color: var(--sb-accent-blue);
+}
+.sb-preview-row.is-static {
+  pointer-events: none;
+}
+.sb-preview-save {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--sb-success);
+}

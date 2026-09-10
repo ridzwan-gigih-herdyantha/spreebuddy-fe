@@ -23,14 +23,13 @@ import {
   radiusScale,
   elevationScale,
   componentSpecs,
+  sampleProduct,
 } from "@/data/designSystem";
-import { featuredProducts, footerBannerCTA } from "@/data/home";
+import { footerBannerCTA } from "@/data/home";
 
 const spec = (id) => componentSpecs.find((item) => item.id === id) ?? {};
 
 export default function StyleGuide() {
-  const sampleProduct = featuredProducts.items[0];
-
   return (
     <>
       <header className="sb-gradient-hero sb-ds-hero sb-section">

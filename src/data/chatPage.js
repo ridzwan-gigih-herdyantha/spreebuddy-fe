@@ -1,5 +1,7 @@
 export const chatContent = {
   sendFailed: "Your message did not go through. It is back in the box.",
+  sendTimedOut:
+    "The assistant is taking longer than usual. Your message was sent — reload in a moment to see the reply.",
   newChat: "New chat",
   placeholder: "Message SpreeBuddy…",
   greeting: {

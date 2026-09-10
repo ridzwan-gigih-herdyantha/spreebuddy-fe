@@ -20,13 +20,16 @@ export default function Chat() {
   const toast = useToast();
 
   const sessionId = params.get("session");
-  const [draft, setDraft] = useState(() => {
+  const [draft, setDraft] = useState("");
+  const [sent, setSent] = useState(null);
+  const endRef = useRef(null);
+
+  const [handoff] = useState(() => {
     const names = params.get("compare");
     if (names) return `Compare these products: ${names}`;
     return params.get("ask") ?? "";
   });
-  const [sent, setSent] = useState(null);
-  const endRef = useRef(null);
+  const handedOff = useRef(false);
 
   const mention = (name) =>
     setDraft((current) => (current ? `${current.trim()} ${name}` : name));
@@ -60,12 +63,38 @@ export default function Chat() {
       await queryClient.invalidateQueries({ queryKey: ["session", id] });
       setSent(null);
     },
-    onError: (err, message) => {
+    onError: async (err, message) => {
       setSent(null);
+
+      await queryClient.invalidateQueries({ queryKey: ["session"] });
+
+      if (err?.timedOut) {
+        toast.error(content.sendTimedOut);
+        return;
+      }
+
       setDraft(message);
       toast.error(err?.message ?? content.sendFailed);
     },
   });
+
+  const runSend = send.mutate;
+
+  useEffect(() => {
+    if (!handoff || !user || handedOff.current) return;
+    handedOff.current = true;
+
+    setParams(
+      (previous) => {
+        const next = new URLSearchParams(previous);
+        next.delete("ask");
+        next.delete("compare");
+        return next;
+      },
+      { replace: true },
+    );
+    runSend(handoff);
+  }, [handoff, user, runSend, setParams]);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });

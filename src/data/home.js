@@ -17,76 +17,28 @@ export const featuredProducts = {
   title: "Featured products",
   unavailable: "The catalogue is not reachable right now.",
   signInToAdd: "Sign in first to build a cart.",
-  subtitle: "Hand-picked by the AI based on trending needs",
+  subtitle: "Straight from the catalogue, updated as stock changes",
   viewAll: "View all",
-  items: [
-    {
-      id: "aurora-nc-700",
-      icon: "bi-headphones",
-      badge: "Best value",
-      name: "Aurora NC 700",
-      rating: "4.6",
-      meta: "Free shipping",
-      price: "$139",
-      oldPrice: "$199",
-    },
-    {
-      id: "pulse-watch-s2",
-      icon: "bi-smartwatch",
-      badge: "Trending",
-      name: "Pulse Watch S2",
-      rating: "4.8",
-      meta: "Free shipping",
-      price: "$179",
-    },
-    {
-      id: "lumen-x10-cam",
-      icon: "bi-camera",
-      badge: "AI pick",
-      name: "Lumen X10 Cam",
-      rating: "4.7",
-      meta: "Free shipping",
-      price: "$649",
-    },
-    {
-      id: "nomad-pack-pro",
-      icon: "bi-backpack",
-      badge: "Popular",
-      name: "Nomad Pack Pro",
-      rating: "4.5",
-      meta: "Free shipping",
-      price: "$89",
-      oldPrice: "$120",
-    },
-  ],
 };
 
 export const chatPreview = {
   title: "SpreeBuddy Assistant",
-  status: "Online",
-  messages: [
-    {
-      role: "user",
-      text: "I need wireless headphones under $150 for travel",
-    },
-    {
-      role: "ai",
-      text: "Great pick for travel! Here are 3 with strong noise cancelling.",
-      products: [
-        {
-          icon: "bi-headphones",
-          name: "Aurora NC 700",
-          rating: "4.6",
-          meta: "30h battery · ANC",
-          price: "$139",
-        },
-      ],
-      actions: [
-        { label: "Compare all 3", variant: "solid" },
-        { label: "Show cheaper", variant: "outline" },
-      ],
-    },
-  ],
+  status: {
+    up: "Online",
+    down: "Offline",
+    checking: "Checking",
+  },
+  question: "What is worth buying right now?",
+  answerSale: "These are discounted in the catalogue at the moment.",
+  answerPlain: "Here is what the catalogue has right now.",
+  answerEmpty:
+    "The catalogue is not reachable at the moment, but ask me anything and I will look again.",
+  save: "Save {n}%",
+  inStock: "{n} in stock",
+  soldOut: "Out of stock",
+  compare: "Compare these",
+  comparePrompt: "Compare {names}",
+  more: "Show me more",
 };
 
 export const howItWorks = {

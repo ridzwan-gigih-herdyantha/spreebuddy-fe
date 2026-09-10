@@ -43,7 +43,7 @@ export default function HeroSection({
         </div>
 
         <div className="col-lg-6">
-          <ChatPreview data={chat} />
+          <ChatPreview data={chat} onAsk={onAsk} />
         </div>
       </div>
     </section>
