@@ -1896,9 +1896,16 @@ body {
 }
 .sb-user-item.is-danger,
 .sb-user-item.is-danger i {
-  color: var(--sb-warning);
+  color: var(--sb-danger);
 }
 .sb-user-item.is-danger:hover {
+  background: rgba(247, 9, 9, 0.1);
+}
+.sb-user-item.is-warning,
+.sb-user-item.is-warning i {
+  color: var(--sb-warning);
+}
+.sb-user-item.is-warning:hover {
   background: rgba(247, 144, 9, 0.1);
 }
 
