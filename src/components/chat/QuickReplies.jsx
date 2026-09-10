@@ -11,6 +11,7 @@ export default function QuickReplies({
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const row = useRef(null);
 
   useEffect(() => {
     if (!open) return;
@@ -30,11 +31,28 @@ export default function QuickReplies({
     };
   }, [open]);
 
+  // A mouse wheel only reports vertical movement, so without this the chips
+  // past the edge are unreachable to anyone without a trackpad.
+  useEffect(() => {
+    const element = row.current;
+    if (!element) return;
+
+    const onWheel = (event) => {
+      if (event.deltaX !== 0) return;
+      if (element.scrollWidth <= element.clientWidth) return;
+      event.preventDefault();
+      element.scrollLeft += event.deltaY;
+    };
+
+    element.addEventListener("wheel", onWheel, { passive: false });
+    return () => element.removeEventListener("wheel", onWheel);
+  }, [collapsed]);
+
   if (replies.length === 0) return null;
 
   if (!collapsed) {
     return (
-      <div className="d-flex flex-wrap gap-2 mb-3">
+      <div className="sb-quickreplies mb-3" ref={row}>
         {replies.map((reply) => (
           <button
             key={reply}

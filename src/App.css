@@ -3938,3 +3938,34 @@ body {
   justify-content: flex-start;
   text-align: left;
 }
+
+/* One row that scrolls sideways, rather than stacking and pushing the composer
+   down. The scrollbar stays visible: it is the only way to drag the row with a
+   plain mouse, and the padding keeps it and the focus ring off the chips. */
+.sb-quickreplies {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  padding: 3px 0 8px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-border-subtle) transparent;
+}
+.sb-quickreplies::-webkit-scrollbar {
+  height: 6px;
+}
+.sb-quickreplies::-webkit-scrollbar-track {
+  background: transparent;
+}
+.sb-quickreplies::-webkit-scrollbar-thumb {
+  background: var(--sb-border-subtle);
+  border-radius: 999px;
+}
+.sb-quickreplies:hover::-webkit-scrollbar-thumb {
+  background: var(--sb-text-muted);
+}
+.sb-quickreplies > * {
+  flex: none;
+  white-space: nowrap;
+}
