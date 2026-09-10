@@ -97,7 +97,7 @@ export default function ResultsPanel({ products, onAddToCart, onMention }) {
                     <i className="bi bi-at" />
                   </button>
                   <Link
-                    to={`/product/${product.id}`}
+                    to={`/product/${product.slug}`}
                     className="sb-shop-icon-btn"
                     aria-label={`View ${product.name}`}
                   >

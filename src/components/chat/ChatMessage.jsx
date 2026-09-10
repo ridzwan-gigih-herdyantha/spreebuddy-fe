@@ -32,7 +32,7 @@ function ProductRow({ product, onMention }) {
       </button>
 
       <Link
-        to={`/product/${product.id}`}
+        to={`/product/${product.slug}`}
         className="sb-pill sb-pill-outline text-nowrap"
       >
         View
