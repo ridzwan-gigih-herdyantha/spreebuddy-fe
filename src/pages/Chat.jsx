@@ -1,19 +1,22 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import ChatMessage from "@/components/chat/ChatMessage";
 import Thinking from "@/components/chat/Thinking";
 import ResultsPanel from "@/components/chat/ResultsPanel";
 import PromptInput from "@/components/ui/PromptInput";
+import QuickReplies from "@/components/chat/QuickReplies";
 import { createSession, getSession, sendMessage } from "@/api/chat";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/hooks/useToast";
-import { chatContent } from "@/data/chatPage";
+import { chatContent, quickRepliesFor } from "@/data/chatPage";
+import { previousRoute } from "@/utils/routeHistory";
 
 export default function Chat() {
   const content = chatContent;
   const [params, setParams] = useSearchParams();
+  const { pathname } = useLocation();
   const queryClient = useQueryClient();
   const { user } = useAuth();
   const { addItem } = useCart();
@@ -30,6 +33,10 @@ export default function Chat() {
     return params.get("ask") ?? "";
   });
   const handedOff = useRef(false);
+
+  // Captured on arrival: later navigation inside the chat must not change the
+  // openers under the visitor.
+  const [replies] = useState(() => quickRepliesFor(previousRoute(pathname)));
 
   const mention = (name) =>
     setDraft((current) => (current ? `${current.trim()} ${name}` : name));
@@ -165,19 +172,13 @@ export default function Chat() {
         </div>
 
         <div className="sb-chat-composer">
-          <div className="d-flex flex-wrap gap-2 mb-3">
-            {content.quickReplies.map((reply) => (
-              <button
-                key={reply}
-                type="button"
-                className="sb-pill sb-pill-outline"
-                disabled={send.isPending}
-                onClick={() => send.mutate(reply)}
-              >
-                {reply}
-              </button>
-            ))}
-          </div>
+          <QuickReplies
+            replies={replies}
+            label={content.quickChat}
+            collapsed={messages.length > 0}
+            disabled={send.isPending}
+            onPick={(reply) => send.mutate(reply)}
+          />
 
           <PromptInput
             value={draft}

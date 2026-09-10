@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigationType } from "react-router-dom";
+import { rememberRoute } from "@/utils/routeHistory";
 
-// React Router keeps the window where it was between pages, so arriving from a
-// long page (the chat thread, a filled shop grid) drops you halfway down the
-// next one. Only a change of pathname counts: query strings carry filters and
+// Per-navigation housekeeping: reset the scroll, and record where the visitor
+// came from. Only a change of pathname counts — query strings carry filters and
 // session ids, and moving those must not throw the reader back to the top.
-export default function ScrollToTop() {
+export default function RouteEffects() {
   const { pathname, hash } = useLocation();
   const navigationType = useNavigationType();
   const previous = useRef(null);
@@ -15,6 +15,8 @@ export default function ScrollToTop() {
     const first = previous.current === null;
     previous.current = pathname;
 
+    // Whoever needs to know where the visitor just came from reads it here.
+    rememberRoute(pathname);
 
     if (first || navigationType === "POP") return;
 

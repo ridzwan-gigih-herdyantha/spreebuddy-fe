@@ -4,7 +4,7 @@ import AuthProvider from "./context/AuthContext";
 import CartProvider from "./context/CartContext";
 import ToastProvider from "./context/ToastProvider";
 import AppRoutes from "./routes/AppRoutes";
-import ScrollToTop from "./components/layout/ScrollToTop";
+import RouteEffects from "./components/layout/RouteEffects";
 
 const queryClient = new QueryClient();
 
@@ -12,7 +12,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <ScrollToTop />
+        <RouteEffects />
         <ToastProvider>
           <AuthProvider>
             <CartProvider>

@@ -3913,3 +3913,28 @@ body {
   font-weight: 600;
   color: var(--sb-success);
 }
+
+/* Quick chat menu ---------------------------------------------------------- */
+.sb-quickchat {
+  display: inline-flex;
+}
+.sb-quickchat .sb-select-trigger {
+  min-width: 0;
+  height: 36px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+}
+/* The composer sits at the foot of the page, so the menu opens upward. */
+.sb-quickchat .sb-select-menu {
+  top: auto;
+  right: auto;
+  bottom: calc(100% + 8px);
+  left: 0;
+  min-width: 260px;
+}
+.sb-quickchat .sb-select-option {
+  height: auto;
+  min-height: 40px;
+  justify-content: flex-start;
+  text-align: left;
+}
