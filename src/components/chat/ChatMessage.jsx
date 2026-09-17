@@ -3,12 +3,13 @@ import remarkGfm from "remark-gfm";
 import { Link } from "react-router-dom";
 import Logo from "@/components/ui/Logo";
 import { currentPrice, formatPrice, formatSpec } from "@/utils/format";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 function ProductRow({ product, onMention }) {
   return (
     <div className="sb-chat-product">
       <span className="sb-chat-thumb">
-        <i className="bi bi-box-seam" />
+        <ProductMedia product={product} />
       </span>
 
       <div className="min-w-0">

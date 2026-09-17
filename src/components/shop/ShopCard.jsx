@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 export default function ShopCard({
   product,
@@ -24,7 +25,7 @@ export default function ShopCard({
   return (
     <article className="sb-card sb-card-hover sb-shop-card h-100">
       <div className="sb-shop-media">
-        <i className="bi bi-box-seam" />
+        <ProductMedia product={product} />
         {soldOut && <span className="sb-shop-flag">Out of stock</span>}
       </div>
 

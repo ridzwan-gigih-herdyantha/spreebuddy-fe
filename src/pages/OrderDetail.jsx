@@ -8,6 +8,7 @@ import { formatPrice } from "@/utils/format";
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { orderDetailContent } from "@/data/orders";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 export default function OrderDetail() {
   const { id } = useParams();
@@ -92,7 +93,7 @@ export default function OrderDetail() {
 
             <div className="d-flex align-items-start gap-3">
               <span className="sb-order-thumb">
-                <i className="bi bi-box-seam" />
+                <ProductMedia product={product} />
               </span>
 
               <div className="min-w-0 flex-grow-1">

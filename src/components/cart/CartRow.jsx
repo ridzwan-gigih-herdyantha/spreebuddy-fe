@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { currentPrice, formatPrice } from "@/utils/format";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 export default function CartRow({ item, busy, onQuantity, onRemove }) {
   const { product, quantity, total } = item;
@@ -14,7 +15,7 @@ export default function CartRow({ item, busy, onQuantity, onRemove }) {
       className={`sb-cart-row ${soldOut ? "is-blocked" : ""} ${removing ? "is-removing" : ""}`}
     >
       <span className="sb-cart-thumb">
-        <i className="bi bi-box-seam" />
+        <ProductMedia product={product} />
       </span>
 
       <div className="min-w-0">

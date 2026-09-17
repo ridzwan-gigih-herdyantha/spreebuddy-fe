@@ -100,6 +100,7 @@ export const productFormContent = {
   fields: {
     name: "Name",
     description: "Description",
+    images: "Image URLs",
     category: "Category",
     type: "Type",
     regularPrice: "Regular price",
@@ -111,6 +112,8 @@ export const productFormContent = {
     height: "Height",
   },
   help: {
+    images:
+      "One URL per line, first is the thumbnail. Absolute (https://…) or a path starting with /. Up to 10.",
     salePrice:
       "Leave empty for no discount. Must not exceed the regular price.",
     weight: "In kilograms.",

@@ -7,6 +7,7 @@ import { getHealth } from "@/api/health";
 import { listProducts } from "@/api/products";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
 import { chatPreview } from "@/data/home";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 const POOL = 6;
 const SHOWN = 2;
@@ -29,7 +30,7 @@ function ProductRow({ product, content }) {
   return (
     <Link to={`/product/${product.slug}`} className="sb-preview-row">
       <span className="sb-subtle rounded-3 d-flex align-items-center justify-content-center sb-icon-lg flex-none">
-        <i className="bi bi-box-seam fs-5" />
+        <ProductMedia product={product} iconClass="fs-5" />
       </span>
 
       <span className="flex-grow-1 min-w-0">

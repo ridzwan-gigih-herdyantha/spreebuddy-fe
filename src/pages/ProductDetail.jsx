@@ -6,6 +6,7 @@ import { getProduct } from "@/api/products";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
 import { useCart } from "@/hooks/useCart";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -56,7 +57,7 @@ export default function ProductDetail() {
       <div className="row g-5 mt-0">
         <div className="col-lg-6">
           <div className="sb-card sb-shop-media">
-            <i className="bi bi-box-seam" />
+            <ProductMedia product={product} />
           </div>
         </div>
 

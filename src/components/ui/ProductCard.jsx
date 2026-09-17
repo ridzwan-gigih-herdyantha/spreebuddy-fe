@@ -5,6 +5,7 @@ import IconButton from "@/components/ui/IconButton";
 import Spinner from "@/components/ui/Spinner";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 export default function ProductCard({ product, onAdd, busy }) {
   const { slug, name, category, stock } = product;
@@ -13,7 +14,7 @@ export default function ProductCard({ product, onAdd, busy }) {
   return (
     <Card hover className="h-100 d-flex flex-column">
       <Link to={`/product/${slug}`} className="sb-product-media">
-        <i className="bi bi-box-seam display-6 text-body" />
+        <ProductMedia product={product} iconClass="display-6 text-body" />
         {soldOut && <span className="sb-shop-flag">Out of stock</span>}
       </Link>
 

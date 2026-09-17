@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Select from "@/components/ui/Select";
 import { currentPrice, formatPrice } from "@/utils/format";
 import { chatContent, chatSortOptions } from "@/data/chatPage";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 const sorters = {
   "price-asc": (a, b) => currentPrice(a) - currentPrice(b),
@@ -66,7 +67,7 @@ export default function ResultsPanel({ products, onAddToCart, onMention }) {
               <article key={product.id} className="sb-card sb-chat-result">
                 <div className="d-flex gap-3">
                   <span className="sb-chat-thumb">
-                    <i className="bi bi-box-seam" />
+                    <ProductMedia product={product} />
                   </span>
                   <div className="min-w-0">
                     <div className="sb-chat-product-name text-truncate">

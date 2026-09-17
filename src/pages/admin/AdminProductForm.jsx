@@ -23,9 +23,16 @@ const positive = (label) => ({
   min: { value: 0, message: `${label} must be 0 or more` },
 });
 
+const toImageList = (value) =>
+  (value ?? "")
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean);
+
 const blank = {
   name: "",
   description: "",
+  images: "",
   category: "",
   type: "physical",
   regularPrice: "",
@@ -38,6 +45,7 @@ const blank = {
 const toForm = (product) => ({
   name: product.name ?? "",
   description: product.description ?? "",
+  images: (product.images ?? []).join("\n"),
   category: product.category ?? "",
   type: product.type ?? "physical",
   regularPrice: product.regularPrice ?? "",
@@ -137,6 +145,7 @@ export default function AdminProductForm() {
     save.mutate({
       name: values.name.trim(),
       description: values.description.trim(),
+      images: toImageList(values.images),
       category: values.category,
       type: values.type,
       regularPrice: num(values.regularPrice),
@@ -229,6 +238,16 @@ export default function AdminProductForm() {
                   "description",
                   required(content.fields.description),
                 )}
+              />
+
+              <TextArea
+                id="images"
+                rows={3}
+                label={content.fields.images}
+                placeholder={"https://cdn.example.com/photo.jpg\n/files/products/abc.png"}
+                help={content.help.images}
+                error={errors.images?.message}
+                {...register("images")}
               />
 
               <div className="row g-3">

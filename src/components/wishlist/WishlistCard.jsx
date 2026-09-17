@@ -5,6 +5,7 @@ import {
   formatRelative,
   isOnSale,
 } from "@/utils/format";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 export default function WishlistCard({
   entry,
@@ -22,7 +23,7 @@ export default function WishlistCard({
       className={`sb-card sb-card-hover sb-shop-card h-100 ${removing ? "is-removing" : ""}`}
     >
       <div className="sb-shop-media">
-        <i className="bi bi-box-seam" />
+        <ProductMedia product={product} />
         {soldOut && <span className="sb-shop-flag">Out of stock</span>}
       </div>
 

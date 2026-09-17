@@ -12,6 +12,7 @@ import {
   orderStatuses,
   ordersContent,
 } from "@/data/orders";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 const sorters = {
   oldest: (a, b) => new Date(a.createdAt) - new Date(b.createdAt),
@@ -161,7 +162,7 @@ export default function Orders() {
                       <td>
                         <div className="d-flex align-items-center gap-3">
                           <span className="sb-order-thumb">
-                            <i className="bi bi-box-seam" />
+                            <ProductMedia product={order.product} />
                           </span>
                           <div className="min-w-0">
                             <div className="sb-order-name text-truncate">

@@ -12,6 +12,7 @@ import { adminRoutes } from "@/config/admin";
 import { nextStatuses } from "@/data/orders";
 import { orderDeleteContent, orderDetailAdminContent } from "@/data/admin";
 import { useToast } from "@/hooks/useToast";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 function Row({ label, children }) {
   return (
@@ -212,7 +213,7 @@ export default function AdminOrderDetail() {
                 {order.product ? (
                   <div className="d-flex align-items-center gap-3">
                     <span className="sb-order-thumb">
-                      <i className="bi bi-box-seam" />
+                      <ProductMedia product={order.product} />
                     </span>
                     <div className="min-w-0">
                       <div className="sb-order-name text-truncate">

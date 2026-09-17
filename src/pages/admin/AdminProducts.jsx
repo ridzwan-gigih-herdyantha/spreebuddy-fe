@@ -15,6 +15,7 @@ import {
   productDeleteContent,
   productsContent,
 } from "@/data/admin";
+import ProductMedia from "@/components/ui/ProductMedia";
 
 const PAGE_SPAN = 3;
 
@@ -261,7 +262,7 @@ export default function AdminProducts() {
                     <td>
                       <div className="d-flex align-items-center gap-3">
                         <span className="sb-order-thumb">
-                          <i className="bi bi-box-seam" />
+                          <ProductMedia product={product} />
                         </span>
                         <div className="min-w-0 sb-prod-cell">
                           <Link
