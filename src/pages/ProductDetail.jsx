@@ -6,7 +6,61 @@ import { getProduct } from "@/api/products";
 import { currentPrice, formatPrice, isOnSale } from "@/utils/format";
 import { LOW_STOCK_THRESHOLD } from "@/data/shop";
 import { useCart } from "@/hooks/useCart";
+import { usePageSeo } from "@/hooks/usePageSeo";
 import ProductMedia from "@/components/ui/ProductMedia";
+import { absoluteUrl, summarize } from "@/utils/seo";
+
+function productSeo(product, slug) {
+  const url = absoluteUrl(`/product/${slug}`);
+  const images = (product.images ?? []).map(absoluteUrl);
+  const description = summarize(
+    product.description ||
+      `${product.name} in ${product.category}, available on SpreeBuddy.`,
+  );
+
+  return {
+    title: product.name,
+    description,
+    image: images[0],
+    imageAlt: product.name,
+    type: "product",
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: product.name,
+        description,
+        sku: product.id,
+        category: product.category,
+        ...(images.length ? { image: images } : {}),
+        offers: {
+          "@type": "Offer",
+          url,
+          priceCurrency: "USD",
+          price: currentPrice(product).toFixed(2),
+          itemCondition: "https://schema.org/NewCondition",
+          availability:
+            product.stock > 0
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock",
+        },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { name: "Home", item: absoluteUrl("/") },
+          { name: "Shop", item: absoluteUrl("/shop") },
+          { name: product.name, item: url },
+        ].map((crumb, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          ...crumb,
+        })),
+      },
+    ],
+  };
+}
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -18,6 +72,16 @@ export default function ProductDetail() {
     queryFn: () => getProduct(slug),
     retry: false,
   });
+
+  // A missing product answers 200 from the SPA, so it has to opt out of the
+  // index itself or it would be crawled as a thin duplicate page.
+  usePageSeo(
+    isError
+      ? { title: "Product not found", noindex: true }
+      : data?.data
+        ? productSeo(data.data, slug)
+        : null,
+  );
 
   if (isPending) {
     return (
@@ -57,7 +121,7 @@ export default function ProductDetail() {
       <div className="row g-5 mt-0">
         <div className="col-lg-6">
           <div className="sb-card sb-shop-media">
-            <ProductMedia product={product} />
+            <ProductMedia product={product} priority />
           </div>
         </div>
 

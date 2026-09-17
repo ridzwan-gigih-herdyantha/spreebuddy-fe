@@ -467,7 +467,10 @@ body {
 .sb-auth-photo {
   position: relative;
   align-items: flex-end;
-  background-image: url("/pexels-n-voitkevich-6214391.jpg");
+  background-image: image-set(
+    url("/auth-photo.webp") type("image/webp"),
+    url("/auth-photo.jpg") type("image/jpeg")
+  );
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

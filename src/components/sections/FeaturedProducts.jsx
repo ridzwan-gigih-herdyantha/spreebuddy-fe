@@ -27,7 +27,7 @@ export default function FeaturedProducts({
     <section className="sb-section">
       <div className="d-flex align-items-end justify-content-between mb-4">
         <div>
-          <h1 className="sb-h1 mb-1">{title}</h1>
+          <h2 className="sb-h1 mb-1">{title}</h2>
           <p className="sb-lead mb-0">{subtitle}</p>
         </div>
         {viewAll && (
