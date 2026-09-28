@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import BarChart from "@/components/admin/BarChart";
 import StatCard from "@/components/admin/StatCard";
 import Avatar from "@/components/ui/Avatar";
-import { getAiUsage, getChatStats } from "@/api/admin";
+import { getAiUsage, getChatStats, getGroundingStats } from "@/api/admin";
 import { FREE_DAILY_CAP, chatAdminContent } from "@/data/admin";
 
 const decimal = new Intl.NumberFormat("id-ID");
@@ -12,11 +12,18 @@ const money = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 4,
 });
 
+const when = new Intl.DateTimeFormat("en-GB", {
+  dateStyle: "medium",
+  timeStyle: "short",
+});
+
 const count = (value) =>
   typeof value === "number" ? decimal.format(value) : "—";
 
 const dollars = (value) =>
   typeof value === "number" ? money.format(value) : "—";
+
+const formatAt = (value) => (value ? when.format(new Date(value)) : "—");
 
 function Row({ label, children }) {
   return (
@@ -29,6 +36,7 @@ function Row({ label, children }) {
 
 export default function AdminChatSessions() {
   const content = chatAdminContent;
+  const groundCopy = chatAdminContent.grounding;
 
   const stats = useQuery({
     queryKey: ["admin", "chat", "stats"],
@@ -39,6 +47,12 @@ export default function AdminChatSessions() {
   const usage = useQuery({
     queryKey: ["admin", "chat", "usage"],
     queryFn: getAiUsage,
+    retry: false,
+  });
+
+  const grounding = useQuery({
+    queryKey: ["admin", "chat", "grounding"],
+    queryFn: getGroundingStats,
     retry: false,
   });
 
@@ -56,6 +70,18 @@ export default function AdminChatSessions() {
   const failed = data?.messages?.failed ?? 0;
   const failureRate =
     replies > 0 ? ((failed / replies) * 100).toFixed(1) : null;
+
+  const ground = grounding.data?.data;
+  const groundTotals = ground?.totals;
+  const groundedRate =
+    groundTotals?.checked > 0
+      ? ((groundTotals.clean / groundTotals.checked) * 100).toFixed(1)
+      : null;
+  const flaggedBuckets = (ground?.daily ?? []).map(({ date, flagged }) => {
+    const [, month, day] = date.split("-");
+    return { label: `${Number(day)}/${Number(month)}`, value: flagged };
+  });
+  const worstKind = ground?.byKind?.[0]?.count ?? 0;
 
   const callsToday = meter?.today?.calls ?? 0;
   const capUsed = Math.min(100, (callsToday / FREE_DAILY_CAP) * 100);
@@ -157,6 +183,145 @@ export default function AdminChatSessions() {
                 </Row>
               </div>
               <p className="sb-caption mt-3 mb-0">{content.health.note}</p>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div className="row g-3 mb-4">
+        <div className="col-12 col-xl-8">
+          <section className="sb-card sb-panel h-100">
+            <div className="sb-panel-head">
+              <h2 className="sb-h3 mb-0">{groundCopy.title}</h2>
+              {groundedRate !== null && (
+                <span
+                  className={`sb-pill ${Number(groundedRate) < 95 ? "sb-pill-warning" : "sb-pill-success"}`}
+                >
+                  {groundedRate}%
+                </span>
+              )}
+            </div>
+
+            <div className="sb-panel-body">
+              <p className="sb-meta">{groundCopy.lead}</p>
+
+              <div className="row g-4">
+                <div className="col-12 col-md-6">
+                  <div className="sb-spec-list">
+                    <Row label={groundCopy.checked}>
+                      {count(groundTotals?.checked)}
+                    </Row>
+                    <Row label={groundCopy.clean}>
+                      {count(groundTotals?.clean)}
+                    </Row>
+                    <Row label={groundCopy.flagged}>
+                      {count(groundTotals?.flagged)}
+                    </Row>
+                    <Row label={groundCopy.rewritten}>
+                      {count(groundTotals?.rewritten)}
+                    </Row>
+                    <Row label={groundCopy.rescued}>
+                      {count(groundTotals?.rescued)}
+                    </Row>
+                    <Row label={groundCopy.rows}>
+                      {groundTotals ? groundTotals.rowsPerReply.toFixed(1) : "—"}
+                    </Row>
+                    <Row label={groundCopy.unchecked}>
+                      {count(groundTotals?.unchecked)}
+                    </Row>
+                  </div>
+                </div>
+
+                <div className="col-12 col-md-6">
+                  <p className="sb-meta">{groundCopy.kindsTitle}</p>
+
+                  {ground?.byKind?.length ? (
+                    <ul className="sb-ground-kinds">
+                      {ground.byKind.map(({ kind, count: hits }) => (
+                        <li key={kind}>
+                          <div className="d-flex justify-content-between gap-3">
+                            <span className="text-truncate">
+                              {groundCopy.kinds[kind] ?? kind}
+                            </span>
+                            <span className="fw-semibold">{hits}</span>
+                          </div>
+                          <span className="sb-ground-bar">
+                            <i
+                              style={{
+                                width: `${worstKind ? (hits / worstKind) * 100 : 0}%`,
+                              }}
+                            />
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="sb-lead mb-0">{groundCopy.noKinds}</p>
+                  )}
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <BarChart
+                  buckets={
+                    flaggedBuckets.length
+                      ? flaggedBuckets
+                      : [{ label: "—", value: 0 }]
+                  }
+                />
+                <p className="sb-caption mt-2 mb-0">
+                  {ground?.seriesDays ?? 14} days, {groundCopy.chartCaption}
+                </p>
+              </div>
+
+              <p className="sb-caption mt-3 mb-0">{groundCopy.uncheckedNote}</p>
+            </div>
+          </section>
+        </div>
+
+        <div className="col-12 col-xl-4">
+          <section className="sb-card sb-panel h-100">
+            <div className="sb-panel-head">
+              <h2 className="sb-h3 mb-0">{groundCopy.recentTitle}</h2>
+            </div>
+
+            <div className="sb-panel-body">
+              {grounding.isError && (
+                <p className="sb-form-error" role="alert">
+                  <i className="bi bi-exclamation-triangle-fill" />{" "}
+                  {grounding.error.message}
+                </p>
+              )}
+
+              {ground?.recent?.length ? (
+                <ul className="sb-ground-flags">
+                  {ground.recent.map((row) => (
+                    <li key={row.id}>
+                      <div className="sb-caption">
+                        {formatAt(row.at)}
+                        {row.retried ? ` · ${groundCopy.rewritten}` : ""}
+                      </div>
+                      <div className="d-flex flex-wrap gap-2 mt-1">
+                        {row.violations.map((violation, index) => (
+                          <span
+                            className="sb-pill sb-pill-outline"
+                            key={`${violation.kind}-${index}`}
+                          >
+                            {groundCopy.kinds[violation.kind] ?? violation.kind}:{" "}
+                            {violation.value}
+                          </span>
+                        ))}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                !grounding.isError && (
+                  <p className="sb-lead mb-0">{groundCopy.noRecent}</p>
+                )
+              )}
+
+              <p className="sb-caption mt-3 mb-0">{groundCopy.note}</p>
             </div>
           </section>
         </div>
