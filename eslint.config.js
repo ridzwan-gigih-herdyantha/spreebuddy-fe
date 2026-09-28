@@ -19,8 +19,8 @@ export default defineConfig([
     },
   },
   {
-    // Build tooling runs in Node, not the browser.
-    files: ["vite.config.js", "seo.plugin.js"],
+    // Build tooling and tests run in Node, not the browser.
+    files: ["vite.config.js", "seo.plugin.js", "tests/**/*.{js,jsx}"],
     languageOptions: {
       globals: globals.node,
     },
