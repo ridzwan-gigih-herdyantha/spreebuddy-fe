@@ -13,6 +13,10 @@ import { useToast } from "@/hooks/useToast";
 import { chatContent, quickRepliesFor } from "@/data/chatPage";
 import { previousRoute } from "@/utils/routeHistory";
 
+// While a turn is in flight the thread is polled, so a reply that was saved but
+// whose response never came back still reaches the screen.
+const POLL_MS = 4000;
+
 export default function Chat() {
   const content = chatContent;
   const [params, setParams] = useSearchParams();
@@ -25,6 +29,7 @@ export default function Chat() {
   const sessionId = params.get("session");
   const [draft, setDraft] = useState("");
   const [sent, setSent] = useState(null);
+  const [threadSize, setThreadSize] = useState(0);
   const endRef = useRef(null);
 
   const [handoff] = useState(() => {
@@ -46,12 +51,18 @@ export default function Chat() {
     queryFn: () => getSession(sessionId),
     enabled: Boolean(user && sessionId),
     retry: false,
+    refetchInterval: sent ? POLL_MS : false,
   });
 
   const messages = useMemo(
     () => session.data?.data?.messages ?? [],
     [session.data],
   );
+
+  // A turn saves the question and its answer together, so the thread growing is
+  // what says the turn is done — not the request still being open. Counting
+  // rather than matching text also survives sending the same words twice.
+  const awaitingReply = sent !== null && messages.length <= threadSize;
 
   const send = useMutation({
     mutationFn: async (message) => {
@@ -64,7 +75,10 @@ export default function Chat() {
       await sendMessage({ id, message });
       return id;
     },
-    onMutate: (message) => setSent(message),
+    onMutate: (message) => {
+      setThreadSize(messages.length);
+      setSent(message);
+    },
     // Keep the echoed message on screen until the refetch carries the real one.
     onSuccess: async (id) => {
       await queryClient.invalidateQueries({ queryKey: ["session", id] });
@@ -72,8 +86,14 @@ export default function Chat() {
     },
     onError: async (err, message) => {
       setSent(null);
-
       await queryClient.invalidateQueries({ queryKey: ["session"] });
+
+      // A lost response does not mean a lost message: if the thread grew, the
+      // turn worked and there is nothing to apologise for.
+      const delivered = queryClient
+        .getQueriesData({ queryKey: ["session"] })
+        .some(([, data]) => (data?.data?.messages ?? []).length > threadSize);
+      if (delivered) return;
 
       if (err?.timedOut) {
         toast.error(content.sendTimedOut);
@@ -105,7 +125,7 @@ export default function Chat() {
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length, sent, send.isPending]);
+  }, [messages.length, awaitingReply]);
 
   const products = useMemo(() => {
     const withProducts = [...messages]
@@ -132,7 +152,7 @@ export default function Chat() {
     <div className="sb-chat">
       <div className="sb-chat-main">
         <div className="sb-chat-thread">
-          {messages.length === 0 && !send.isPending && (
+          {messages.length === 0 && !awaitingReply && (
             <div className="text-center py-5">
               <h1 className="sb-h1 mb-2">{content.greeting.title}</h1>
               <p className="sb-lead sb-measure mx-auto mb-0">
@@ -149,23 +169,16 @@ export default function Chat() {
             />
           ))}
 
-          {sent && (
+          {awaitingReply && (
             <div className="sb-chat-turn is-user">
               <div className="sb-bubble sb-bubble-user">{sent}</div>
             </div>
           )}
 
-          {send.isPending && (
+          {awaitingReply && (
             <div className="sb-chat-turn">
               <Thinking />
             </div>
-          )}
-
-          {send.isError && (
-            <p className="sb-form-error" role="alert">
-              <i className="bi bi-exclamation-triangle-fill" />{" "}
-              {send.error.message}
-            </p>
           )}
 
           <div ref={endRef} />
@@ -176,7 +189,7 @@ export default function Chat() {
             replies={replies}
             label={content.quickChat}
             collapsed={messages.length > 0}
-            disabled={send.isPending}
+            disabled={awaitingReply}
             onPick={(reply) => send.mutate(reply)}
           />
 
@@ -184,7 +197,7 @@ export default function Chat() {
             value={draft}
             onChange={setDraft}
             placeholder={content.placeholder}
-            disabled={send.isPending}
+            disabled={awaitingReply}
             onSubmit={(message) => {
               send.mutate(message);
               setDraft("");

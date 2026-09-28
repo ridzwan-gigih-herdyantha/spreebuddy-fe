@@ -3998,3 +3998,18 @@ body {
   flex: none;
   white-space: nowrap;
 }
+
+/* A wide product row inside a reply used to set the bubble's minimum width and
+   push it out under the results rail; these let it shrink and wrap instead. */
+.sb-chat-thread,
+.sb-chat-turn {
+  min-width: 0;
+}
+.sb-chat-turn .sb-bubble-ai {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.sb-chat-product {
+  flex-wrap: wrap;
+  min-width: 0;
+}
