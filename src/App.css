@@ -686,7 +686,10 @@ body {
 }
 .sb-shop-media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
+  flex: none;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3371,8 +3374,15 @@ body {
   border-radius: inherit;
 }
 
+/* Taken out of flow: an in-flow image contributes its own intrinsic height to
+   the box's minimum size, which is what let every card size itself to its
+   photo and ignore the ratio above. */
 .sb-shop-media .sb-product-img,
 .sb-product-media .sb-product-img {
+  position: absolute;
+  inset: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
   object-fit: contain;
 }
 
@@ -3381,7 +3391,10 @@ body {
   position: relative;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
+  flex: none;
+  min-height: 0;
+  overflow: hidden;
   background: linear-gradient(140deg, #eef0ff 0%, #f3eeff 55%, #eef4ff 100%);
   color: var(--sb-text-secondary);
   text-decoration: none;
