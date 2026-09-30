@@ -2,41 +2,89 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#4f6bff" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
     <title>SpreeBuddy — AI Shopping Assistant</title>
     <meta
       name="description"
-      content="Shop by conversation, not by browsing. Describe what you need in plain language and SpreeBuddy finds, compares, and decides with you."
+      content="Shop by conversation, not by browsing. Describe what you need in plain language and SpreeBuddy finds, compares and recommends products for you."
     />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="%VITE_SITE_URL%/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SpreeBuddy" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:title" content="SpreeBuddy — AI Shopping Assistant" />
     <meta
       property="og:description"
-      content="Shop by conversation, not by browsing. Describe what you need in plain language and SpreeBuddy finds, compares, and decides with you."
+      content="Shop by conversation, not by browsing. Describe what you need in plain language and SpreeBuddy finds, compares and recommends products for you."
     />
-    <meta property="og:url" content="%VITE_SITE_URL%" />
-    <meta property="og:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta property="og:url" content="%VITE_SITE_URL%/" />
+    <meta property="og:image" content="%VITE_SITE_URL%/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="SpreeBuddy home page: a chat asking what is worth buying, answered with discounted products"
+    />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="SpreeBuddy — AI Shopping Assistant" />
     <meta
       name="twitter:description"
-      content="Shop by conversation, not by browsing."
+      content="Shop by conversation, not by browsing. Describe what you need in plain language and SpreeBuddy finds, compares and recommends products for you."
     />
-    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.png" />
+    <meta name="twitter:image" content="%VITE_SITE_URL%/og-image.jpg" />
+    <meta
+      name="twitter:image:alt"
+      content="SpreeBuddy home page: a chat asking what is worth buying, answered with discounted products"
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "%VITE_SITE_URL%/#organization",
+            "name": "SpreeBuddy",
+            "url": "%VITE_SITE_URL%/"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "%VITE_SITE_URL%/#website",
+            "name": "SpreeBuddy",
+            "url": "%VITE_SITE_URL%/",
+            "publisher": { "@id": "%VITE_SITE_URL%/#organization" },
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "%VITE_SITE_URL%/shop?search={search_term_string}"
+              },
+              "query-input": "required name=search_term_string"
+            }
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
+    <noscript>
+      SpreeBuddy is an AI shopping assistant. Please enable JavaScript to browse
+      the shop and chat with the assistant.
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

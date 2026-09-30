@@ -467,7 +467,10 @@ body {
 .sb-auth-photo {
   position: relative;
   align-items: flex-end;
-  background-image: url("/pexels-n-voitkevich-6214391.jpg");
+  background-image: image-set(
+    url("/auth-photo.webp") type("image/webp"),
+    url("/auth-photo.jpg") type("image/jpeg")
+  );
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -683,7 +686,10 @@ body {
 }
 .sb-shop-media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
+  flex: none;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3368,8 +3374,15 @@ body {
   border-radius: inherit;
 }
 
+/* Taken out of flow: an in-flow image contributes its own intrinsic height to
+   the box's minimum size, which is what let every card size itself to its
+   photo and ignore the ratio above. */
 .sb-shop-media .sb-product-img,
 .sb-product-media .sb-product-img {
+  position: absolute;
+  inset: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
   object-fit: contain;
 }
 
@@ -3378,7 +3391,10 @@ body {
   position: relative;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
+  flex: none;
+  min-height: 0;
+  overflow: hidden;
   background: linear-gradient(140deg, #eef0ff 0%, #f3eeff 55%, #eef4ff 100%);
   color: var(--sb-text-secondary);
   text-decoration: none;
@@ -3981,4 +3997,61 @@ body {
 .sb-quickreplies > * {
   flex: none;
   white-space: nowrap;
+}
+
+/* A wide product row inside a reply used to set the bubble's minimum width and
+   push it out under the results rail; these let it shrink and wrap instead. */
+.sb-chat-thread,
+.sb-chat-turn {
+  min-width: 0;
+}
+.sb-chat-turn .sb-bubble-ai {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.sb-chat-product {
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+/* Grounding telemetry ------------------------------------------------------ */
+.sb-ground-kinds {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 0.8125rem;
+  color: var(--sb-text-secondary);
+}
+.sb-ground-bar {
+  display: block;
+  height: 6px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: var(--sb-bg-subtle);
+  overflow: hidden;
+}
+.sb-ground-bar i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--sb-warning);
+}
+.sb-ground-flags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.sb-ground-flags li {
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--sb-border-subtle);
+}
+.sb-ground-flags li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
 }

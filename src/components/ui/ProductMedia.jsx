@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-export default function ProductMedia({ product, iconClass = "" }) {
+// `priority` is for the one image that is the main content of the page: lazy
+// loading it delays the largest paint, which search ranks on.
+export default function ProductMedia({ product, iconClass = "", priority }) {
   const src = product?.images?.[0];
   const [failedSrc, setFailedSrc] = useState(null);
 
@@ -13,7 +15,8 @@ export default function ProductMedia({ product, iconClass = "" }) {
       src={src}
       alt={product?.name ?? ""}
       className="sb-product-img"
-      loading="lazy"
+      loading={priority ? "eager" : "lazy"}
+      fetchPriority={priority ? "high" : undefined}
       onError={() => setFailedSrc(src)}
     />
   );

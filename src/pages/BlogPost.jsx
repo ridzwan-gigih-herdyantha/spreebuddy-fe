@@ -4,8 +4,19 @@ import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import Skeleton, { SkeletonText } from "@/components/ui/Skeleton";
 import { getPost } from "@/api/blog";
-import { formatRelative } from "@/utils/format";
+import { formatRelative, parseApiDate } from "@/utils/format";
+import { usePageSeo } from "@/hooks/usePageSeo";
+import { absoluteUrl, summarize } from "@/utils/seo";
 import { postContent } from "@/data/blog";
+
+// parseApiDate builds local midnight; toISOString would shift it back a day
+// anywhere east of UTC, so the date is assembled from local parts instead.
+const isoDate = (date) =>
+  [
+    date.getFullYear(),
+    String(date.getMonth() + 1).padStart(2, "0"),
+    String(date.getDate()).padStart(2, "0"),
+  ].join("-");
 
 export default function BlogPost() {
   const { slug } = useParams();
@@ -18,6 +29,36 @@ export default function BlogPost() {
   });
 
   const post = query.data?.data;
+
+  const published = parseApiDate(post?.createdAt);
+  usePageSeo(
+    query.isError
+      ? { title: "Post not found", noindex: true }
+      : post
+        ? {
+            title: post.title,
+            description: summarize(post.excerpt ?? post.content),
+            image: post.coverUrl,
+            imageAlt: post.title,
+            type: "article",
+            jsonLd: {
+              "@context": "https://schema.org",
+              "@type": "BlogPosting",
+              headline: post.title,
+              description: summarize(post.excerpt ?? post.content),
+              url: absoluteUrl(`/blog/${slug}`),
+              ...(post.coverUrl ? { image: absoluteUrl(post.coverUrl) } : {}),
+              ...(published
+                ? { datePublished: isoDate(published) }
+                : {}),
+              ...(post.author
+                ? { author: { "@type": "Person", name: post.author } }
+                : {}),
+              publisher: { "@type": "Organization", name: "SpreeBuddy" },
+            },
+          }
+        : null,
+  );
 
   if (query.isError) {
     return (

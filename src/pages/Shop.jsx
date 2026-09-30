@@ -13,6 +13,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/hooks/useToast";
+import { usePageSeo } from "@/hooks/usePageSeo";
 import { currentPrice } from "@/utils/format";
 import { PAGE_SIZE, shopContent, sortOptions } from "@/data/shop";
 
@@ -53,6 +54,19 @@ export default function Shop() {
     );
 
   const filter = category === allCategories ? undefined : category;
+
+  // Each category is a landing page worth indexing under its own title, while
+  // free-text searches are endless near-duplicates and stay out of the index.
+  usePageSeo({
+    title: filter ?? "Shop",
+    description: filter
+      ? `Browse ${filter} on SpreeBuddy: compare prices, check stock and find what is on sale.`
+      : undefined,
+    canonical: filter
+      ? `/shop?category=${encodeURIComponent(filter)}`
+      : "/shop",
+    noindex: Boolean(params.get("search")),
+  });
 
   const products = useQuery({
     queryKey: ["products", limit, term, filter],

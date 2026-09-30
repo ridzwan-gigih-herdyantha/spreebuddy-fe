@@ -1,10 +1,12 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useNavigationType } from "react-router-dom";
 import { rememberRoute } from "@/utils/routeHistory";
+import { applyRouteSeo } from "@/utils/seo";
 
-// Per-navigation housekeeping: reset the scroll, and record where the visitor
-// came from. Only a change of pathname counts — query strings carry filters and
-// session ids, and moving those must not throw the reader back to the top.
+// Per-navigation housekeeping: record where the visitor came from, set the
+// page's title and metadata, and reset the scroll. Only a change of pathname
+// counts — query strings carry filters and session ids, and moving those must
+// not throw the reader back to the top.
 export default function RouteEffects() {
   const { pathname, hash } = useLocation();
   const navigationType = useNavigationType();
@@ -15,8 +17,8 @@ export default function RouteEffects() {
     const first = previous.current === null;
     previous.current = pathname;
 
-    // Whoever needs to know where the visitor just came from reads it here.
     rememberRoute(pathname);
+    applyRouteSeo(pathname);
 
     if (first || navigationType === "POP") return;
 
